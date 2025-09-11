@@ -630,6 +630,136 @@ code, pre {
     color: var(--text-primary);
 }
 
+/* Articles Section */
+.articles-section {
+    background-color: var(--primary-bg);
+}
+
+.article-card {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+    transition: var(--transition);
+    height: 100%;
+    background-color: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.article-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.article-img {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.article-img::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
+    opacity: 0.7;
+    z-index: 1;
+}
+
+.article-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.article-card:hover .article-img img {
+    transform: scale(1.1);
+}
+
+.article-content {
+    padding: 25px;
+}
+
+.article-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.article-excerpt {
+    margin-bottom: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.article-meta {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.article-meta span {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.article-meta i {
+    margin-right: 5px;
+    color: var(--accent-primary);
+}
+
+.article-tags {
+    margin-bottom: 15px;
+}
+
+.article-tag {
+    display: inline-block;
+    background: rgba(0, 212, 255, 0.15);
+    color: var(--accent-secondary);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.article-link {
+    color: var(--accent-primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+}
+
+.article-link:hover {
+    color: var(--accent-secondary);
+}
+
+.article-link i {
+    margin-left: 8px;
+    transition: var(--transition);
+}
+
+.article-link:hover i {
+    transform: translateX(4px);
+}
+
+.articles-cta {
+    text-align: center;
+    margin-top: 50px;
+}
+
+
 /* Contact Section */
 .contact-section {
     background-color: var(--primary-bg);
@@ -1354,6 +1484,98 @@ textarea.form-control {
         </div>
     </section>
 
+        <!-- Articles Section -->
+    <!-- <section id="articles" class="section articles-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">My Articles</h2>
+                    <p class="section-subtitle">Insights, tutorials, and thoughts on AI, technology, and development</p>
+                </div>
+            </div>
+            <div class="row">
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="article-card">
+                        <div class="article-img">
+                            <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="AI Research Paper Writing">
+                        </div>
+                        <div class="article-content">
+                            <h3 class="article-title">How AI is Revolutionizing Academic Research Writing</h3>
+                            <p class="article-excerpt">
+                                Explore how artificial intelligence tools are transforming the way researchers write papers, from literature reviews to citation management.
+                            </p>
+                            <div class="article-meta">
+                                <span><i class="far fa-calendar"></i> June 15, 2023</span>
+                                <span><i class="far fa-clock"></i> 5 min read</span>
+                            </div>
+                            <div class="article-tags">
+                                <span class="article-tag">AI</span>
+                                <span class="article-tag">Research</span>
+                                <span class="article-tag">Writing</span>
+                            </div>
+                            <a href="articles.html#ai-research-writing" class="article-link">Read Article <i class="fas fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="article-card">
+                        <div class="article-img">
+                            <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Machine Learning Basics">
+                        </div>
+                        <div class="article-content">
+                            <h3 class="article-title">Getting Started with Machine Learning: A Beginner's Guide</h3>
+                            <p class="article-excerpt">
+                                A comprehensive introduction to machine learning concepts, algorithms, and practical implementation for absolute beginners.
+                            </p>
+                            <div class="article-meta">
+                                <span><i class="far fa-calendar"></i> July 22, 2023</span>
+                                <span><i class="far fa-clock"></i> 8 min read</span>
+                            </div>
+                            <div class="article-tags">
+                                <span class="article-tag">Machine Learning</span>
+                                <span class="article-tag">Beginner</span>
+                                <span class="article-tag">Tutorial</span>
+                            </div>
+                            <a href="articles.html#ml-beginners-guide" class="article-link">Read Article <i class="fas fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="article-card">
+                        <div class="article-img">
+                            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Data Visualization">
+                        </div>
+                        <div class="article-content">
+                            <h3 class="article-title">The Art of Data Visualization: Telling Stories with Data</h3>
+                            <p class="article-excerpt">
+                                Learn how to create compelling data visualizations that effectively communicate insights and tell engaging stories with your data.
+                            </p>
+                            <div class="article-meta">
+                                <span><i class="far fa-calendar"></i> August 5, 2023</span>
+                                <span><i class="far fa-clock"></i> 6 min read</span>
+                            </div>
+                            <div class="article-tags">
+                                <span class="article-tag">Data Visualization</span>
+                                <span class="article-tag">Storytelling</span>
+                                <span class="article-tag">Design</span>
+                            </div>
+                            <a href="articles.html#data-visualization" class="article-link">Read Article <i class="fas fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="articles-cta">
+                <a href="articles.html" class="btn btn-primary">View All Articles</a>
+            </div>
+        </div>
+    </section> -->
+
     <!-- Certificates Section -->
     <section id="certificates" class="section certificates-section">
         <div class="container">
@@ -1536,7 +1758,7 @@ textarea.form-control {
                         
                         <div class="video-container">
                             <div class="ratio ratio-16x9">
-                                <video controls autoplay muted loop>
+                                <video controls poster="img/video-poster.jpg" autoplay muted loop>
                                     <source src="img/yt_vid.mp4" type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>
@@ -1668,9 +1890,4 @@ textarea.form-control {
     </script>
 </body>
 </html>
-
-
-
-
-
 
