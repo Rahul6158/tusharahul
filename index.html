@@ -82,6 +82,7 @@ code, pre {
 /* Navbar */
 .navbar {
     background-color: rgba(10, 10, 10, 0.95);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     padding: 15px 0;
@@ -215,6 +216,7 @@ code, pre {
     border: 2px solid rgba(255, 255, 255, 0.2);
     color: var(--text-primary);
     background: transparent;
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -308,8 +310,8 @@ code, pre {
     opacity: 0;
     pointer-events: none;
     z-index: 2;
-    mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, black 100px, transparent 180px);
     -webkit-mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, black 100px, transparent 180px);
+    mask-image: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, black 100px, transparent 180px);
 }
 
 .about-img:hover .hover-layer-1 {
@@ -418,6 +420,38 @@ code, pre {
 .skill-item p {
     color: var(--text-secondary);
     margin-bottom: 0;
+}
+
+.skill-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-list.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8px;
+}
+
+.skill-list li {
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    position: relative;
+    padding-left: 20px;
+}
+
+.skill-list li::before {
+    content: '▹';
+    color: var(--accent-primary);
+    position: absolute;
+    left: 0;
+    top: -1px;
+    font-size: 1.1rem;
 }
 
 /* Projects Section */
@@ -1124,6 +1158,18 @@ textarea.form-control {
         padding: 20px;
     }
 }
+
+.certificate-link {
+    text-decoration: none;
+    color: #6e48aa;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.certificate-link:hover {
+    color: var(--accent-primary);
+}
     </style>
 </head>
 
@@ -1132,7 +1178,7 @@ textarea.form-control {
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">TUSHA RAHUL</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation" title="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -1144,19 +1190,19 @@ textarea.form-control {
                         <a class="nav-link" href="#about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#skills">Skills</a>
+                        <a class="nav-link" href="#experience">Experience</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#projects">Projects</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#experience">Experience</a>
+                        <a class="nav-link" href="#articles">Articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Skills</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#certificates">Certificates</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#articles">Articles</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
@@ -1178,7 +1224,7 @@ textarea.form-control {
                             <span id="typed-text"></span>
                         </div>
                         <div class="hero-buttons mt-4 animate__animated animate__fadeInUp">
-                            <a href="https://www.linkedin.com/in/tusha-rahul/" class="btn btn-primary" target="_blank">
+                            <a href="https://www.linkedin.com/in/tusha-rahul/" class="btn btn-primary" target="_blank" rel="noopener">
                                 <i class="fab fa-linkedin me-2"></i>LinkedIn
                             </a>
                             <a href="https://www.youtube.com/@Rahuls_life_stories" class="btn btn-outline-light">
@@ -1203,7 +1249,7 @@ textarea.form-control {
             <div class="col-lg-5 mb-5 mb-lg-0">
                 <div class="about-img">
                     <img src="img/about.png" alt="About Tusha Rahul Bellamkonda" class="img-fluid base-img">
-                    <img src="img/about-hover2.png" class="img-fluid hover-layer hover-layer-1">
+                    <img src="img/about-hover2.png" class="img-fluid hover-layer hover-layer-1" alt="Tusha Rahul Portrait Overlay">
                 </div>
             </div>
             <div class="col-lg-7">
@@ -1228,14 +1274,14 @@ textarea.form-control {
                     </div>
                     <div class="col-md-6">
                         <ul class="about-list">
-                            <li><i class="fas fa-globe"></i><strong>Website:</strong> <a href="https://tusharahul.netlify.app" target="_blank">tusharahul.netlify.app</a></li>
-                            <li><i class="fab fa-linkedin"></i><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/tusha-rahul/" target="_blank">Tusha Rahul Bellamkonda</a></li>
+                            <li><i class="fas fa-globe"></i><strong>Website:</strong> <a href="https://tusharahul.netlify.app" target="_blank" rel="noopener">tusharahul.netlify.app</a></li>
+                            <li><i class="fab fa-linkedin"></i><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/tusha-rahul/" target="_blank" rel="noopener">Tusha Rahul Bellamkonda</a></li>
                             <li><i class="fas fa-heart"></i><strong>Interests:</strong> Content Creation, Sports</li>
                         </ul>
                     </div>
                 </div>
 
-                <a href="img/1Tusha Rahul Bellamkonda.pdf" class="btn btn-primary mt-4" target="_blank">
+                <a href="img/1Tusha Rahul Bellamkonda.pdf" class="btn btn-primary mt-4" target="_blank" rel="noopener">
                     Download Resume
                 </a>
             </div>
@@ -1255,13 +1301,13 @@ textarea.form-control {
             <div class="timeline">
                 <div class="timeline-item left">
                     <div class="timeline-content">
-                        <div class="timeline-date">2025 - Present</div>
+                        <div class="timeline-date">Sep 20, 2025 — Present</div>
                         <h3>KonfigAI NoCode Platform</h3>
                         <h4>AI/ML Engineer & AI Agent Developer</h4>
                         <p>
-                            • Built <span class="text-highlight">DocPortal</span>, a RAG-based document intelligence system enabling users to upload multiple PDFs and query them using metadata filtering and relevance scoring.<br>
-                            • Developed <span class="text-highlight">Pioneer Nexus</span>, a data-driven analytics platform providing descriptive, predictive, and prescriptive insights, including ML-based sales forecasting and demand-expiry analysis.<br>
-                            • Engineered an <span class="text-highlight">AI-powered chatbot</span> that converts natural language into dynamic SQL queries using LLMs (LLaMA/OpenAI), enabling real-time data retrieval from PostgreSQL.<br>
+                            • Built <a href="articles/docportal-article.html" class="text-highlight" style="text-decoration:none;">DocPortal</a>, a RAG-based document intelligence system enabling users to upload multiple PDFs and query them using metadata filtering and relevance scoring.<br>
+                            • Developed <a href="articles/pioneer-nexus-article.html" class="text-highlight" style="text-decoration:none;">Pioneer Nexus</a>, a data-driven analytics platform providing descriptive, predictive, and prescriptive insights, including ML-based sales forecasting and demand-expiry analysis.<br>
+                            • Engineered an <span class="text-highlight">AI-powered chatbot</span> that converts natural language into dynamic SQL queries using LLMs (Gemini/Groq), enabling real-time data retrieval from PostgreSQL.<br>
                             • Built a <span class="text-highlight">job scraping and data ingestion pipeline</span> for an AI Resume Platform (Tabner), automating job collection and enabling AI-based resume optimization and matching.<br>
                             • Focused on building scalable AI systems, backend APIs, and production-ready applications.
                         </p>
@@ -1282,12 +1328,10 @@ textarea.form-control {
                             
                             <strong>Key Achievements:</strong><br>
                             • Worked with real-world datasets to solve business problems<br>
-                            • Developed data processing workflows and analytical reports<br>
+                            • Developed data processing workflows<br>
                             • Collaborated with teams to present data-driven insights
                         </p>
-                                                <a style="text-decoration: none; color:#6e48aa" href="img/TushaRahulBellamkonda_900109_SeparationDocument_06-08-25.pdf" 
-                           target="_blank" 
-                           ><br><b>View Certificate</b></a>
+                        <a href="img/TushaRahulBellamkonda_900109_SeparationDocument_06-08-25.pdf" target="_blank" rel="noopener" class="certificate-link">View Certificate</a>
                     </div>
                 </div>
                 
@@ -1299,9 +1343,7 @@ textarea.form-control {
                         <p>
                             During my internship at DataValley, I worked on web development projects using Python, Flask, and Django. I developed dynamic web applications, integrating HTML, CSS, and JavaScript to create responsive and user-friendly interfaces.
                         </p>
-                                        <a style="text-decoration: none; color:#6e48aa" href="img\DV-1c02cd48-Tusha Rahul Bellamkonda_InternshipCertificate.pdf" 
-                    target="_blank" 
-                    ><br><b>View Certificate</b></a>
+                        <a href="img\DV-1c02cd48-Tusha Rahul Bellamkonda_InternshipCertificate.pdf" target="_blank" rel="noopener" class="certificate-link">View Certificate</a>
                     </div>
                 </div>
                 
@@ -1314,8 +1356,7 @@ textarea.form-control {
                         <p>
                             During my internship at Indian Servers, I developed a Drug Description Chatbot. The chatbot takes the name of a drug and provides detailed information on its effects and side effects. This project helped me gain hands-on experience in machine learning and chatbot development.
                         </p>
-                    <a style="text-decoration: none; color:#6e48aa" href="img\aimers.jpeg" 
-                   target="_blank" > <br><b>View Certificate</b></a>
+                        <a href="img\aimers.jpeg" target="_blank" rel="noopener" class="certificate-link">View Certificate</a>
                     </div>
                 </div>
                 
@@ -1328,9 +1369,7 @@ textarea.form-control {
                         <p>
                             As part of my college project, I led a team of 6 members in developing a Streamlit web application that translates documents into various languages. The project allowed me to showcase my leadership skills and work collaboratively with a diverse team.
                         </p>
-                        <a style="text-decoration: none; color:#6e48aa" href="https://fluentranslate-by-beyond-infinity-coders.streamlit.app/" 
-                    target="_blank" 
-                    ><br><b>View Project</b></a>
+                        <a href="https://fluentranslate-by-beyond-infinity-coders.streamlit.app/" target="_blank" rel="noopener" class="certificate-link">View Project</a>
                     </div>
                 </div>
                 
@@ -1343,77 +1382,7 @@ textarea.form-control {
                         <p>
                             Over the course of a month, I collaborated with a friend to create visualizations for various data structures such as stack, queue, linked list, array, circular queue, and priority queue.
                         </p>
-                                        <a style="text-decoration: none; color:#6e48aa" href="https://rahul6158.github.io/DSV/" 
-                    target="_blank" 
-                    ><br><b>View Project</b></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="section skills-section">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <h2 class="section-title">Technical Skills</h2>
-                    <p class="section-subtitle">Here are the key technical skills I've acquired through my academic and professional journey</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="skill-item text-center">
-                        <div class="skill-icon">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="skill-title">Programming Languages</h3>
-                        <p>Python, Java, C, SQL, JavaScript</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="skill-item text-center">
-                        <div class="skill-icon">
-                            <i class="fas fa-brain"></i>
-                        </div>
-                        <h3 class="skill-title">AI</h3>
-                        <p>Agentic AI, MCP - Model Context Protocol, RAG - Retrieval Augmented Generation, LLM - Large Language Model, Machine Learning, Deep Learning, NLP, Computer Vision</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="skill-item text-center">
-                        <div class="skill-icon">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <h3 class="skill-title">Web Development</h3>
-                        <p>React, FastAPI, HTML, CSS, JavaScript, Bootstrap, Streamlit, Flask, Django</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="skill-item text-center">
-                        <div class="skill-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <h3 class="skill-title">Data Science</h3>
-                        <p>Data Analysis, Feature Extraction, Predictive Modelling, Data Visualization, PowerBI, EDA - Exploratory Data Analysis</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="skill-item text-center">
-                        <div class="skill-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <h3 class="skill-title">Tools</h3>
-                        <p>GitHub, GitLab, VS Code, Jupyter Notebook, Google Colab, HuggingFace Spaces, JsonBin, PowerBI</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="skill-item text-center">
-                        <div class="skill-icon">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <h3 class="skill-title">AI Workflows & Tools</h3>
-                        <p>Vibe Coding, AI Researching, Content Creation, Replit, Cursor, NotebookLLM, Lovable, ChatGPT, Gemini, DeepSeek</p>
+                        <a href="https://rahul6158.github.io/DSV/" target="_blank" rel="noopener" class="certificate-link">View Project</a>
                     </div>
                 </div>
             </div>
@@ -1437,7 +1406,10 @@ textarea.form-control {
                             <img src="img/n8n-linkedin-post-generator.png" alt="Autonomous AI LinkedIn Content Engine">
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title">Autonomous AI LinkedIn Content Engine</h3>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h3 class="project-title mb-0">Autonomous AI LinkedIn Content Engine</h3>
+                                <span class="badge bg-secondary-subtle text-secondary small px-2 py-1 rounded-pill">Personal Project</span>
+                            </div>
                             <p class="project-description">
                                 An end-to-end AI automation workflow that handles content research, multi-agent post generation, and automated publishing with AI-generated visuals.
                             </p>
@@ -1447,7 +1419,29 @@ textarea.form-control {
                                 <span class="tech-tag">Cloudflare</span>
                                 <span class="tech-tag">AI Agents</span>
                             </div>
-                            <a href="linkedin-automation.html" class="project-link">Read Full Article <i class="fas fa-arrow-right ms-2"></i></a>
+                            <a href="articles/linkedin-automation.html" class="project-link">Read Full Article <i class="fas fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: Pioneer Nexus -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="project-card">
+                        <div class="project-img">
+                            <img src="img/pioneer-nexus-pred-analytics-cover.png" alt="Pioneer Nexus - AI Analytics">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Pioneer Nexus</h3>
+                            <p class="project-description">
+                                A data-driven pharma analytics platform delivering descriptive, predictive, and prescriptive insights. Includes ML-based sales forecasting, demand-expiry matching, and an AI chatbot that converts natural language queries into dynamic SQL for real-time data retrieval.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Predictive ML</span>
+                                <span class="tech-tag">SQL Gen</span>
+                                <span class="tech-tag">PostgreSQL</span>
+                                <span class="tech-tag">Gemini/Groq</span>
+                            </div>
+                            <a href="articles/pioneer-nexus-article.html" class="project-link">Read Full Article <i class="fas fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1469,55 +1463,12 @@ textarea.form-control {
                                 <span class="tech-tag">Vector DB</span>
                                 <span class="tech-tag">React</span>
                             </div>
-                            <a href="docportal-article.html" class="project-link">Read Full Article <i class="fas fa-arrow-right ms-2"></i></a>
+                            <a href="articles/docportal-article.html" class="project-link">Read Full Article <i class="fas fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project: Pioneer Nexus -->
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="img/Tiger-Analytics.png" alt="Pioneer Nexus - AI Analytics">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Pioneer Nexus</h3>
-                            <p class="project-description">
-                                A data-driven pharma analytics platform delivering descriptive, predictive, and prescriptive insights. Includes ML-based sales forecasting, demand-expiry matching, and an AI chatbot that converts natural language queries into dynamic SQL for real-time data retrieval.
-                            </p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Predictive AI</span>
-                                <span class="tech-tag">SQL Gen</span>
-                                <span class="tech-tag">PostgreSQL</span>
-                                <span class="tech-tag">LLaMA/OpenAI</span>
-                            </div>
-                            <a href="#" class="project-link">View Details <i class="fas fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Project: AI Resume Platform -->
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="project-card">
-                        <div class="project-img">
-                            <img src="img/rp_generator.png" alt="AI Resume Platform - Tabner">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">AI Resume Platform (Tabner)</h3>
-                            <p class="project-description">
-                                A job scraping and data ingestion system that extracts listings from external platforms to enable downstream AI features for resume optimization and job matching.
-                            </p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Job Scraping</span>
-                                <span class="tech-tag">Data Ingestion</span>
-                                <span class="tech-tag">PostgreSQL</span>
-                                <span class="tech-tag">AI Matching</span>
-                            </div>
-                            <a href="#" class="project-link">View Details <i class="fas fa-arrow-right ms-2"></i></a>
-                        </div>
-                    </div>
-                </div>
-                
+
                 <!-- Project 3 -->
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="project-card">
@@ -1556,13 +1507,161 @@ textarea.form-control {
                     </div>
                 </div>
                 
-                <!-- Project 5 -->
+                <!-- Project 5 - Document Translation -->
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="project-card">
+                        <div class="project-img">
+                            <img src="img/fluentranslate.png" alt="Document Translation App">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Document Translation Web App</h3>
+                            <p class="project-description">Streamlit application that translates documents into various languages with a user-friendly interface.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Streamlit</span>
+                                <span class="tech-tag">NLP</span>
+                            </div>
+                            <a href="https://fluentranslate-by-beyond-infinity-coders.streamlit.app/" class="project-link" target="_blank" rel="noopener">View Project <i class="fas fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6 - AI Chatbot -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="project-card">
+                        <div class="project-img">
+                            <img src="img/image.png" alt="AI Chatbot">
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">AI-Powered Chatbot</h3>
+                            <p class="project-description">Advanced chatbot using natural language processing to understand and respond to user queries.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">NLTK</span>
+                                <span class="tech-tag">TensorFlow</span>
+                            </div>
+                            <a href="img/image.png" class="project-link">View Project <i class="fas fa-arrow-right ms-2"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+
+    <!-- Skills Section -->
+    <section id="skills" class="section skills-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">Technical Skills</h2>
+                    <p class="section-subtitle">Here are the key technical skills I've acquired through my academic and professional journey</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="skill-item text-center">
+                        <div class="skill-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="skill-title">Languages</h3>
+                        <ul class="skill-list two-col mt-3">
+                            <li>Python</li>
+                            <li>SQL</li>
+                            <li>Java</li>
+                            <li>C</li>
+                            <li>JavaScript</li>
+                            <li>HTML</li>
+                            <li>CSS</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="skill-item text-center">
+                        <div class="skill-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3 class="skill-title">Frameworks</h3>
+                        <ul class="skill-list two-col mt-3">
+                            <li>FastAPI</li>
+                            <li>Flask</li>
+                            <li>React</li>
+                            <li>Django</li>
+                            <li>Streamlit</li>
+                            <li>Scikit-learn</li>
+                            <li>TensorFlow</li>
+                            <li>PyTorch</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="skill-item text-center">
+                        <div class="skill-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="skill-title">AI & Machine Learning</h3>
+                        <ul class="skill-list two-col mt-3">
+                            <li>Agentic AI</li>
+                            <li>RAG</li>
+                            <li>LLMs</li>
+                            <li>LangChain</li>
+                            <li>Transformers</li>
+                            <li>NLP</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="skill-item text-center">
+                        <div class="skill-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3 class="skill-title">Databases & Tools</h3>
+                        <ul class="skill-list two-col mt-3">
+                            <li>PostgreSQL</li>
+                            <li>Weaviate</li>
+                            <li>ChromaDB</li>
+                            <li>Nomic</li>
+                            <li>Supabase</li>
+                            <li>Power BI</li>
+                            <li>Git</li>
+                            <li>Docker</li>
+                            <li>HuggingFace</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="skill-item text-center">
+                        <div class="skill-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3 class="skill-title">Cloud & DevOps</h3>
+                        <ul class="skill-list mt-3">
+                            <li>GCP (Vector Store)</li>
+                            <li>Azure (Blob Storage)</li>
+                            <li>Cloud Fundamentals &amp; Architecture</li>
+                            <li>Cloud Service Models &amp; History</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="skill-item text-center">
+                        <div class="skill-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="skill-title">AI Automation & Workflows</h3>
+                        <ul class="skill-list two-col mt-3">
+                            <li>n8n</li>
+                            <li>Claude Code</li>
+                            <li>Antigravity</li>
+                            <li>OpenCode</li>
+                            <li>Google OPAL</li>
+                            <li>Google Flow</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
         <!-- Articles Section -->
     <section id="articles" class="section articles-section">
@@ -1594,7 +1693,7 @@ textarea.form-control {
                                 <span class="article-tag">n8n</span>
                                 <span class="article-tag">GenAI</span>
                             </div>
-                            <a href="linkedin-automation.html" class="article-link">Read Article <i class="fas fa-arrow-right ms-2"></i></a>
+                            <a href="articles/linkedin-automation.html" class="article-link">Read Article <i class="fas fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1603,12 +1702,12 @@ textarea.form-control {
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="article-card">
                         <div class="article-img">
-                            <img src="img/docportal-dashboard.png" alt="VedaVault Architecture">
+                            <img src="img/docportal-dashboard.png" alt="DocPortal AI — RAG System">
                         </div>
                         <div class="article-content">
-                            <h3 class="article-title">Building a Production-Grade RAG System with FastAPI</h3>
+                            <h3 class="article-title">DocPortal AI: Enterprise RAG Document Intelligence</h3>
                             <p class="article-excerpt">
-                                A technical deep dive into the architecture of VedaVault, covering hybrid search, multi-tenancy, and scalable vector database integration.
+                                A technical deep dive into DocPortal AI — covering hybrid search, multi-tenant vector storage, async ingestion pipelines, and multi-LLM orchestration with Groq and Gemini.
                             </p>
                             <div class="article-meta">
                                 <span><i class="far fa-calendar"></i> April 2025</span>
@@ -1616,10 +1715,10 @@ textarea.form-control {
                             </div>
                             <div class="article-tags">
                                 <span class="article-tag">RAG</span>
-                                <span class="article-tag">Backend</span>
                                 <span class="article-tag">FastAPI</span>
+                                <span class="article-tag">Vector DB</span>
                             </div>
-                            <a href="docportal-article.html" class="article-link">Read Article <i class="fas fa-arrow-right ms-2"></i></a>
+                            <a href="articles/docportal-article.html" class="article-link">Read Article <i class="fas fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1628,23 +1727,23 @@ textarea.form-control {
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="article-card">
                         <div class="article-img">
-                            <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Data Visualization">
+                            <img src="img/pioneer-nexus-pred-analytics-cover.png" alt="Pioneer Nexus Pharma Analytics">
                         </div>
                         <div class="article-content">
-                            <h3 class="article-title">The Art of Data Visualization: Telling Stories with Data</h3>
+                            <h3 class="article-title">Pioneer Nexus: AI-Powered Pharma Insights Engine</h3>
                             <p class="article-excerpt">
-                                Learn how to create compelling data visualizations that effectively communicate insights and tell engaging stories with your data.
+                                How I built a pharma analytics platform combining ML-based sales forecasting, demand-expiry intelligence, and a natural-language-to-SQL AI chatbot for real-time data retrieval.
                             </p>
                             <div class="article-meta">
-                                <span><i class="far fa-calendar"></i> August 5, 2023</span>
-                                <span><i class="far fa-clock"></i> 6 min read</span>
+                                <span><i class="far fa-calendar"></i> March 2025</span>
+                                <span><i class="far fa-clock"></i> 12 min read</span>
                             </div>
                             <div class="article-tags">
-                                <span class="article-tag">Data Visualization</span>
-                                <span class="article-tag">Storytelling</span>
-                                <span class="article-tag">Design</span>
+                                <span class="article-tag">Predictive ML</span>
+                                <span class="article-tag">SQL</span>
+                                <span class="article-tag">Analytics</span>
                             </div>
-                            <a href="articles.html" class="article-link">Read Article <i class="fas fa-arrow-right ms-2"></i></a>
+                            <a href="articles/pioneer-nexus-article.html" class="article-link">Read Article <i class="fas fa-arrow-right ms-2"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1746,7 +1845,7 @@ textarea.form-control {
                 </div>
             </div>
             <div class="text-center mt-4">
-                <a href="https://www.linkedin.com/in/tusha-rahul/details/certifications/" class="btn btn-primary" target="_blank">View All Certificates on LinkedIn</a>
+                <a href="https://www.linkedin.com/in/tusha-rahul/details/certifications/" class="btn btn-primary" target="_blank" rel="noopener">View All Certificates on LinkedIn</a>
             </div>
         </div>
     </section>
@@ -1813,10 +1912,10 @@ textarea.form-control {
                         <div class="text-center mt-5">
                             <h4 class="mb-3">Follow Me</h4>
                             <div class="social-icons">
-                                <a href="https://www.linkedin.com/in/tusha-rahul/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="https://github.com/rahul6158" target="_blank"><i class="fab fa-github"></i></a>
-                                <a href="https://www.instagram.com/tusha_rahul/" target="_blank"><i class="fab fa-instagram"></i></a>
-                                <a href="mailto:tusharahul82@gmail.com"><i class="fas fa-envelope"></i></a>
+                                <a href="https://www.linkedin.com/in/tusha-rahul/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://github.com/rahul6158" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+                                <a href="https://www.instagram.com/tusha_rahul/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="mailto:tusharahul82@gmail.com" aria-label="Email" title="Email"><i class="fas fa-envelope"></i></a>
                             </div>
                         </div>
                     </div>
@@ -1847,7 +1946,7 @@ textarea.form-control {
                         </div>
                         
                         <div class="youtube-cta text-center">
-                            <a href="https://www.youtube.com/@Rahuls_life_stories" target="_blank" class="btn">
+                            <a href="https://www.youtube.com/@Rahuls_life_stories" target="_blank" rel="noopener" class="btn">
                                 <i class="fab fa-youtube me-2"></i> Visit My Channel
                             </a>
                         </div>
@@ -1864,7 +1963,17 @@ textarea.form-control {
                 <div class="col-lg-4 mb-4 mb-lg-0">
                     <div class="footer-about">
                         <h3 class="footer-logo">TUSHA RAHUL BELLAMKONDA</h3>
-                        <p>AI/ML Enthusiast | Frontend Developer | Tech Explorer</p>
+                        <p>AI/ML Engineer &amp; Generative AI Developer</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px;">
+                            <span style="font-size: 0.75rem; padding: 4px 12px; border: 1px solid rgba(255,107,53,0.35); border-radius: 20px; color: var(--accent-primary); letter-spacing: 0.5px;">RAG Pipelines</span>
+                            <span style="font-size: 0.75rem; padding: 4px 12px; border: 1px solid rgba(255,107,53,0.35); border-radius: 20px; color: var(--accent-primary); letter-spacing: 0.5px;">LLM Orchestration</span>
+                            <span style="font-size: 0.75rem; padding: 4px 12px; border: 1px solid rgba(255,107,53,0.35); border-radius: 20px; color: var(--accent-primary); letter-spacing: 0.5px;">FastAPI</span>
+                            <span style="font-size: 0.75rem; padding: 4px 12px; border: 1px solid rgba(255,107,53,0.35); border-radius: 20px; color: var(--accent-primary); letter-spacing: 0.5px;">React</span>
+                            <span style="font-size: 0.75rem; padding: 4px 12px; border: 1px solid rgba(255,107,53,0.35); border-radius: 20px; color: var(--accent-primary); letter-spacing: 0.5px;">Agentic AI</span>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 12px; line-height: 1.7;">
+                            Building intelligent systems at the intersection of AI and real-world impact. Passionate about RAG pipelines, LLM orchestration, and shipping production-ready AI products.
+                        </p>
                     </div>
                 </div>
                 <div class="col-lg-4 mb-4 mb-lg-0">
@@ -1873,8 +1982,11 @@ textarea.form-control {
                         <ul>
                             <li><a href="#home">Home</a></li>
                             <li><a href="#about">About</a></li>
-                            <li><a href="#projects">Projects</a></li>
                             <li><a href="#experience">Experience</a></li>
+                            <li><a href="#projects">Projects</a></li>
+                            <li><a href="#articles">Articles</a></li>
+                            <li><a href="#skills">Skills</a></li>
+                            <li><a href="#certificates">Certificates</a></li>
                             <li><a href="#contact">Contact</a></li>
                         </ul>
                     </div>
@@ -1883,11 +1995,17 @@ textarea.form-control {
                     <div class="footer-links">
                         <h4>Connect With Me</h4>
                         <div class="social-icons">
-                            <a href="https://www.linkedin.com/in/tusha-rahul/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="https://github.com/rahul6158" target="_blank"><i class="fab fa-github"></i></a>
-                            <a href="https://www.instagram.com/tusha_rahul/" target="_blank"><i class="fab fa-instagram"></i></a>
-                            <a href="https://www.youtube.com/@Rahuls_life_stories" target="_blank"><i class="fab fa-youtube"></i></a>
-                            <a href="mailto:tusharahul82@gmail.com"><i class="fas fa-envelope"></i></a>
+                            <a href="https://www.linkedin.com/in/tusha-rahul/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://github.com/rahul6158" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+                            <a href="https://www.instagram.com/tusha_rahul/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/@Rahuls_life_stories" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="mailto:tusharahul82@gmail.com" aria-label="Email" title="Email"><i class="fas fa-envelope"></i></a>
+                        </div>
+                        <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06);">
+                            <p style="font-size: 1rem; font-style: italic; color: rgba(255,255,255,0.5); margin: 0; line-height: 1.8;">
+                                &ldquo;People's dreams never end!&rdquo;
+                            </p>
+                            <p style="font-size: 0.75rem; color: rgba(255,255,255,0.28); margin: 6px 0 0; letter-spacing: 1.2px; text-transform: uppercase;">&mdash; Marshall D. Teach, One Piece</p>
                         </div>
                     </div>
                 </div>
@@ -1958,19 +2076,44 @@ strings: [
             return false;
         });
 
-        // Smooth scrolling for navigation links
-        $('a[href*="#"]').on('click', function(e) {
-            e.preventDefault();
-            
-            $('html, body').animate(
-                {
-                    scrollTop: $($(this).attr('href')).offset().top - 70,
-                },
-                500,
-                'linear'
-            );
+        // Handle URL hash on load (e.g. from "Back to Projects" link)
+        $(window).on('load', function() {
+            if (window.location.hash) {
+                var hash = window.location.hash;
+                if ($(hash).length) {
+                    setTimeout(function() {
+                        $('html, body').scrollTop($(hash).offset().top - 70);
+                        // Clean the URL so refreshing doesn't get stuck
+                        history.replaceState(null, null, window.location.pathname);
+                    }, 10);
+                }
+            } else {
+                // Ensure we start at the top on a fresh reload without a hash
+                window.scrollTo(0, 0);
+            }
         });
 
+        // Smooth scrolling for navigation links
+        $('a[href*="#"]').on('click', function(e) {
+            var target = $(this).attr('href');
+            // Ignore links that are just '#' (like the logo or empty links)
+            if (target === '#') {
+                e.preventDefault();
+                return;
+            }
+            
+            // If the target exists on the page, smooth scroll to it
+            if ($(target).length) {
+                e.preventDefault();
+                $('html, body').animate(
+                    {
+                        scrollTop: $(target).offset().top - 70,
+                    },
+                    500,
+                    'linear'
+                );
+            }
+        });
         // Navbar effect on scroll
         $(window).scroll(function() {
             if ($(this).scrollTop() > 100) {
