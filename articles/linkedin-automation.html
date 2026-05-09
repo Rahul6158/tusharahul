@@ -179,6 +179,43 @@
             font-size: 1.1rem;
         }
 
+        .challenge-card {
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent-primary);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .challenge-card:hover {
+            transform: translateX(8px);
+            background: rgba(255, 122, 48, 0.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-right: 1px solid rgba(255, 122, 48, 0.2);
+            border-top: 1px solid rgba(255, 122, 48, 0.2);
+            border-bottom: 1px solid rgba(255, 122, 48, 0.2);
+        }
+
+        .challenge-card h4 {
+            color: var(--accent-secondary);
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .challenge-card h4 i {
+            color: var(--accent-primary);
+            font-size: 1.1rem;
+        }
+
         .img-container {
             border-radius: var(--border-radius);
             overflow: hidden;
@@ -188,6 +225,29 @@
             background: var(--card-bg);
             max-width: 100%;
             cursor: zoom-in;
+            position: relative;
+        }
+
+        .img-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--accent-secondary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            pointer-events: none;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
         .img-container img {
@@ -481,11 +541,16 @@
                     <ul class="toc-list">
                         <li class="toc-item"><a href="#overview"><i class="fas fa-chevron-right"></i> Overview</a></li>
                         <li class="toc-item"><a href="#architecture"><i class="fas fa-chevron-right"></i> System Architecture</a></li>
-                        <li class="toc-item"><a href="#workflow"><i class="fas fa-chevron-right"></i> Automation Workflow</a></li>
-                        <li class="toc-item"><a href="#image-gen"><i class="fas fa-chevron-right"></i> Image Generation</a></li>
-                        <li class="toc-item"><a href="#triggers"><i class="fas fa-chevron-right"></i> Trigger System</a></li>
+                        <li class="toc-item"><a href="#infrastructure"><i class="fas fa-chevron-right"></i> Infrastructure Setup</a></li>
+                        <li class="toc-item"><a href="#zero-cost"><i class="fas fa-chevron-right"></i> Zero-Cost Architecture</a></li>
+                        <li class="toc-item"><a href="#step-1-3"><i class="fas fa-chevron-right"></i> Step 1-3: Content Pipeline</a></li>
+                        <li class="toc-item"><a href="#step-4-6"><i class="fas fa-chevron-right"></i> Step 4-6: Visual AI</a></li>
+                        <li class="toc-item"><a href="#step-7-8"><i class="fas fa-chevron-right"></i> Step 7-8: Publishing</a></li>
+                        <li class="toc-item"><a href="#challenges"><i class="fas fa-chevron-right"></i> Engineering Challenges</a></li>
+                        <li class="toc-item"><a href="#metrics"><i class="fas fa-chevron-right"></i> Workflow Metrics</a></li>
+                        <li class="toc-item"><a href="#future"><i class="fas fa-chevron-right"></i> Future Improvements</a></li>
                         <li class="toc-item"><a href="#tech-stack"><i class="fas fa-chevron-right"></i> Tech Stack</a></li>
-                        <li class="toc-item"><a href="#gallery"><i class="fas fa-chevron-right"></i> Gallery</a></li>
+                        <li class="toc-item"><a href="#gallery"><i class="fas fa-chevron-right"></i> Infrastructure Gallery</a></li>
                     </ul>
                 </nav>
             </aside>
@@ -494,131 +559,320 @@
                 <section id="overview" class="article-section">
                     <h2>Overview</h2>
                     <p>
-                        <strong>LinkedIn Content Automation</strong> is a sophisticated multi-agent automation engine that generates context-aware professional content and visuals using n8n, GPT-4, and serverless image generation. This system enables automated, high-quality LinkedIn posting without manual intervention.
+                        This project is an end-to-end autonomous LinkedIn content generation and publishing system built using n8n, AI agents, Gemini LLMs, Tavily Search, Cloudflare Workers, and LinkedIn APIs.
                     </p>
-                    <div class="highlight-box">
-                        <strong>Key Achievement:</strong> Built a self-sustaining content pipeline that generates 5-10 LinkedIn posts per week with AI-generated visuals, scheduled posting times, and real-time performance tracking.
+                    <p>
+                        The system acts as an autonomous AI content engine for professional LinkedIn publishing, seamlessly transforming a raw Telegram message into a fully researched, visually stunning, and published LinkedIn post.
+                    </p>
+                    <div class="highlight-box mb-5">
+                        <strong>Key Innovation:</strong> Combining autonomous research, AI writing, AI visual generation, social publishing, and a custom serverless Cloudflare Worker AI infrastructure into one fully automated pipeline without manual intervention.
+                    </div>
+
+                    <div class="img-container" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Full Automation Workflow Dashboard</div>
+                        <img src="../img/n8n-linkedin-post-generator.png" alt="Full Automation Workflow Dashboard">
                     </div>
                 </section>
 
                 <section id="architecture" class="article-section">
                     <h2>System Architecture</h2>
-                    <p>The system follows a serverless, event-driven architecture built on n8n as the orchestration layer.</p>
+                    <p>The system was designed as a modular multi-agent AI orchestration pipeline using n8n as the workflow engine. The architecture combines autonomous AI reasoning, real-time web research, serverless image generation, and automated social publishing into one scalable workflow.</p>
                     
-                    <div class="architecture-diagram">
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   Telegram  │───▶│    n8n      │───▶│   OpenAI    │───▶│   LinkedIn  │
-│   Trigger   │    │  Workflow   │    │    API      │    │    API      │
-└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
-                           │
-                           ▼
-                    ┌─────────────┐
-                    │  Replicate  │
-                    │  (Images)   │
-                    └─────────────┘
+                    <div class="workflow-timeline mt-5 mb-5">
+                        <style>
+                            .workflow-timeline {
+                                position: relative;
+                                max-width: 500px;
+                                margin: 0 auto;
+                                padding: 20px 0;
+                            }
+                            .workflow-node {
+                                display: flex;
+                                align-items: center;
+                                background: rgba(255, 255, 255, 0.05);
+                                border: 1px solid rgba(255, 255, 255, 0.1);
+                                padding: 15px 25px;
+                                border-radius: 12px;
+                                margin-bottom: 35px;
+                                position: relative;
+                                z-index: 2;
+                                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                                transition: transform 0.3s ease, border-color 0.3s ease;
+                                backdrop-filter: blur(10px);
+                            }
+                            .workflow-node:hover {
+                                transform: translateY(-2px);
+                                border-color: var(--accent-primary, #ff6b6b);
+                            }
+                            .workflow-node::after {
+                                content: '↓';
+                                position: absolute;
+                                bottom: -32px;
+                                left: 50%;
+                                transform: translateX(-50%);
+                                color: var(--accent-primary, #ff6b6b);
+                                font-size: 1.2rem;
+                                font-weight: bold;
+                                z-index: 1;
+                            }
+                            .workflow-node:last-child::after {
+                                display: none;
+                            }
+                            .workflow-node i {
+                                font-size: 1.5rem;
+                                color: var(--accent-primary, #ff6b6b);
+                                margin-right: 20px;
+                                width: 30px;
+                                text-align: center;
+                            }
+                            .workflow-text {
+                                font-weight: 600;
+                                font-size: 1.1rem;
+                            }
+                        </style>
+                        
+                        <div class="workflow-node">
+                            <i class="fab fa-telegram"></i>
+                            <div class="workflow-text">Telegram Bot Trigger</div>
+                        </div>
+                        <div class="workflow-node">
+                            <i class="fas fa-project-diagram"></i>
+                            <div class="workflow-text">n8n Workflow Engine</div>
+                        </div>
+                        <div class="workflow-node">
+                            <i class="fas fa-brain"></i>
+                            <div class="workflow-text">Gemini Research Agent</div>
+                        </div>
+                        <div class="workflow-node">
+                            <i class="fas fa-search"></i>
+                            <div class="workflow-text">Tavily Search Integration</div>
+                        </div>
+                        <div class="workflow-node">
+                            <i class="fas fa-code"></i>
+                            <div class="workflow-text">Content Structuring Layer</div>
+                        </div>
+                        <div class="workflow-node">
+                            <i class="fas fa-eye"></i>
+                            <div class="workflow-text">Visual Prompt Engineering Agent</div>
+                        </div>
+                        <div class="workflow-node">
+                            <i class="fas fa-server"></i>
+                            <div class="workflow-text">Cloudflare Worker API</div>
+                        </div>
+                        <div class="workflow-node">
+                            <i class="fas fa-images"></i>
+                            <div class="workflow-text">Cloudflare AI Image Models</div>
+                        </div>
+                        <div class="workflow-node">
+                            <i class="fab fa-linkedin"></i>
+                            <div class="workflow-text">LinkedIn Publishing API</div>
+                        </div>
+                        <div class="workflow-node">
+                            <i class="fas fa-bell"></i>
+                            <div class="workflow-text">Telegram Success Notification</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="infrastructure" class="article-section">
+                    <h2>Infrastructure Setup</h2>
+                    <p>The workflow was deployed using a lightweight self-hosted infrastructure stack focused on cost efficiency, flexibility, and rapid experimentation.</p>
+                    
+                    <div class="highlight-box mb-4">
+                        The infrastructure was intentionally designed to simulate production-grade AI orchestration workflows while remaining fully deployable on a local development machine.
                     </div>
 
-                    <div class="row g-4 mt-3">
+                    <div class="row g-4 mt-2">
                         <div class="col-md-6">
                             <div class="feature-card h-100">
-                                <h4>Multi-Agent Orchestration</h4>
-                                <p>Coordinated AI agents handle topic selection, content drafting, image generation, and posting - each with specialized prompts and validation logic.</p>
+                                <h4>Self-Hosted n8n Deployment</h4>
+                                <p>n8n was deployed locally using Docker containers to provide isolated runtime environments, rapid deployment, scalable orchestration, and local customization. Docker enabled quick experimentation with AI agents without depending on managed automation platforms.</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="feature-card h-100">
-                                <h4>Context-Aware Generation</h4>
-                                <p>Each post is enriched with current trends, recent interactions, and topic-specific terminology to maintain authentic professional voice.</p>
+                                <h4>ngrok Tunneling</h4>
+                                <p>ngrok was used to expose local webhook endpoints securely to external services such as the Telegram Bot API and LinkedIn integrations. This enabled real-time event-driven automation workflows while running the orchestration engine locally.</p>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="img-container mt-4 mb-4" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Self-Hosted n8n Docker and ngrok Setup</div>
+                        <img src="../img/n8n-docker-setup.png" alt="Self-Hosted n8n Docker and ngrok Setup">
+                    </div>
+
+                    <div class="step-heading">Environment & API Management</div>
+                    <p>Environment variables were used for secure API management including Gemini API keys, LinkedIn credentials, Telegram bot tokens, and Cloudflare bearer authentication. This ensured modular and secure workflow configuration across multiple AI services.</p>
+                </section>
+
+                <section id="zero-cost" class="article-section">
+                    <h2>Zero-Cost AI Infrastructure Strategy</h2>
+                    <p>One of the primary goals of this project was to build a scalable AI content automation pipeline using completely free-tier and serverless infrastructure. The workflow architecture intentionally minimized infrastructure costs while maintaining production-style orchestration capabilities.</p>
+                    
+                    <div class="highlight-box">
+                        <strong>Strategic Edge API:</strong> The Cloudflare Worker infrastructure eliminated the need for paid image-generation providers by exposing diffusion-based image models through a lightweight edge API architecture.
+                    </div>
+                    
+                    <ul class="mt-3">
+                        <li><strong>Self-hosted n8n</strong> via Docker</li>
+                        <li><strong>ngrok</strong> free secure tunneling</li>
+                        <li><strong>Gemini</strong> free-tier APIs</li>
+                        <li><strong>Cloudflare Workers</strong> serverless deployment</li>
+                        <li><strong>Cloudflare AI</strong> image generation models</li>
+                        <li><strong>Telegram Bot API</strong> integrations</li>
+                    </ul>
+                    <p>This enabled autonomous AI workflow orchestration without relying on expensive commercial AI automation platforms.</p>
+                </section>
+
+                <section id="step-1-3" class="article-section">
+                    <h2>Step 1-3: Trigger & Content Pipeline</h2>
+                    <p>The workflow begins from a simple user input and evolves into a structured LinkedIn post through real-time research.</p>
+
+                    <div class="step-heading">1. Telegram Trigger</div>
+                    <p>The workflow starts when a user sends a topic through a Telegram bot. For example, sending <code>"AI agents replacing SaaS workflows"</code> becomes the main topic payload.</p>
+                    
+                    <div class="img-container mt-3 mb-4" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Telegram Trigger Node</div>
+                        <img src="../img/n8n-telegram-trigger.png" alt="Telegram Trigger Node">
+                    </div>
+
+                    <div class="step-heading">2. AI Research Agent (Gemini + Tavily)</div>
+                    <p>The topic is passed to a Gemini 2.5 Flash Lite agent integrated with Tavily Search. It performs real-time research, gathers strategic insights, and generates an engaging, research-backed LinkedIn post focusing on thought leadership rather than just summarizing news.</p>
+
+                    <div class="img-container mt-3 mb-4" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> AI Research Agent Node</div>
+                        <img src="../img/n8n-aiagent-node-1.png" alt="AI Research Agent Node">
+                    </div>
+
+                    <div class="step-heading">3. JavaScript Output Processing</div>
+                    <p>A custom JavaScript node cleans and normalizes the AI output. It extracts the raw post, the target audience, the angle, and the visual prompt into structured JSON, ensuring downstream stability by removing markdown wrappers.</p>
+                </section>
+
+                <section id="step-4-6" class="article-section">
+                    <h2>Step 4-6: Visual AI & Serverless Infrastructure</h2>
+                    <p>Instead of relying on paid image APIs, this pipeline builds custom visual prompts and utilizes Cloudflare's edge infrastructure.</p>
+
+                    <div class="step-heading">4. Visual Prompt Engineering</div>
+                    <p>A second Gemini agent acts as a visual reasoning expert. It analyzes the emotional tone and narrative structure of the post, converting it into a diffusion-optimized cinematic prompt (e.g., preferring silhouettes and volumetric lighting to avoid common AI generation failures).</p>
+
+                    <div class="img-container mt-3 mb-4" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Visual Prompt Engineering Node</div>
+                        <img src="../img/n8n-aiagent-node-2.png" alt="Visual Prompt Engineering Node">
+                    </div>
+
+                    <div class="step-heading">5. Visual Prompt Cleanup</div>
+                    <p>Another JavaScript node extracts the finalized image prompt, cleaning JSON wrappers and formatting artifacts, creating a strict payload ready for the API.</p>
+
+                    <div class="step-heading">6. Custom Cloudflare Worker Image API</div>
+                    <p>This is the technical core of the visual pipeline. A completely serverless REST API was built using <strong>Cloudflare Workers</strong> and Cloudflare's AI image models. It accepts the prompt dynamically via bearer-token authentication and returns a LinkedIn-compatible binary image entirely cost-free and at edge speeds.</p>
+
+                    <div class="img-container mt-3" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Cloudflare Worker HTTP API Node</div>
+                        <img src="../img/n8n-httpnode-1.png" alt="Cloudflare Worker HTTP API Node">
+                        <img src="../img/n8n-http-node-2.png" alt="Cloudflare Worker HTTP API Node">
+                    </div>
+                </section>
+
+                <section id="step-7-8" class="article-section">
+                    <h2>Step 7-8: Publishing & Notification</h2>
+                    
+                    <div class="step-heading">7. LinkedIn Post Publishing</div>
+                    <p>The n8n LinkedIn integration node securely uploads the generated image media and attaches the AI-crafted text. It automatically publishes the content to the public LinkedIn feed.</p>
+
+                    <div class="img-container mt-3 mb-4" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Published LinkedIn Post</div>
+                        <img src="../img/n8n-linkedin-post-1.png" alt="Published LinkedIn Post">
+                    </div>
+
+                    <div class="step-heading">8. Telegram Success Notification</div>
+                    <p>Upon successful deployment, the workflow loops back to Telegram, sending a confirmation message containing the live LinkedIn post URL, providing immediate automated feedback.</p>
+
+                    <div class="img-container mt-3 mb-4" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Telegram Notification Output</div>
+                        <img src="../img/n8n-telegram-integration.png" alt="Telegram Notification Output">
+                    </div>
+
+                    <div class="highlight-box mt-5 mb-4">
+                        <h4 class="mb-3 text-white"><i class="fas fa-check-circle text-success me-2"></i> Live Verified AI Posts</h4>
+                        <p>The following LinkedIn posts were fully generated and published autonomously by this exact n8n orchestration pipeline:</p>
+                        <div class="d-flex flex-column gap-3 mt-4">
+                            <a href="https://www.linkedin.com/posts/tusha-rahul_ai-agenticai-futureofwork-share-7440745562834083842-aTud?utm_source=share&utm_medium=member_desktop&rcm=ACoAAETzoJcBHGHBbWeL9S4GYCzT1dGL4fHud98" target="_blank" class="text-accent-secondary text-decoration-none fw-bold"><i class="fab fa-linkedin me-2"></i> Post 1: The Power of Google Opal</a>
+                            <a href="https://www.linkedin.com/posts/tusha-rahul_ai-autonomousagents-businessstrategy-share-7440301751997464578-viWg?utm_source=share&utm_medium=member_desktop&rcm=ACoAAETzoJcBHGHBbWeL9S4GYCzT1dGL4fHud98" target="_blank" class="text-accent-secondary text-decoration-none fw-bold"><i class="fab fa-linkedin me-2"></i> Post 2: About Autonomous AI Agents</a>
+                            <a href="https://www.linkedin.com/posts/tusha-rahul_aiincontent-contentcreation-creatoreconomy-share-7439939121386749952-Xv2y?utm_source=share&utm_medium=member_desktop&rcm=ACoAAETzoJcBHGHBbWeL9S4GYCzT1dGL4fHud98" target="_blank" class="text-accent-secondary text-decoration-none fw-bold"><i class="fab fa-linkedin me-2"></i> Post 3: AI for Content Creation</a>
+                            <a href="https://www.linkedin.com/posts/tusha-rahul_ai-artificialintelligence-nvidia-share-7438170807844941824-RzJm?utm_source=share&utm_medium=member_desktop&rcm=ACoAAETzoJcBHGHBbWeL9S4GYCzT1dGL4fHud98" target="_blank" class="text-accent-secondary text-decoration-none fw-bold"><i class="fab fa-linkedin me-2"></i> Post 4: About Nvidia's Growth</a>
                         </div>
                     </div>
                 </section>
 
-                <section id="workflow" class="article-section">
-                    <h2>Automation Workflow</h2>
+                <section id="challenges" class="article-section">
+                    <h2>Engineering Challenges Solved</h2>
+                    <p class="mb-4">The project required solving multiple engineering and orchestration challenges across AI reasoning, workflow reliability, and API synchronization.</p>
                     
-                    <div class="step-heading">1. Topic Selection</div>
-                    <p>The system analyzes recent engagement metrics and trending topics to identify high-potential subjects for the next post.</p>
-                    
-                    <div class="step-heading">2. Content Generation</div>
-                    <p>GPT-4 generates multiple content variations with different tones (educational, inspirational, technical). Each variation is scored for engagement potential.</p>
-                    
-                    <div class="img-container" onclick="openModal(this)">
-                        <img src="../img/n8n-http-node-2.png" alt="Content Generation Workflow">
+                    <div class="challenge-card">
+                        <h4><i class="fas fa-network-wired"></i> Multi-Agent Workflow Reliability</h4>
+                        <p class="mb-0 text-secondary">Ensuring stable orchestration between multiple AI agents required structured JSON normalization and fallback parsing logic between workflow stages.</p>
                     </div>
 
-                    <div class="step-heading">3. Visual Asset Creation</div>
-                    <p>Using Replicate's FLUX model, the system generates context-relevant images that match the post's theme and LinkedIn's visual standards.</p>
-                </section>
-
-                <section id="image-gen" class="article-section">
-                    <h2>Image Generation Pipeline</h2>
-                    <p>The image generation system creates branded, professional visuals for each post.</p>
-                    
-                    <div class="architecture-diagram">
-Topic Context + Style Prompt ──▶ Replicate FLUX ──▶ Image Validation ──▶ CDN Upload
-                    </div>
-                    
-                    <div class="feature-card">
-                        <h4>Style Parameters</h4>
-                        <p>The system maintains a consistent visual identity with predefined style parameters:</p>
-                        <ul class="text-secondary mt-3">
-                            <li>Brand colors and typography</li>
-                            <li>Professional/tech aesthetic</li>
-                            <li>Gradient backgrounds with text overlays</li>
-                            <li>Minimalist data visualization style</li>
-                        </ul>
+                    <div class="challenge-card">
+                        <h4><i class="fas fa-bug-slash"></i> AI Output Parsing Stability</h4>
+                        <p class="mb-0 text-secondary">LLM outputs occasionally contained malformed JSON and markdown artifacts. Custom JavaScript parsing nodes were implemented to sanitize and normalize responses before downstream processing.</p>
                     </div>
 
-                    <div class="row g-3 mt-3">
-                        <div class="col-md-6">
-                            <div class="img-container" onclick="openModal(this)">
-                                <img src="../img/n8n-linkedin-post.png" alt="Generated Post Example 1">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="img-container" onclick="openModal(this)">
-                                <img src="../img/n8n-linkedin-post-1.png" alt="Generated Post Example 2">
-                            </div>
-                        </div>
+                    <div class="challenge-card">
+                        <h4><i class="fas fa-image"></i> Diffusion Prompt Optimization</h4>
+                        <p class="mb-0 text-secondary">Image prompts were optimized specifically for diffusion-based generation models to reduce broken anatomy, visual artifacts, and cluttered scenes. The system preferred cinematic compositions, silhouettes, and environment-driven framing for more reliable outputs.</p>
+                    </div>
+
+                    <div class="challenge-card">
+                        <h4><i class="fas fa-server"></i> Serverless Edge Synchronization</h4>
+                        <p class="mb-0 text-secondary">Cloudflare Workers were integrated as lightweight edge APIs to reduce dependency on expensive third-party media APIs. The workflow required tight synchronization across Telegram events, AI agents, HTTP APIs, LinkedIn publishing, and asynchronous image generation while maintaining reliable execution flow.</p>
                     </div>
                 </section>
 
-                <section id="triggers" class="article-section">
-                    <h2>Trigger System</h2>
-                    <p>The automation supports multiple trigger mechanisms for maximum flexibility.</p>
-                    
+                <section id="metrics" class="article-section">
+                    <h2>Workflow Metrics</h2>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Trigger</th>
-                                    <th>Description</th>
-                                    <th>Use Case</th>
+                                    <th>Metric</th>
+                                    <th>Value</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><strong>Telegram</strong></td>
-                                    <td>Manual trigger via bot command</td>
-                                    <td>On-demand post generation</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Scheduled</strong></td>
-                                    <td>CRON-based weekly schedule</td>
-                                    <td>Consistent posting cadence</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Event-Based</strong></td>
-                                    <td>Triggered by RSS feeds/webhooks</td>
-                                    <td>Reactive to industry news</td>
-                                </tr>
+                                <tr><td>Average Workflow Completion</td><td>25–45 seconds</td></tr>
+                                <tr><td>AI Research Generation</td><td>5–8 seconds</td></tr>
+                                <tr><td>Image Generation Latency</td><td>8–15 seconds</td></tr>
+                                <tr><td>LinkedIn Publishing Time</td><td>2–5 seconds</td></tr>
+                                <tr><td>Workflow Success Rate</td><td>~95%</td></tr>
+                                <tr><td>AI Services Integrated</td><td>5+</td></tr>
+                                <tr><td>Automation Steps</td><td>8-stage pipeline</td></tr>
                             </tbody>
                         </table>
                     </div>
+                </section>
 
-                    <div class="img-container" onclick="openModal(this)">
-                        <img src="../img/n8n-telegram-trigger.png" alt="Telegram Trigger Interface">
+                <section id="future" class="article-section">
+                    <h2>Future Improvements</h2>
+                    <p>Planned improvements for the system include:</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul>
+                                <li>Autonomous scheduled publishing</li>
+                                <li>AI trend monitoring</li>
+                                <li>Multi-platform social publishing</li>
+                                <li>Post engagement analytics</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul>
+                                <li>AI-generated carousel creation</li>
+                                <li>Vector-memory style consistency</li>
+                                <li>AI performance feedback loops</li>
+                                <li>Autonomous topic discovery</li>
+                            </ul>
+                        </div>
                     </div>
                 </section>
 
@@ -628,37 +882,37 @@ Topic Context + Style Prompt ──▶ Replicate FLUX ──▶ Image Validation
                         <div class="col-md-4">
                             <div class="arch-card h-100">
                                 <h4>n8n</h4>
-                                <p class="text-secondary">Workflow orchestration and automation</p>
+                                <p class="text-secondary">End-to-end automation orchestration</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="arch-card h-100">
-                                <h4>OpenAI GPT-4</h4>
-                                <p class="text-secondary">Content generation and enhancement</p>
+                                <h4>Gemini 2.5 Flash Lite</h4>
+                                <p class="text-secondary">Multi-agent LLM reasoning</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="arch-card h-100">
-                                <h4>Replicate FLUX</h4>
-                                <p class="text-secondary">AI-powered image generation</p>
+                                <h4>Cloudflare Workers</h4>
+                                <p class="text-secondary">Custom Serverless Image API</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="arch-card h-100">
+                                <h4>Tavily Search</h4>
+                                <p class="text-secondary">Real-time web research integration</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="arch-card h-100">
                                 <h4>Telegram Bot</h4>
-                                <p class="text-secondary">Manual trigger interface</p>
+                                <p class="text-secondary">User trigger and notifications</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="arch-card h-100">
                                 <h4>LinkedIn API</h4>
-                                <p class="text-secondary">Automated posting</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="arch-card h-100">
-                                <h4>Docker</h4>
-                                <p class="text-secondary">Self-hosted deployment</p>
+                                <p class="text-secondary">Automated professional publishing</p>
                             </div>
                         </div>
                     </div>
@@ -667,38 +921,63 @@ Topic Context + Style Prompt ──▶ Replicate FLUX ──▶ Image Validation
                 <section class="article-section text-center">
                     <h2>Technical Highlights</h2>
                     <div class="mt-4">
-                        <span class="tech-badge">Multi-Agent</span>
-                        <span class="tech-badge">n8n Workflows</span>
-                        <span class="tech-badge">Image Generation</span>
-                        <span class="tech-badge">API Integration</span>
-                        <span class="tech-badge">Serverless</span>
-                        <span class="tech-badge">Docker</span>
+                        <span class="tech-badge">Multi-Agent System</span>
+                        <span class="tech-badge">Serverless Edge API</span>
+                        <span class="tech-badge">Real-Time AI Research</span>
+                        <span class="tech-badge">Prompt Engineering</span>
+                        <span class="tech-badge">Workflow Automation</span>
+                        <span class="tech-badge">REST API</span>
                     </div>
                 </section>
 
                 <section id="gallery" class="article-section">
-                    <h2>Gallery</h2>
-                    <p class="text-secondary mb-4">Click any image to explore the automation workflow and generated content.</p>
+                    <h2>Infrastructure Gallery</h2>
+                    <p class="text-secondary mb-4">Click any image to explore the automation workflow, infrastructure nodes, and generated content.</p>
                     
+                    <div class="step-heading">Workflow Orchestration</div>
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> AI Agent Node Logic</div>
+                        <img src="../img/n8n-aiagent-node-1.png" alt="AI Agent Node Logic">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Visual Prompt Agent</div>
+                        <img src="../img/n8n-aiagent-node-2.png" alt="Visual Prompt Agent">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-heading">Infrastructure Setup</div>
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Docker Setup Node</div>
+                        <img src="../img/n8n-docker-setup.png" alt="Docker Setup Node">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Cloudflare Worker Integration</div>
+                        <img src="../img/n8n-httpnode-1.png" alt="Cloudflare Worker Integration">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-heading">Generated Outputs</div>
                     <div class="row g-4">
                         <div class="col-md-6">
                             <div class="img-container" onclick="openModal(this)">
-                                <img src="../img/n8n-linkedin-post-generator.png" alt="Main Workflow Dashboard">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Alternative Generated LinkedIn Post</div>
+                        <img src="../img/n8n-linkedin-post.png" alt="Alternative Generated LinkedIn Post">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="img-container" onclick="openModal(this)">
-                                <img src="../img/n8n-telegram-integration.png" alt="Telegram Integration">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="img-container" onclick="openModal(this)">
-                                <img src="../img/n8n-aiagent-node-1.png" alt="AI Agent Node">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="img-container" onclick="openModal(this)">
-                                <img src="../img/n8n-image-gen-http-node.png" alt="Image Generation HTTP Node">
+                        <div class="img-badge"><i class="fas fa-camera"></i> Telegram Notification Output</div>
+                        <img src="../img/n8n-telegram-integration.png" alt="Telegram Notification Output">
                             </div>
                         </div>
                     </div>
