@@ -58,6 +58,20 @@
             transition: var(--transition);
         }
 
+        .nav-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
         .page-header {
             padding: 120px 0 30px;
             position: relative;
@@ -369,7 +383,7 @@
         <div class="container">
             <a class="navbar-brand fw-bold" style="color: var(--accent-purple);" href="index.html">TUSHA RAHUL</a>
             <div class="ms-auto">
-                <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-4" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1);">Back to Portfolio</a>
+                <a href="index.html" class="btn btn-sm rounded-pill px-4 nav-btn">Back to Portfolio</a>
             </div>
         </div>
     </nav>
