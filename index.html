@@ -2002,10 +2002,10 @@ textarea.form-control {
                             <a href="mailto:tusharahul82@gmail.com" aria-label="Email" title="Email"><i class="fas fa-envelope"></i></a>
                         </div>
                         <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.06);">
-                            <p style="font-size: 1rem; font-style: italic; color: rgba(255,255,255,0.5); margin: 0; line-height: 1.8;">
+                            <p id="footer-quote-text" style="font-size: 1rem; font-style: italic; color: rgba(255,255,255,0.5); margin: 0; line-height: 1.8;">
                                 &ldquo;People's dreams never end!&rdquo;
                             </p>
-                            <p style="font-size: 0.75rem; color: rgba(255,255,255,0.28); margin: 6px 0 0; letter-spacing: 1.2px; text-transform: uppercase;">&mdash; Marshall D. Teach, One Piece</p>
+                            <p id="footer-quote-author" style="font-size: 0.75rem; color: rgba(255,255,255,0.28); margin: 6px 0 0; letter-spacing: 1.2px; text-transform: uppercase;">&mdash; Marshall D. Teach</p>
                         </div>
                     </div>
                 </div>
@@ -2138,6 +2138,62 @@ strings: [
                 aboutImg.style.setProperty('--mouse-y', `${y}%`);
             });
         }
+
+        // Random Footer Quote Generator
+        const quotes = [
+            { text: "Inherited will, the destiny of the age, and the dreams of the people… as long as people continue to pursue the meaning of freedom, these things will never cease to be!", author: "Gol D. Roger" },
+            { text: "Power isn’t determined by your size, but by the size of your heart and dreams.", author: "Monkey D. Luffy" },
+            { text: "If you don’t take risks, you can’t create a future.", author: "Monkey D. Luffy" },
+            { text: "A man’s dream will never die!", author: "Marshall D. Teach" },
+            { text: "No matter how hard or impossible it is, never lose sight of your goal.", author: "Monkey D. Luffy" },
+            { text: "You should never let anyone laugh at the things you treasure.", author: "Nami" },
+            { text: "Miracles only happen to those who never give up.", author: "Emporio Ivankov" },
+            { text: "The weak don’t get to decide anything, not even how they die.", author: "Trafalgar D. Water Law" },
+            { text: "Being alone is more painful than getting hurt.", author: "Monkey D. Luffy" },
+            { text: "A scar on the back is a swordsman’s shame.", author: "Roronoa Zoro" },
+            { text: "I have set myself to become the King of the Pirates… and if I die trying… then at least I tried.", author: "Monkey D. Luffy" },
+            { text: "You can’t get back what you’ve lost, what’s important now is what you still have.", author: "Jinbe" },
+            { text: "A crew with no respect and a captain that doesn’t demand it is destined to fail.", author: "Roronoa Zoro" },
+            { text: "The flower of friendship can bloom even in hell.", author: "Bentham" },
+            { text: "Someday, I promise you, everyone will be watching us.", author: "Usopp" },
+            { text: "It may be hard right now… but you must silence those thoughts. Stop counting only those things you have lost.", author: "Jinbe" },
+            { text: "There comes a time when a man has to stand and fight.", author: "Usopp" },
+            { text: "You came without fear. Don’t have any regrets, no matter what happens.", author: "Silvers Rayleigh" },
+            { text: "Dreams are made possible because of people who keep trying.", author: "Monkey D. Luffy" },
+            { text: "Even in the depths of hell… blooms a beautiful flower of friendship.", author: "Bentham" },
+            { text: "The era where pirates dream is over? People’s dreams never end!", author: "Marshall D. Teach" },
+            { text: "A true pirate should sing when times are tough.", author: "Brook" },
+            { text: "Whatever happens, don’t lose your faith.", author: "Shanks" },
+            { text: "It’s not about whether I can or not. I’m doing it because I want to.", author: "Monkey D. Luffy" },
+            { text: "To true friendship, how long you’ve known each other means nothing.", author: "Bentham" },
+            { text: "No one is born into this world to be alone.", author: "Jaguar D. Saul" },
+            { text: "You still have your friends!", author: "Jinbe" },
+            { text: "A pirate’s pride can never be broken.", author: "Monkey D. Luffy" },
+            { text: "Weaklings can’t pick their way of death.", author: "Trafalgar D. Water Law" },
+            { text: "If I give up now, then I’m going to regret it.", author: "Monkey D. Luffy" },
+            { text: "I don’t want to conquer anything. I just think the guy with the most freedom in this whole ocean… is the Pirate King!", author: "Monkey D. Luffy" },
+            { text: "The future belongs to those who never stop believing.", author: "Monkey D. Luffy" },
+            { text: "A man dies when he is forgotten.", author: "Dr. Hiriluk" },
+            { text: "If you hurt somebody… or if somebody hurts you, the same red blood will be shed.", author: "Shanks" },
+            { text: "You need to accept the fact that you’re not the best and have all the will to strive to be better than anyone you face.", author: "Roronoa Zoro" },
+            { text: "No matter what the world says, keep walking toward your dream.", author: "Monkey D. Luffy" },
+            { text: "A journey of a thousand miles begins with a single step… but pirates do it with style.", author: "Brook" },
+            { text: "Nothing happened.", author: "Roronoa Zoro" },
+            { text: "I’m going to become stronger for the people who believe in me.", author: "Monkey D. Luffy" },
+            { text: "No matter how deep the night, it always turns to day, eventually.", author: "Brook" },
+            { text: "The sea is vast. Someday, without fail, you’ll find friends who will protect you.", author: "Jaguar D. Saul" },
+            { text: "You can pour drinks on me. You can throw food at me. But for good reason or not, nobody hurts a friend of mine!", author: "Shanks" },
+            { text: "If we lose credibility just by admitting fault, then we didn’t have any in the first place.", author: "Fujitora" },
+            { text: "Protecting what matters most is the reason people become strong.", author: "Monkey D. Luffy" },
+            { text: "The brave do not fear death; they fear a life without purpose.", author: "Portgas D. Ace" },
+            { text: "As long as I live, there are infinite chances!", author: "Monkey D. Luffy" }
+        ];
+
+        $(document).ready(function() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            $('#footer-quote-text').html('&ldquo;' + randomQuote.text + '&rdquo;');
+            $('#footer-quote-author').html('&mdash; ' + randomQuote.author);
+        });
     </script>
 </body>
 </html>
