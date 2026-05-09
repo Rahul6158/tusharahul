@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Articles | Tusha Rahul Bellamkonda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="img/logo.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #121212;
+            --card-bg: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #ff6b35;
+            --accent-secondary: #00d4ff;
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--primary-bg);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--accent-primary) !important;
+        }
+
+        .page-header {
+            padding: 140px 0 60px;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .articles-grid {
+            padding: 60px 0;
+        }
+
+        .article-card {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            transition: var(--transition);
+            height: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-primary);
+        }
+
+        .article-img {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .article-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .article-card:hover .article-img img {
+            transform: scale(1.1);
+        }
+
+        .article-content {
+            padding: 25px;
+        }
+
+        .article-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-excerpt {
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .article-meta span {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .article-meta i {
+            margin-right: 5px;
+            color: var(--accent-primary);
+        }
+
+        .article-tag {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .article-link {
+            color: var(--accent-primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .article-link:hover {
+            color: var(--accent-secondary);
+        }
+
+        .article-link i {
+            margin-left: 8px;
+            transition: var(--transition);
+        }
+
+        .article-link:hover i {
+            transform: translateX(5px);
+        }
+
+        .footer {
+            background-color: var(--secondary-bg);
+            padding: 60px 0 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">TUSHA RAHUL</a>
+            <div class="ms-auto">
+                <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-4">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container">
+            <h1 class="section-title">My Articles</h1>
+            <p class="text-secondary mx-auto" style="max-width: 600px;">Insights, tutorials, and deep dives into AI, automation, and the future of technology.</p>
+        </div>
+    </header>
+
+    <main class="container articles-grid">
+        <div class="row">
+            <!-- New Article: LinkedIn Automation -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="article-card">
+                    <div class="article-img">
+                        <img src="img/n8n-linkedin-post-generator.png" alt="AI LinkedIn Automation">
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span><i class="far fa-calendar"></i> May 2025</span>
+                            <span><i class="far fa-clock"></i> 10 min read</span>
+                        </div>
+                        <h3 class="article-title">AI-Powered LinkedIn Content Automation System</h3>
+                        <p class="article-excerpt">
+                            Build an autonomous LinkedIn publishing engine using n8n, Gemini, and Cloudflare Workers. Automate everything from research to visual creation.
+                        </p>
+                        <div class="article-tags">
+                            <span class="article-tag">AI Automation</span>
+                            <span class="article-tag">n8n</span>
+                            <span class="article-tag">GenAI</span>
+                        </div>
+                        <a href="linkedin-automation.html" class="article-link">Read Full Article <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Article: DocPortal -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="article-card">
+                    <div class="article-img">
+                        <img src="img/docportal-dashboard.png" alt="DocPortal AI RAG Architecture">
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span><i class="far fa-calendar"></i> April 2025</span>
+                            <span><i class="far fa-clock"></i> 15 min read</span>
+                        </div>
+                        <h3 class="article-title">Building a Production-Grade RAG System with FastAPI</h3>
+                        <p class="article-excerpt">
+                            Explore the engineering behind DocPortal AI, an enterprise document portal featuring hybrid search, multi-tenancy, and high-performance vector retrieval.
+                        </p>
+                        <div class="article-tags">
+                            <span class="article-tag">RAG</span>
+                            <span class="article-tag">Backend</span>
+                            <span class="article-tag">FastAPI</span>
+                        </div>
+                        <a href="docportal-article.html" class="article-link">Read Full Article <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placeholder 2 -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="article-card">
+                    <div class="article-img">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Cybersecurity in AI">
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span><i class="far fa-calendar"></i> March 2025</span>
+                            <span><i class="far fa-clock"></i> 6 min read</span>
+                        </div>
+                        <h3 class="article-title">Securing the AI Frontier: LLM Security Best Practices</h3>
+                        <p class="article-excerpt">
+                            A deep dive into prompt injection, data leakage, and how to build resilient AI applications in a high-threat landscape.
+                        </p>
+                        <div class="article-tags">
+                            <span class="article-tag">Security</span>
+                            <span class="article-tag">LLMs</span>
+                        </div>
+                        <a href="#" class="article-link">Read More <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Tusha Rahul Bellamkonda. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

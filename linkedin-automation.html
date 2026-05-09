@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>AI-Powered LinkedIn Content Automation Workflow | Tusha Rahul</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="img/logo.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #121212;
+            --card-bg: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-primary: #ff6b35;
+            --accent-secondary: #00d4ff;
+            --accent-tertiary: #9c27b0;
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--primary-bg);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--accent-primary) !important;
+        }
+
+        .article-hero {
+            padding: 180px 0 100px;
+            background: radial-gradient(circle at 10% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(0, 212, 255, 0.08) 0%, transparent 40%),
+                        linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            position: relative;
+            text-align: center;
+        }
+
+        .article-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInDown 0.8s ease-out;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .article-meta span i {
+            color: var(--accent-primary);
+            margin-right: 8px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .article-content {
+            padding: 80px 0;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .article-section {
+            margin-bottom: 80px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .article-section h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 30px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .article-section h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--accent-primary), transparent);
+            margin-left: 20px;
+        }
+
+        .step-heading {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin-top: 50px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .step-heading .step-number {
+            background: linear-gradient(135deg, var(--accent-primary), #e55a2b);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .node-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--accent-primary);
+            padding: 5px 15px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 53, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-card h4 {
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .img-container {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin: 50px 0;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            max-width: 100%;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .img-container:hover img {
+            transform: none;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+            border-left: 4px solid var(--accent-primary);
+            padding: 35px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 40px 0;
+            color: #efefef;
+        }
+
+        .code-block {
+            background: #050505;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: #d1d1d1;
+            margin: 25px 0;
+            overflow-x: auto;
+        }
+
+        .tech-badge {
+            background: rgba(255, 107, 53, 0.08);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            color: var(--accent-primary);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-right: 12px;
+            margin-bottom: 12px;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .tech-badge:hover {
+            background: var(--accent-primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .back-btn {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 40px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-primary);
+            transform: translateX(-8px);
+        }
+
+        .back-btn i {
+            margin-right: 12px;
+        }
+
+        .footer {
+            background-color: var(--secondary-bg);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        strong {
+            color: #ffffff;
+        }
+
+        @media (max-width: 992px) {
+            .article-title {
+                font-size: 3rem;
+            }
+            .article-content {
+                padding: 40px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 2.2rem;
+            }
+            .article-hero {
+                padding: 140px 0 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">TUSHA RAHUL</a>
+            <div class="ms-auto">
+                <a href="index.html#projects" class="btn btn-outline-light btn-sm rounded-pill px-4">Back to Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-hero">
+        <div class="container">
+            <a href="index.html#articles" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Articles</a>
+            <h1 class="article-title">AI-Powered LinkedIn Content<br>Automation Workflow</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar"></i> May 2025</span>
+                <span><i class="far fa-clock"></i> 12 min read</span>
+                <span><i class="fas fa-robot"></i> Agentic AI</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container article-content">
+        <!-- Project Overview -->
+        <section class="article-section">
+            <h2>Project Overview</h2>
+            <p>
+                This project is an end-to-end autonomous LinkedIn content generation and publishing system built using <strong>n8n</strong>, <strong>AI agents</strong>, <strong>Gemini LLMs</strong>, <strong>Tavily Search</strong>, <strong>Cloudflare Workers</strong>, and <strong>LinkedIn APIs</strong>.
+            </p>
+            <div class="highlight-box">
+                The system acts as an autonomous AI content engine for professional LinkedIn publishing, transforming a simple user idea into a fully researched and visually enhanced LinkedIn post without manual intervention.
+            </div>
+            
+            <div class="img-container">
+                <img src="img/n8n-linkedin-post-generator.png" alt="n8n LinkedIn Post Generator Full Workflow">
+            </div>
+        </section>
+
+        <!-- Zero Cost Architecture -->
+        <section class="article-section">
+            <h2>Zero Cost Architecture</h2>
+            <p>
+                One of the most significant achievements of this project is that the <strong>entire workflow is built without spending a single penny</strong>. I leveraged open-source tools and free-tier AI services to create a production-grade automation system.
+            </p>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="feature-card h-100">
+                        <h4>Self-Hosted Automation</h4>
+                        <p>Instead of using expensive cloud automation platforms, <strong>n8n</strong> is self-hosted using <strong>Docker Desktop</strong>. To make the local instance accessible to external webhooks (like Telegram and LinkedIn), I used <strong>ngrok</strong> for secure tunneling.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="feature-card h-100">
+                        <h4>Free AI Power</h4>
+                        <p>The core intelligence is powered by <strong>Google Gemini 2.5 Flash Lite</strong>, which is currently available for free via the Google AI Studio API. This handles all research, post writing, and visual prompt engineering tasks at zero cost.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="img-container">
+                <img src="img/n8n-docker-setup.png" alt="n8n Docker and ngrok Setup">
+            </div>
+            <div class="highlight-box">
+                By combining local Docker hosting with Cloudflare's free AI models, the operational cost of this entire agentic publishing pipeline is <strong>exactly $0.00</strong>.
+            </div>
+        </section>
+
+        <!-- Complete Workflow Explanation -->
+        <section class="article-section">
+            <h2>Complete Workflow Explanation</h2>
+            <p>The entire content pipeline is automated across 8 strategic steps, from initial intake to final publishing feedback.</p>
+
+            <!-- Step 1 -->
+            <div class="step-heading">
+                <div class="step-number">1</div>
+                Step 1 — Telegram Trigger (User Input Layer)
+            </div>
+            <div class="node-tag">Node: Telegram Trigger</div>
+            <p>The workflow starts when a user sends a message to a Telegram bot, which acts as the primary input interface for the entire automation pipeline.</p>
+            <div class="code-block">
+Example Input:
+"AI agents replacing SaaS workflows"
+
+Payload captured by n8n:
+{
+  "message": "AI agents replacing SaaS workflows"
+}
+            </div>
+            <div class="img-container">
+                <img src="img/n8n-telegram-trigger.png" alt="Telegram Trigger Node Overview">
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-heading">
+                <div class="step-number">2</div>
+                Step 2 — AI Research & LinkedIn Content Generation
+            </div>
+            <div class="node-tag">Node: AI Agent | Model: Gemini 2.5 Flash Lite | Tool: Tavily Search</div>
+            <p>The topic from Telegram is sent into an AI agent configured with advanced prompt engineering, research instructions, and strategic content generation logic.</p>
+            
+            <div class="feature-card">
+                <h4>What the AI Agent Does:</h4>
+                <ul>
+                    <li><strong>Real-Time Research:</strong> Using Tavily Search, the agent retrieves recent AI industry developments and gathers strategic insights. This ensures the content is up-to-date and research-backed.</li>
+                    <li><strong>Content Strategy Analysis:</strong> The agent identifies founder/operator perspectives and second-order industry effects, focusing on thought leadership instead of just summarizing news.</li>
+                    <li><strong>LinkedIn Post Generation:</strong> The AI generates a strong hook, short readable paragraphs, and relevant hashtags, all structured for high engagement.</li>
+                </ul>
+            </div>
+
+            <div class="img-container">
+                <img src="img/n8n-aiagent-node-1.png" alt="AI Agent Node 1 - LinkedIn Content Generation">
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-heading">
+                <div class="step-number">3</div>
+                Step 3 — JavaScript Output Processing
+            </div>
+            <div class="node-tag">Node: Code in JavaScript</div>
+            <p>A custom JavaScript parser cleans and normalizes the raw AI output, which may contain malformed JSON or markdown wrappers.</p>
+            <div class="feature-card">
+                <h4>Processing Tasks:</h4>
+                <p>The script removes markdown formatting, parses JSON safely, and extracts structured fields to ensure downstream workflow stability.</p>
+                <div class="code-block">
+Extracted Fields:
+{
+  "post": "...",
+  "visual_prompt": "...",
+  "target_audience": "...",
+  "angle": "..."
+}
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step-heading">
+                <div class="step-number">4</div>
+                Step 4 — AI Visual Prompt Engineering
+            </div>
+            <div class="node-tag">Node: AI Agent1 | Model: Gemini 2.5 Flash Lite</div>
+            <p>A second AI agent acts as a visual reasoning expert, converting the LinkedIn post into a diffusion-optimized image generation prompt.</p>
+            <div class="highlight-box">
+                <strong>Optimization Techniques:</strong> The system specifically avoids common diffusion failures (like broken hands or distorted faces) by preferring cinematic silhouettes, over-the-shoulder views, and environment-driven storytelling.
+            </div>
+            <p><strong>Example Visual Prompt:</strong> <em>"Silhouette figure observing a dramatically shrinking AI chip, cinematic photography, volumetric lighting, over-the-shoulder perspective"</em></p>
+
+            <div class="img-container">
+                <img src="img/n8n-aiagent-node-2.png" alt="AI Agent Node 2 - Visual Prompt Engineering">
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step-heading">
+                <div class="step-number">5</div>
+                Step 5 — Visual Prompt Cleanup
+            </div>
+            <div class="node-tag">Node: Code in JavaScript1</div>
+            <p>The second JavaScript node cleans JSON wrappers and normalizes the prompt to create the final payload for image generation.</p>
+
+            <!-- Step 6 -->
+            <div class="step-heading">
+                <div class="step-number">6</div>
+                Step 6 — Custom Cloudflare Worker Image Generation API
+            </div>
+            <div class="node-tag">Node: HTTP Request</div>
+            <p>Instead of using expensive paid APIs, a custom serverless API was built using <strong>Cloudflare Workers</strong> and <strong>Cloudflare AI image models</strong>.</p>
+            
+            <div class="feature-card">
+                <h4>Cloudflare Worker Architecture:</h4>
+                <ul>
+                    <li><strong>Serverless Execution:</strong> Lightweight and globally distributed edge execution.</li>
+                    <li><strong>Low Cost:</strong> Enabled free AI image generation through Cloudflare's AI infrastructure.</li>
+                    <li><strong>Fast Delivery:</strong> Returns binary image data compatible with the LinkedIn publishing node.</li>
+                </ul>
+            </div>
+            <div class="img-container">
+                <img src="img/n8n-httpnode-1.png" alt="Cloudflare Worker HTTP Node Configuration">
+            </div>
+            <div class="img-container">
+                <img src="img/n8n-http-node-2.png" alt="HTTP Request Payload and Cloudflare AI Integration">
+            </div>
+
+            <!-- Step 7 -->
+            <div class="step-heading">
+                <div class="step-number">7</div>
+                Step 7 — LinkedIn Post Publishing
+            </div>
+            <div class="node-tag">Node: Create a post</div>
+            <p>The LinkedIn integration node uploads the generated visual, attaches media, and creates the public LinkedIn feed entry automatically.</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="img-container">
+                        <img src="img/n8n-linkedin-post.png" alt="LinkedIn Post Example 1">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="img-container">
+                        <img src="img/n8n-linkedin-post-1.png" alt="LinkedIn Post Example 2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 8 -->
+            <div class="step-heading">
+                <div class="step-number">8</div>
+                Step 8 — Telegram Success Notification
+            </div>
+            <div class="node-tag">Node: Send a text message</div>
+            <p>After successful publishing, the workflow sends a confirmation message to the user via Telegram, including the live LinkedIn post URL.</p>
+            
+            <div class="img-container">
+                <img src="img/n8n-telegram-integration.png" alt="Telegram Success Notification Example">
+            </div>
+        </section>
+
+        <!-- Technical Highlights -->
+        <section class="article-section">
+            <h2>Technical Highlights</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="feature-card h-100">
+                        <h4>AI Systems</h4>
+                        <ul>
+                            <li>Multi-agent orchestration</li>
+                            <li>Prompt engineering & visual reasoning</li>
+                            <li>Real-time AI research via Tavily</li>
+                            <li>LLM workflow chaining</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="feature-card h-100">
+                        <h4>Backend Engineering</h4>
+                        <ul>
+                            <li>Cloudflare Worker API (Serverless)</li>
+                            <li>REST architecture & Bearer-token auth</li>
+                            <li>Autonomous publishing pipeline</li>
+                            <li>n8n Workflow Automation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4 text-center">
+                <span class="tech-badge">n8n</span>
+                <span class="tech-badge">Gemini 2.5</span>
+                <span class="tech-badge">Cloudflare Workers</span>
+                <span class="tech-badge">Tavily AI</span>
+                <span class="tech-badge">LinkedIn API</span>
+                <span class="tech-badge">Telegram Bot</span>
+                <span class="tech-badge">JavaScript</span>
+                <span class="tech-badge">REST API</span>
+                <span class="tech-badge">GenAI</span>
+            </div>
+        </section>
+
+        <!-- Key Innovation -->
+        <section class="article-section">
+            <h2>Key Innovation</h2>
+            <p>
+                The major innovation of this project is the seamless combination of <strong>autonomous research</strong>, <strong>AI writing</strong>, <strong>AI visual generation</strong>, and <strong>serverless AI infrastructure</strong> into one fully automated pipeline.
+            </p>
+            <div class="highlight-box">
+                By building a custom image generation API on Cloudflare Workers, I eliminated dependency on paid providers while maintaining high-quality output, proving that complex AI systems can be built with minimal operational cost using low-code/no-code platforms like n8n combined with serverless backend logic.
+            </div>
+        </section>
+
+        <section class="article-section text-center">
+            <h3>Verify Live Results</h3>
+            <p class="text-secondary mb-4">Check out some of the live posts generated and published autonomously by this workflow.</p>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="https://www.linkedin.com/posts/tusha-rahul_ai-agenticai-futureofwork-share-7440745562834083842-aTud?utm_source=share&utm_medium=member_android&rcm=ACoAAETzoJcBHGHBbWeL9S4GYCzT1dGL4fHud98" class="btn btn-primary btn-lg rounded-pill px-4" target="_blank">
+                    <i class="fab fa-linkedin me-2"></i> Post 1
+                </a>
+                <a href="https://www.linkedin.com/posts/tusha-rahul_ai-agenticai-futureofwork-activity-7440745563719032832-iTHw?utm_source=share&utm_medium=member_desktop&rcm=ACoAAETzoJcBHGHBbWeL9S4GYCzT1dGL4fHud98" class="btn btn-primary btn-lg rounded-pill px-4" target="_blank">
+                    <i class="fab fa-linkedin me-2"></i> Post 2
+                </a>
+                <a href="https://www.linkedin.com/posts/tusha-rahul_ai-autonomousagents-businessstrategy-activity-7440301753004167168-v-Ll?utm_source=share&utm_medium=member_desktop&rcm=ACoAAETzoJcBHGHBbWeL9S4GYCzT1dGL4fHud98" class="btn btn-primary btn-lg rounded-pill px-4" target="_blank">
+                    <i class="fab fa-linkedin me-2"></i> Post 3
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Tusha Rahul Bellamkonda. All rights reserved.</p>
+            <div class="mt-3">
+                <a href="index.html" class="text-secondary text-decoration-none me-3">Home</a>
+                <a href="articles.html" class="text-secondary text-decoration-none">Articles</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
