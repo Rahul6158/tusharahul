@@ -1,4 +1,431 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Technical Articles | Tusha Rahul</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="img/logo.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #11141d;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent-purple: #a855f7;
+            --accent-cyan: #00d4ff;
+            --accent-orange: #ff7a30;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+        }
+
+        .navbar {
+            background-color: rgba(10, 10, 10, 0.9);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 0;
+        }
+
+        .page-header {
+            padding: 160px 0 80px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 60px;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('img/articles-cover.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            filter: blur(20px);
+            z-index: 1;
+            transform: scale(1.1);
+        }
+
+        .page-header .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        /* Featured Article (Left) */
+        .featured-article {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .featured-article:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: var(--card-accent, var(--accent-purple));
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+            transform: translateY(-5px);
+        }
+
+        .featured-img-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            margin-bottom: 30px;
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .featured-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .featured-article:hover .featured-img {
+            transform: scale(1.02);
+        }
+
+        .featured-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .featured-excerpt {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+            max-width: 90%;
+            transition: var(--transition);
+        }
+
+        .read-article-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 30px;
+            background: var(--card-accent, var(--accent-purple));
+            color: #000;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            margin-bottom: 40px;
+        }
+
+        .read-article-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            color: #000;
+        }
+
+        .author-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .author-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .author-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Recent Articles (Right Sidebar) */
+        .sidebar-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: #ffffff;
+            opacity: 0.8;
+        }
+
+        .recent-card {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            text-decoration: none;
+            padding: 15px;
+            background: transparent;
+            border: 1px solid transparent;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .recent-card:hover, .recent-card.active {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .recent-img-wrapper {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            background: #000;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .recent-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .recent-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .recent-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+
+        .recent-author-name {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .theme-nexus { --card-accent: #a855f7; }
+        .theme-docportal { --card-accent: #00d4ff; }
+        .theme-n8n { --card-accent: #ff7a30; }
+
+        /* Animation Classes */
+        .fade-out { opacity: 0; transform: translateY(10px); }
+        .fade-in { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 991px) {
+            .page-title { font-size: 2.5rem; }
+            .sidebar-title { margin-top: 60px; }
+            .featured-title { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">TUSHA RAHUL</a>
+            <div class="ms-auto">
+                <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-4">Back to Portfolio</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <span class="category-tag">Research & Engineering</span>
+            <h1 class="page-title">Technical Deep Dives</h1>
+        </div>
+    </div>
+
+    <main class="container pb-5">
+        <div class="row gx-lg-5">
+            <!-- Featured Article (Left) -->
+            <div class="col-lg-8">
+                <article class="featured-article theme-nexus" id="featured-article" onclick="openCurrentArticle()">
+                    <div id="featured-content">
+                        <div class="featured-img-wrapper">
+                            <img src="img/pioneer-nexus-pred-analytics-cover.png" alt="Pioneer Pharma" class="featured-img" id="main-img">
+                        </div>
+                        <span class="category-tag" id="main-tag" style="color: var(--accent-purple);">Predictive AI</span>
+                        <h2 class="featured-title" id="main-title">Pioneer Pharma: Transforming Pharmaceutical Intelligence</h2>
+                        <p class="featured-excerpt" id="main-excerpt">
+                            A deep dive into building an end-to-end pharmaceutical analytics platform that combines predictive sales forecasting with a natural language AI copilot for real-time decision making.
+                        </p>
+                        <a href="articles/pioneer-nexus-article.html" class="read-article-btn" id="main-link">Read Article</a>
+                        <div class="author-meta">
+                            <img src="img/logo.png" alt="Tusha Rahul" class="author-avatar">
+                            <div class="author-info">
+                                <div class="author-name">Tusha Rahul Bellamkonda</div>
+                                <div class="text-secondary small">Lead AI Engineer</div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Recent Articles (Right) -->
+            <div class="col-lg-4">
+                <h2 class="sidebar-title">Recent articles</h2>
+                
+                <div class="recent-list">
+                    <!-- Nexus (Hidden from sidebar by default or kept for switching) -->
+                    <div onclick="switchArticle('nexus')" class="recent-card theme-nexus active" id="card-nexus">
+                        <div class="recent-img-wrapper">
+                            <img src="img/pioneer-nexus-pred-analytics-cover.png" alt="Nexus" class="recent-img">
+                        </div>
+                        <div class="recent-content">
+                            <h3 class="recent-title">Pioneer Pharma Intelligence</h3>
+                            <div class="recent-author-name">Tusha Rahul</div>
+                        </div>
+                    </div>
+
+                    <!-- DocPortal -->
+                    <div onclick="switchArticle('docportal')" class="recent-card theme-docportal" id="card-docportal">
+                        <div class="recent-img-wrapper">
+                            <img src="img/docportal-projects-page.png" alt="DocPortal AI" class="recent-img">
+                        </div>
+                        <div class="recent-content">
+                            <h3 class="recent-title">DocPortal AI: Enterprise RAG</h3>
+                            <div class="recent-author-name">Tusha Rahul</div>
+                        </div>
+                    </div>
+
+                    <!-- LinkedIn Automation -->
+                    <div onclick="switchArticle('n8n')" class="recent-card theme-n8n" id="card-n8n">
+                        <div class="recent-img-wrapper">
+                            <img src="img/n8n-linkedin-post-generator.png" alt="LinkedIn Automation" class="recent-img">
+                        </div>
+                        <div class="recent-content">
+                            <h3 class="recent-title">LinkedIn Content Automation</h3>
+                            <div class="recent-author-name">Tusha Rahul</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const articles = {
+            nexus: {
+                tag: "Predictive AI",
+                title: "Pioneer Pharma: Transforming Pharmaceutical Intelligence",
+                excerpt: "A deep dive into building an end-to-end pharmaceutical analytics platform that combines predictive sales forecasting with a natural language AI copilot for real-time decision making.",
+                img: "img/pioneer-nexus-pred-analytics-cover.png",
+                link: "articles/pioneer-nexus-article.html",
+                theme: "theme-nexus",
+                color: "#a855f7"
+            },
+            docportal: {
+                tag: "Full-Stack RAG",
+                title: "DocPortal AI: Enterprise Document Intelligence",
+                excerpt: "Architecting a secure, scalable RAG platform that enables cross-document querying with high precision using FastAPI, Weaviate, and advanced LLM orchestration.",
+                img: "img/docportal-projects-page.png",
+                link: "articles/docportal-article.html",
+                theme: "theme-docportal",
+                color: "#00d4ff"
+            },
+            n8n: {
+                tag: "Personal Project",
+                title: "AI-Powered LinkedIn Content Automation",
+                excerpt: "Building a multi-agent automation engine that generates context-aware professional content and visuals using n8n, GPT-4, and serverless image generation.",
+                img: "img/n8n-linkedin-post-generator.png",
+                link: "articles/linkedin-automation.html",
+                theme: "theme-n8n",
+                color: "#ff7a30"
+            }
+        };
+
+        let currentArticleId = 'nexus';
+
+        function switchArticle(id) {
+            if (id === currentArticleId) return;
+            
+            const container = document.getElementById('featured-content');
+            container.classList.add('fade-out');
+            
+            setTimeout(() => {
+                const data = articles[id];
+                document.getElementById('main-img').src = data.img;
+                document.getElementById('main-tag').innerText = data.tag;
+                document.getElementById('main-tag').style.color = data.color;
+                document.getElementById('main-title').innerText = data.title;
+                document.getElementById('main-excerpt').innerText = data.excerpt;
+                document.getElementById('main-link').href = data.link;
+                
+                const mainCard = document.getElementById('featured-article');
+                mainCard.className = 'featured-article ' + data.theme;
+                
+                // Update active state in sidebar
+                document.querySelectorAll('.recent-card').forEach(card => card.classList.remove('active'));
+                document.getElementById('card-' + id).classList.add('active');
+                
+                currentArticleId = id;
+                container.classList.remove('fade-out');
+                container.classList.add('fade-in');
+                
+                setTimeout(() => {
+                    container.classList.remove('fade-in');
+                }, 400);
+            }, 400);
+        }
+
+        function openCurrentArticle() {
+            window.location.href = articles[currentArticleId].link;
+        }
+    </script>
+
+    <footer class="footer py-5 border-top border-white-50">
+        <div class="container text-center">
+            <p class="mb-0 text-secondary">&copy; 2025 Tusha Rahul Bellamkonda. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
