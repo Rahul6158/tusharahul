@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -17,161 +17,231 @@
     
     <style>
         :root {
-            --primary-bg: #0a0a0a;
-            --secondary-bg: #11141d;
-            --text-primary: #ffffff;
+            --primary-bg: #050505;
+            --secondary-bg: #0a0a0a;
+            --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --accent-purple: #a855f7;
             --accent-cyan: #00d4ff;
             --accent-orange: #ff7a30;
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --card-hover: rgba(255, 255, 255, 0.05);
             --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --border-radius: 20px;
         }
-        
+
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             color: var(--text-primary);
             background-color: var(--primary-bg);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(168, 85, 247, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(0, 212, 255, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
             line-height: 1.7;
+            min-height: 100vh;
         }
-
+        
         .navbar {
-            background-color: rgba(10, 10, 10, 0.9);
-            -webkit-backdrop-filter: blur(15px);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 20px 0;
+            background-color: rgba(5, 5, 5, 0.7);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 10px 0;
+            transition: var(--transition);
         }
 
         .page-header {
-            padding: 160px 0 80px;
+            padding: 120px 0 30px;
             position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 60px;
-        }
-
-        .page-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('img/articles-cover.png');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.3;
-            filter: blur(20px);
-            z-index: 1;
-            transform: scale(1.1);
-        }
-
-        .page-header .container {
-            position: relative;
-            z-index: 2;
-        }
-
-        .category-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--accent-purple);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            display: block;
+            text-align: center;
+            scroll-snap-align: start;
         }
 
         .page-title {
             font-size: 3.5rem;
             font-weight: 900;
             margin: 0;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #fff 0%, #71717a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideDown 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-top: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* Featured Article (Left) */
         .featured-article {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 30px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            overflow: hidden;
             transition: var(--transition);
             cursor: pointer;
-            position: relative;
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 140px);
+            min-height: 480px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
         }
 
         .featured-article:hover {
-            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
             border-color: var(--card-accent, var(--accent-purple));
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
-            transform: translateY(-5px);
         }
 
         .featured-img-wrapper {
             width: 100%;
-            aspect-ratio: 16/9;
+            flex: 0 0 45%;
+            min-height: 200px;
             overflow: hidden;
-            margin-bottom: 30px;
-            background: #000;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .featured-img-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+            z-index: 1;
         }
 
         .featured-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition);
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .featured-article:hover .featured-img {
-            transform: scale(1.02);
+            transform: scale(1.05);
+        }
+
+        .featured-content-body {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+            margin-top: -60px;
+            overflow: hidden;
+        }
+
+        .category-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: inline-block;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(10px);
+            padding: 6px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: var(--transition);
+            width: fit-content;
         }
 
         .featured-title {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            margin-bottom: 20px;
-            line-height: 1.2;
+            margin-bottom: 15px;
+            line-height: 1.3;
             color: #ffffff;
-            text-decoration: none;
-            display: block;
             transition: var(--transition);
+            letter-spacing: -0.5px;
         }
 
         .featured-excerpt {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 35px;
-            max-width: 90%;
-            transition: var(--transition);
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            line-height: 1.6;
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+        
+        /* Custom Scrollbar for excerpt if it overflows */
+        .featured-excerpt::-webkit-scrollbar {
+            width: 6px;
+        }
+        .featured-excerpt::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
         }
 
         .read-article-btn {
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            padding: 14px 30px;
-            background: var(--card-accent, var(--accent-purple));
-            color: #000;
+            padding: 10px 24px;
+            background: transparent;
+            border: 2px solid var(--card-accent, var(--accent-purple));
+            color: var(--text-primary);
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-size: 0.9rem;
+            border-radius: 50px;
             transition: var(--transition);
-            margin-bottom: 40px;
+            width: fit-content;
         }
 
-        .read-article-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        .featured-article:hover .read-article-btn {
+            background: var(--card-accent, var(--accent-purple));
             color: #000;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform: translateX(10px);
+        }
+
+        .card-footer-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--card-border);
+            margin-top: auto;
         }
 
         .author-meta {
             display: flex;
             align-items: center;
             gap: 15px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .author-avatar {
@@ -185,47 +255,78 @@
         .author-name {
             font-weight: 600;
             font-size: 0.95rem;
+            color: var(--text-primary);
         }
 
         /* Recent Articles (Right Sidebar) */
         .sidebar-title {
-            font-size: 1.5rem;
-            font-weight: 800;
+            font-size: 1.1rem;
+            font-weight: 700;
             margin-bottom: 30px;
-            color: #ffffff;
-            opacity: 0.8;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .recent-card {
             display: flex;
             gap: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-decoration: none;
             padding: 15px;
-            background: transparent;
-            border: 1px solid transparent;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
             transition: var(--transition);
             cursor: pointer;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .recent-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--card-accent, transparent);
+            opacity: 0;
+            transition: var(--transition);
         }
 
         .recent-card:hover, .recent-card.active {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--card-hover);
             border-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .recent-card:hover::before, .recent-card.active::before {
+            opacity: 1;
         }
 
         .recent-img-wrapper {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             flex-shrink: 0;
             background: #000;
+            border-radius: 12px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
         .recent-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .recent-card:hover .recent-img {
+            transform: scale(1.1);
         }
 
         .recent-content {
@@ -235,16 +336,16 @@
         }
 
         .recent-title {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 700;
-            color: #ffffff;
+            color: var(--text-primary);
             line-height: 1.4;
             margin-bottom: 8px;
             transition: var(--transition);
         }
 
         .recent-author-name {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
         }
 
@@ -252,54 +353,58 @@
         .theme-docportal { --card-accent: #00d4ff; }
         .theme-n8n { --card-accent: #ff7a30; }
 
-        /* Animation Classes */
-        .fade-out { opacity: 0; transform: translateY(10px); }
-        .fade-in { opacity: 1; transform: translateY(0); }
+        .fade-out { opacity: 0; transform: translateY(10px) scale(0.98); }
+        .fade-in { opacity: 1; transform: translateY(0) scale(1); }
 
         @media (max-width: 991px) {
-            .page-title { font-size: 2.5rem; }
+            .page-title { font-size: 3rem; }
             .sidebar-title { margin-top: 60px; }
             .featured-title { font-size: 1.8rem; }
+            .featured-img-wrapper { height: 250px; }
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="index.html">TUSHA RAHUL</a>
+            <a class="navbar-brand fw-bold" style="color: var(--accent-purple);" href="index.html">TUSHA RAHUL</a>
             <div class="ms-auto">
-                <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-4">Back to Portfolio</a>
+                <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-4" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1);">Back to Portfolio</a>
             </div>
         </div>
     </nav>
 
     <div class="page-header">
         <div class="container">
-            <span class="category-tag">Research & Engineering</span>
-            <h1 class="page-title">Technical Deep Dives</h1>
+            <h1 class="page-title">Technical Hub</h1>
+            <p class="page-subtitle">Research & Engineering Deep Dives</p>
         </div>
     </div>
 
-    <main class="container pb-5">
+    <main class="container pb-5" style="scroll-snap-align: start;">
         <div class="row gx-lg-5">
             <!-- Featured Article (Left) -->
             <div class="col-lg-8">
                 <article class="featured-article theme-nexus" id="featured-article" onclick="openCurrentArticle()">
-                    <div id="featured-content">
+                    <div id="featured-content" style="display: flex; flex-direction: column; height: 100%; transition: all 0.4s ease;">
                         <div class="featured-img-wrapper">
                             <img src="img/pioneer-nexus-pred-analytics-cover.png" alt="Pioneer Pharma" class="featured-img" id="main-img">
                         </div>
-                        <span class="category-tag" id="main-tag" style="color: var(--accent-purple);">Predictive AI</span>
-                        <h2 class="featured-title" id="main-title">Pioneer Pharma: Transforming Pharmaceutical Intelligence</h2>
-                        <p class="featured-excerpt" id="main-excerpt">
-                            A deep dive into building an end-to-end pharmaceutical analytics platform that combines predictive sales forecasting with a natural language AI copilot for real-time decision making.
-                        </p>
-                        <a href="articles/pioneer-nexus-article.html" class="read-article-btn" id="main-link">Read Article</a>
-                        <div class="author-meta">
-                            <img src="img/logo.png" alt="Tusha Rahul" class="author-avatar">
-                            <div class="author-info">
-                                <div class="author-name">Tusha Rahul Bellamkonda</div>
-                                <div class="text-secondary small">Lead AI Engineer</div>
+                        <div class="featured-content-body">
+                            <span class="category-tag" id="main-tag" style="color: var(--accent-purple);">Predictive AI</span>
+                            <h2 class="featured-title" id="main-title">Pioneer Pharma: Transforming Pharmaceutical Intelligence</h2>
+                            <p class="featured-excerpt" id="main-excerpt">
+                                A deep dive into building an end-to-end pharmaceutical analytics platform that combines predictive sales forecasting with a natural language AI copilot for real-time decision making.
+                            </p>
+                            <div class="card-footer-flex">
+                                <div class="author-meta">
+                                    <img src="img/logo.png" alt="Tusha Rahul" class="author-avatar">
+                                    <div class="author-info">
+                                        <div class="author-name">Tusha Rahul Bellamkonda</div>
+                                        <div class="text-secondary small">Lead AI Engineer</div>
+                                    </div>
+                                </div>
+                                <a href="articles/pioneer-nexus-article.html" class="read-article-btn" id="main-link">Read Article <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -308,39 +413,39 @@
 
             <!-- Recent Articles (Right) -->
             <div class="col-lg-4">
-                <h2 class="sidebar-title">Recent articles</h2>
+                <h2 class="sidebar-title"><i class="fas fa-layer-group me-2"></i> Recent articles</h2>
                 
                 <div class="recent-list">
-                    <!-- Nexus (Hidden from sidebar by default or kept for switching) -->
-                    <div onclick="switchArticle('nexus')" class="recent-card theme-nexus active" id="card-nexus">
+                    <!-- Nexus -->
+                    <div onmouseenter="switchArticle('nexus')" onclick="window.location.href='articles/pioneer-nexus-article.html'" class="recent-card theme-nexus active" id="card-nexus">
                         <div class="recent-img-wrapper">
                             <img src="img/pioneer-nexus-pred-analytics-cover.png" alt="Nexus" class="recent-img">
                         </div>
                         <div class="recent-content">
                             <h3 class="recent-title">Pioneer Pharma Intelligence</h3>
-                            <div class="recent-author-name">Tusha Rahul</div>
+                            <div class="recent-author-name">Predictive AI Platform</div>
                         </div>
                     </div>
 
                     <!-- DocPortal -->
-                    <div onclick="switchArticle('docportal')" class="recent-card theme-docportal" id="card-docportal">
+                    <div onmouseenter="switchArticle('docportal')" onclick="window.location.href='articles/docportal-article.html'" class="recent-card theme-docportal" id="card-docportal">
                         <div class="recent-img-wrapper">
                             <img src="img/docportal-projects-page.png" alt="DocPortal AI" class="recent-img">
                         </div>
                         <div class="recent-content">
                             <h3 class="recent-title">DocPortal AI: Enterprise RAG</h3>
-                            <div class="recent-author-name">Tusha Rahul</div>
+                            <div class="recent-author-name">Full-Stack RAG System</div>
                         </div>
                     </div>
 
                     <!-- LinkedIn Automation -->
-                    <div onclick="switchArticle('n8n')" class="recent-card theme-n8n" id="card-n8n">
+                    <div onmouseenter="switchArticle('n8n')" onclick="window.location.href='articles/linkedin-automation.html'" class="recent-card theme-n8n" id="card-n8n">
                         <div class="recent-img-wrapper">
                             <img src="img/n8n-linkedin-post-generator.png" alt="LinkedIn Automation" class="recent-img">
                         </div>
                         <div class="recent-content">
                             <h3 class="recent-title">LinkedIn Content Automation</h3>
-                            <div class="recent-author-name">Tusha Rahul</div>
+                            <div class="recent-author-name">Multi-Agent Workflow</div>
                         </div>
                     </div>
                 </div>
@@ -421,297 +526,6 @@
     <footer class="footer py-5 border-top border-white-50">
         <div class="container text-center">
             <p class="mb-0 text-secondary">&copy; 2025 Tusha Rahul Bellamkonda. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
-
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Articles | Tusha Rahul Bellamkonda</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="img/logo.png">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-bg: #0a0a0a;
-            --secondary-bg: #121212;
-            --card-bg: #1a1a1a;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-            --accent-primary: #ff6b35;
-            --accent-secondary: #00d4ff;
-            --border-radius: 12px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text-primary);
-            background-color: var(--primary-bg);
-            line-height: 1.6;
-        }
-
-        .navbar {
-            background-color: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 15px 0;
-        }
-
-        .navbar-brand {
-            font-weight: 800;
-            color: var(--accent-primary) !important;
-        }
-
-        .page-header {
-            padding: 140px 0 60px;
-            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
-            text-align: center;
-        }
-
-        .section-title {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .articles-grid {
-            padding: 60px 0;
-        }
-
-        .article-card {
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
-            transition: var(--transition);
-            height: 100%;
-            background-color: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .article-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border-color: var(--accent-primary);
-        }
-
-        .article-img {
-            height: 220px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .article-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .article-card:hover .article-img img {
-            transform: scale(1.1);
-        }
-
-        .article-content {
-            padding: 25px;
-        }
-
-        .article-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .article-excerpt {
-            margin-bottom: 20px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .article-meta {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-
-        .article-meta span {
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .article-meta i {
-            margin-right: 5px;
-            color: var(--accent-primary);
-        }
-
-        .article-tag {
-            display: inline-block;
-            background: rgba(0, 212, 255, 0.1);
-            color: var(--accent-secondary);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-right: 8px;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .article-link {
-            color: var(--accent-primary);
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        .article-link:hover {
-            color: var(--accent-secondary);
-        }
-
-        .article-link i {
-            margin-left: 8px;
-            transition: var(--transition);
-        }
-
-        .article-link:hover i {
-            transform: translateX(5px);
-        }
-
-        .footer {
-            background-color: var(--secondary-bg);
-            padding: 60px 0 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">TUSHA RAHUL</a>
-            <div class="ms-auto">
-                <a href="index.html" class="btn btn-outline-light btn-sm rounded-pill px-4">Back to Home</a>
-            </div>
-        </div>
-    </nav>
-
-    <header class="page-header">
-        <div class="container">
-            <h1 class="section-title">My Articles</h1>
-            <p class="text-secondary mx-auto" style="max-width: 600px;">Insights, tutorials, and deep dives into AI, automation, and the future of technology.</p>
-        </div>
-    </header>
-
-    <main class="container articles-grid">
-        <div class="row">
-            <!-- New Article: LinkedIn Automation -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="article-card">
-                    <div class="article-img">
-                        <img src="img/n8n-linkedin-post-generator.png" alt="AI LinkedIn Automation">
-                    </div>
-                    <div class="article-content">
-                        <div class="article-meta">
-                            <span><i class="far fa-calendar"></i> May 2025</span>
-                            <span><i class="far fa-clock"></i> 10 min read</span>
-                        </div>
-                        <h3 class="article-title">AI-Powered LinkedIn Content Automation System</h3>
-                        <p class="article-excerpt">
-                            Build an autonomous LinkedIn publishing engine using n8n, Gemini, and Cloudflare Workers. Automate everything from research to visual creation.
-                        </p>
-                        <div class="article-tags">
-                            <span class="article-tag">AI Automation</span>
-                            <span class="article-tag">n8n</span>
-                            <span class="article-tag">GenAI</span>
-                        </div>
-                        <a href="linkedin-automation.html" class="article-link">Read Full Article <i class="fas fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Article: DocPortal -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="article-card">
-                    <div class="article-img">
-                        <img src="img/docportal-dashboard.png" alt="DocPortal AI RAG Architecture">
-                    </div>
-                    <div class="article-content">
-                        <div class="article-meta">
-                            <span><i class="far fa-calendar"></i> April 2025</span>
-                            <span><i class="far fa-clock"></i> 15 min read</span>
-                        </div>
-                        <h3 class="article-title">Building a Production-Grade RAG System with FastAPI</h3>
-                        <p class="article-excerpt">
-                            Explore the engineering behind DocPortal AI, an enterprise document portal featuring hybrid search, multi-tenancy, and high-performance vector retrieval.
-                        </p>
-                        <div class="article-tags">
-                            <span class="article-tag">RAG</span>
-                            <span class="article-tag">Backend</span>
-                            <span class="article-tag">FastAPI</span>
-                        </div>
-                        <a href="docportal-article.html" class="article-link">Read Full Article <i class="fas fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Placeholder 2 -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="article-card">
-                    <div class="article-img">
-                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Cybersecurity in AI">
-                    </div>
-                    <div class="article-content">
-                        <div class="article-meta">
-                            <span><i class="far fa-calendar"></i> March 2025</span>
-                            <span><i class="far fa-clock"></i> 6 min read</span>
-                        </div>
-                        <h3 class="article-title">Securing the AI Frontier: LLM Security Best Practices</h3>
-                        <p class="article-excerpt">
-                            A deep dive into prompt injection, data leakage, and how to build resilient AI applications in a high-threat landscape.
-                        </p>
-                        <div class="article-tags">
-                            <span class="article-tag">Security</span>
-                            <span class="article-tag">LLMs</span>
-                        </div>
-                        <a href="#" class="article-link">Read More <i class="fas fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p class="mb-0">&copy; 2025 Tusha Rahul Bellamkonda. All rights reserved.</p>
         </div>
     </footer>
 </body>
