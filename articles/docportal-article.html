@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>DocPortal AI - Enterprise AI Document Portal | Tusha Rahul</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #0d1117;
+            --card-bg: #161b22;
+            --text-primary: #ffffff;
+            --text-secondary: #8b949e;
+            --accent-primary: #238636;
+            --accent-secondary: #3fb950;
+            --accent-tertiary: #2ea043;
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--primary-bg);
+            line-height: 1.8;
+            overflow-x: hidden;
+            counter-reset: section;
+        }
+
+        .navbar {
+            background-color: rgba(10, 10, 10, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--accent-primary) !important;
+        }
+
+        .article-hero {
+            padding: 180px 0 120px;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .article-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.8)), url('../img/docportal-dashboard.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            transform: scale(1.1);
+            z-index: -1;
+        }
+
+        .article-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInDown 0.8s ease-out;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .article-meta span i {
+            color: var(--accent-primary);
+            margin-right: 8px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .article-content {
+            padding: 80px 0;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .article-section {
+            margin-bottom: 80px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .article-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 35px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.5px;
+        }
+
+        .article-section h2::before {
+            counter-increment: section;
+            content: "0" counter(section);
+            font-size: 1.2rem;
+            color: var(--accent-secondary);
+            margin-right: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(63, 185, 80, 0.1);
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(63, 185, 80, 0.2);
+            font-weight: 500;
+        }
+
+        .step-heading {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-card h4 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .img-container {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin: 50px 0;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            max-width: 100%;
+            cursor: zoom-in;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(63, 185, 80, 0.1) 0%, rgba(35, 134, 54, 0.05) 100%);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 35px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 40px 0;
+            color: #efefef;
+        }
+
+        .code-block {
+            background: #050505;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: #d1d1d1;
+            margin: 25px 0;
+            overflow-x: auto;
+        }
+
+        .tech-badge {
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            color: var(--accent-primary);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-right: 12px;
+            margin-bottom: 12px;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .back-btn {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 40px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-primary);
+            transform: translateX(-8px);
+        }
+
+        .back-btn i {
+            margin-right: 12px;
+        }
+
+        .footer {
+            background-color: var(--secondary-bg);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .arch-card {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            transition: var(--transition);
+        }
+
+        .arch-card:hover {
+            border-color: var(--accent-secondary);
+            background: rgba(63, 185, 80, 0.05);
+        }
+
+        @media (max-width: 992px) {
+            .article-title {
+                font-size: 3rem;
+            }
+            .article-content {
+                padding: 40px 0;
+            }
+            .toc-container {
+                margin-left: 0;
+                width: 100%;
+                max-width: none;
+                position: relative;
+                top: 0;
+            }
+        }
+
+        /* TOC Styles */
+        .toc-container {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 1.2s ease-out;
+            position: sticky;
+            top: 100px;
+            z-index: 10;
+            width: 100%;
+            height: fit-content;
+            align-self: flex-start;
+        }
+
+        .toc-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .toc-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 0;
+        }
+
+        .toc-item a:hover {
+            color: var(--accent-secondary);
+            padding-left: 5px;
+        }
+
+        .toc-item a.active {
+            color: var(--accent-secondary);
+            font-weight: 700;
+            padding-left: 10px;
+            border-left: 2px solid var(--accent-secondary);
+        }
+
+        .toc-item a i {
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+
+        /* Modal / Lightbox Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            cursor: zoom-out;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(63, 185, 80, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            z-index: 2001;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            transform: rotate(90deg);
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .architecture-diagram {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--accent-secondary);
+            overflow-x: auto;
+            white-space: pre;
+            margin: 30px 0;
+        }
+
+        .table-responsive {
+            margin: 30px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .table {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 2px solid var(--accent-secondary);
+            color: var(--accent-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 15px;
+        }
+
+        .table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            font-size: 0.95rem;
+        }
+
+        .api-method {
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 10px;
+        }
+
+        .method-get { background: rgba(0, 212, 255, 0.1); color: #00d4ff; border: 1px solid rgba(0, 212, 255, 0.2); }
+        .method-post { background: rgba(63, 185, 80, 0.1); color: #3fb950; border: 1px solid rgba(63, 185, 80, 0.2); }
+        .method-delete { background: rgba(255, 107, 53, 0.1); color: #ff6b35; border: 1px solid rgba(255, 107, 53, 0.2); }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">TUSHA RAHUL</a>
+            <div class="ms-auto">
+                <a href="../index.html#projects" class="btn btn-outline-light btn-sm rounded-pill px-4">Back to Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-hero">
+        <div class="container">
+            <a href="../articles.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Articles</a>
+            <h1 class="article-title">DocPortal AI: Enterprise AI<br>Document Portal</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar"></i> April 2025</span>
+                <span><i class="far fa-clock"></i> 15 min read</span>
+                <span><i class="fas fa-layer-group"></i> Full-Stack RAG</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="row">
+            <!-- Sidebar TOC -->
+            <aside class="col-lg-3 d-none d-lg-block">
+                <nav class="toc-container">
+                    <div class="toc-title"><i class="fas fa-list-ul"></i> Contents</div>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#introduction"><i class="fas fa-chevron-right"></i> Introduction</a></li>
+                        <li class="toc-item"><a href="#core-features"><i class="fas fa-chevron-right"></i> Core Features</a></li>
+                        <li class="toc-item"><a href="#architecture"><i class="fas fa-chevron-right"></i> System Architecture</a></li>
+                        <li class="toc-item"><a href="#storage"><i class="fas fa-chevron-right"></i> Data Storage Layer</a></li>
+                        <li class="toc-item"><a href="#ai-integrations"><i class="fas fa-chevron-right"></i> AI Integrations</a></li>
+                        <li class="toc-item"><a href="#workflows"><i class="fas fa-chevron-right"></i> Technical Workflows</a></li>
+                        <li class="toc-item"><a href="#security"><i class="fas fa-chevron-right"></i> Security Architecture</a></li>
+                        <li class="toc-item"><a href="#api-infra"><i class="fas fa-chevron-right"></i> API Infrastructure</a></li>
+                        <li class="toc-item"><a href="#gallery"><i class="fas fa-chevron-right"></i> App Gallery</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="col-lg-9 article-content">
+                <!-- Introduction -->
+                <section id="introduction" class="article-section">
+                    <h2>Introduction</h2>
+                    <p>
+                        <strong>DocPortal AI</strong> is an enterprise-grade Retrieval-Augmented Generation (RAG) platform designed for intelligent document management, semantic search, AI-powered querying, and automated insight generation. The system combines hybrid search, vector databases, LLM orchestration, and asynchronous ingestion pipelines to enable scalable document intelligence across large collections of enterprise documents.
+                    </p>
+                    <div class="highlight-box">
+                        <strong>Architectural Note:</strong> Developed using a "Bring Your Own Key" (BYOK) model with free-tier APIs (Groq & Gemini) during development, while architected for seamless transition to enterprise-grade production APIs for deployment.
+                    </div>
+                </section>
+
+                <!-- Core Features -->
+                <section id="core-features" class="article-section">
+                    <h2>Core Features</h2>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="feature-card h-100">
+                                <h4>Enterprise RAG Chat</h4>
+                                <p>AI-powered conversational interface that enables users to query documents using natural language with streaming responses and source-aware contextual retrieval.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card h-100">
+                                <h4>Hybrid Search Engine</h4>
+                                <p>Combined BM25 keyword retrieval and vector similarity search using weighted ranking algorithms for improved semantic accuracy and relevance scoring.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card h-100">
+                                <h4>Intelligent Ingestion</h4>
+                                <p>Automated ingestion pipeline capable of parsing, semantic chunking, and vector indexing for PDF, DOCX, TXT, and Markdown files.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card h-100">
+                                <h4>Intelligence Briefs</h4>
+                                <p>AI-generated analytical briefs that aggregate insights across multiple documents using Gemini-based extraction pipelines and structured analytics generation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- System Architecture -->
+                <section id="architecture" class="article-section">
+                    <h2>System Architecture</h2>
+                    <p>DocPortalAI follows a layered enterprise microservices architecture designed for scalability, asynchronous processing, and modular AI orchestration.</p>
+
+                    <div class="img-container" onclick="openModal(this)">
+                        <img src="../img/DocPortalAIArchitecture.drawio.png" alt="DocPortalAI Enterprise RAG Architecture Diagram">
+                    </div>
+                    <p class="text-secondary small text-center mt-n3 mb-5">DocPortalAI Enterprise RAG Architecture — Frontend, FastAPI Backend, Core Data Layer (PostgreSQL, Weaviate, S3), and AI & Cloud Providers (Groq, Nomic, Gemini).</p>
+                    
+                    <div class="step-heading">1. Frontend Layer (React.js)</div>
+                    <p>Built with <strong>React.js</strong> and <strong>Context API</strong>, the frontend provides the user interaction layer for document uploads, analytics dashboards, and real-time monitoring.</p>
+                    
+                    <div class="arch-card mb-4">
+                        <h4>Major UI Components</h4>
+                        <ul>
+                            <li><strong>Advanced Intelligence Dashboard:</strong> Interactive dashboard with sortable tables and document status monitoring.</li>
+                            <li><strong>Projects Dashboard:</strong> Central hub for managing all document projects — view project status, document counts, and jump directly into project-specific chat or analytics.</li>
+                            <li><strong>Project Insights Page:</strong> Per-project intelligence hub that surfaces AI-generated analytical briefs, document summaries, and key insights extracted across the entire project knowledge base.</li>
+                            <li><strong>Context-Aware RAG Chat UI:</strong> Conversational interface with streaming responses and source citations — supports both project-scoped and global cross-project querying.</li>
+                            <li><strong>Document Ingestion Portal:</strong> Drag-and-drop system with batch upload support and progress tracking.</li>
+                            <li><strong>Database Management Page:</strong> Multi-tenant collection browser with Weaviate vector store visibility, document count tracking, and collection-level controls.</li>
+                        </ul>
+                        <div class="row g-3 mt-3">
+                            <div class="col-md-6">
+                                <div class="img-container" onclick="openModal(this)">
+                                    <img src="../img/docportal-dashboard.png" alt="Intelligence Dashboard">
+                                </div>
+                                <p class="text-secondary small text-center mt-2">Intelligence Dashboard</p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="img-container" onclick="openModal(this)">
+                                    <img src="../img/docportal-upload-page.png" alt="Document Upload Portal">
+                                </div>
+                                <p class="text-secondary small text-center mt-2">Document Ingestion Portal</p>
+                            </div>
+                            <div class="col-12">
+                                <div class="img-container" onclick="openModal(this)">
+                                    <img src="../img/docportal-projectchat-1.png" alt="Context-Aware RAG Chat UI">
+                                </div>
+                                <p class="text-secondary small text-center mt-2">Context-Aware RAG Chat UI</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="img-container" onclick="openModal(this)">
+                                    <img src="../img/docportal-dbpage-1.png" alt="Database Management — Collections View">
+                                </div>
+                                <p class="text-secondary small text-center mt-2">DB — Collections View</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="img-container" onclick="openModal(this)">
+                                    <img src="../img/docportal-dbpage-2.png" alt="Database Management — Document Index">
+                                </div>
+                                <p class="text-secondary small text-center mt-2">DB — Document Index</p>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="img-container" onclick="openModal(this)">
+                                    <img src="../img/docportal-dbpage-3.png" alt="Database Management — Vector Stats">
+                                </div>
+                                <p class="text-secondary small text-center mt-2">DB — Vector Stats</p>
+                            </div>
+                        </div>
+
+                        <p class="text-accent-secondary fw-semibold mt-4 mb-2" style="font-size:0.9rem; letter-spacing:0.5px;"><i class="fas fa-star me-2"></i>Project Insights Page</p>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="img-container" onclick="openModal(this)">
+                                    <img src="../img/doc-portal-ai-generated-project-insights.png" alt="AI-Generated Project Insights">
+                                </div>
+                                <p class="text-secondary small text-center mt-2">AI-Generated Project Insights — Full Report View</p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="img-container" onclick="openModal(this)">
+                                    <img src="../img/docportal-projects-dashboard-page.png" alt="Projects Dashboard Page">
+                                </div>
+                                <p class="text-secondary small text-center mt-2">Projects Dashboard</p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="img-container" onclick="openModal(this)">
+                                    <img src="../img/docportal-projects-page.png" alt="Projects List Page">
+                                </div>
+                                <p class="text-secondary small text-center mt-2">List of PDF's in a Project</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-heading">2. Backend Layer (FastAPI)</div>
+                    <p>The core intelligence is powered by a high-performance <strong>FastAPI</strong> backend organized into modular domain services with asynchronous processing capabilities.</p>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="arch-card h-100">
+                                <h4>API Gateway</h4>
+                                <p>Handles request validation, JWT authentication, GZip compression, and secure CORS security configuration.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="arch-card h-100">
+                                <h4>Document Service</h4>
+                                <p>Manages upload lifecycle, metadata extraction, version control, and duplicate detection.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feature-card mt-4">
+                        <h4>Hybrid Search Scoring</h4>
+                        <div class="code-block">
+Final Score = α × BM25_Score + (1 - α) × Vector_Score
+                        </div>
+                        <p class="small text-secondary mb-0">Improves semantic relevance, contextual retrieval quality, and keyword precision.</p>
+                    </div>
+                </section>
+
+                <!-- Storage Layer -->
+                <section id="storage" class="article-section">
+                    <h2>Data Storage Layer</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="feature-card h-100">
+                                <h4>PostgreSQL</h4>
+                                <p>Used for metadata storage, user sessions, analytics, document indexing, and brief storage.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card h-100">
+                                <h4>Weaviate</h4>
+                                <p>HNSW indexing for semantic vector storage and sub-second similarity search (768D).</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card h-100">
+                                <h4>Amazon S3</h4>
+                                <p>Enterprise-grade storage for raw, processed, and temporary ingestion documents.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="architecture-diagram">
+s3://docportal-documents/
+├── raw/
+├── processed/
+└── temp/
+                    </div>
+                </section>
+
+                <!-- AI Integrations -->
+                <section id="ai-integrations" class="article-section">
+                    <h2>AI & LLM Integrations</h2>
+                    <p>DocPortalAI integrates multiple AI providers for specialized enterprise tasks.</p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Provider</th>
+                                    <th>Model</th>
+                                    <th>Core Responsibility</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Groq</strong></td>
+                                    <td>Llama 3.3 70B</td>
+                                    <td>Low-latency RAG response generation & synthesis</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Nomic</strong></td>
+                                    <td>Embed-Text-v1.5</td>
+                                    <td>High-dimensional (768D) vector generation</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Gemini</strong></td>
+                                    <td>Gemini 1.5 Pro</td>
+                                    <td>Insight extraction & intelligence brief generation</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Technical Workflows -->
+                <section id="workflows" class="article-section">
+                    <h2>Technical Workflows</h2>
+                    
+                    <div class="step-heading">1. Document Ingestion Pipeline</div>
+                    <div class="architecture-diagram">
+PDF Upload ──▶ Python PDF Parsing ──▶ Semantic Chunking ──▶ Nomic Embedding ──▶ Weaviate DB
+           └──▶ Raw PDF Copy ──▶ S3 Storage
+                    </div>
+                    <p>The PDF is parsed immediately on upload using Python libraries (PyMuPDF, python-docx). During parsing, a raw copy of the file is simultaneously persisted to S3 for archival. The parsed content is then semantically chunked, vectorized via Nomic Embeddings, and indexed into Weaviate for retrieval.</p>
+
+                    <div class="step-heading">2. RAG Chat Pipeline</div>
+                    <div class="architecture-diagram">
+User Query ──▶ Hybrid Search ──▶ Result Reranking ──▶ Context Assembly ──▶ Groq LLM ──▶ Streamed Response
+                    </div>
+                    <p>Top-ranked chunks are aggregated into an optimized context window, allowing Groq Llama 3.3 to generate contextual, source-backed responses streamed to the UI. The system supports two chat modes:</p>
+
+                    <div class="step-heading" style="font-size:1.1rem; margin-top:25px;"><i class="fas fa-folder-open me-2"></i>Project-Specific Chat</div>
+                    <p class="text-secondary">Scoped to a single project's document collection — ideal for deep-diving into a specific knowledge base with high-precision retrieval.</p>
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-projectchat-1.png" alt="Project Chat — Conversation View">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Project Chat — Conversation View</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-projectchat-2.png" alt="Project Chat — Response Detail">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Project Chat — Response Detail</p>
+                        </div>
+                        <div class="col-12">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-projectchat-answercirtations-3.png" alt="RAG Source Citations — Inline References">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Inline Source Citations — Every answer is grounded in traceable document references</p>
+                        </div>
+                    </div>
+
+                    <div class="step-heading" style="font-size:1.1rem; margin-top:30px;"><i class="fas fa-globe me-2"></i>Global Chat — Cross-Project Intelligence</div>
+                    <p class="text-secondary">Queries span all projects simultaneously, enabling cross-collection analysis and organization-wide document intelligence.</p>
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-4">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-generic-chat-1.png" alt="Global Chat View 1">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Global Chat — Query Interface</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-generic-chat-2.png" alt="Global Chat View 2">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Global Chat — Multi-Project Response</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-generic-chat-3.png" alt="Global Chat View 3">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Global Chat — Source Aggregation</p>
+                        </div>
+                    </div>
+
+                    <div class="step-heading">3. Intelligence Brief Generation Pipeline</div>
+                    <div class="architecture-diagram">
+Aggregate Docs ──▶ Gemini Extraction ──▶ JSON Parsing ──▶ Analytics Gen ──▶ Visualization
+                    </div>
+                    <p>Gemini analyzes trends, risks, and strategic patterns across grouped documents to produce structured analytical briefs and visualizations.</p>
+                    
+                    <div class="row g-3 mt-3">
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-ai-generated-project-insights.png" alt="AI Generated Project Insights">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">AI-Generated Insights Panel</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-insights-modal.png" alt="Intelligence Brief Detail Modal">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Intelligence Brief Detail Modal</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Security Architecture -->
+                <section id="security" class="article-section">
+                    <h2>Security Architecture</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="arch-card h-100">
+                                <h4>Authentication</h4>
+                                <p>JWT-based auth with token expiration and refresh token support.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="arch-card h-100">
+                                <h4>API Security</h4>
+                                <p>CORS whitelisting, rate limiting, and TLS 1.3 encryption for all pipes.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="arch-card h-100">
+                                <h4>Data Privacy</h4>
+                                <p>PII scrubbing using local Ollama and encrypted S3 storage buckets.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- API Infrastructure -->
+                <section id="api-infra" class="article-section">
+                    <h2>API Infrastructure</h2>
+                    <p>Exposed REST APIs for comprehensive system interaction and monitoring.</p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Endpoint</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="api-method method-post">POST</span></td>
+                                    <td>/api/v1/documents/upload</td>
+                                    <td>Async document ingestion</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="api-method method-post">POST</span></td>
+                                    <td>/api/v1/chat</td>
+                                    <td>Contextual RAG interaction</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="api-method method-post">POST</span></td>
+                                    <td>/api/v1/search</td>
+                                    <td>Hybrid semantic/keyword search</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="api-method method-get">GET</span></td>
+                                    <td>/api/v1/stats</td>
+                                    <td>System health & telemetry</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Key Highlights -->
+                <section class="article-section text-center">
+                    <h2>Technical Highlights</h2>
+                    <div class="mt-4">
+                        <span class="tech-badge">Hybrid RAG</span>
+                        <span class="tech-badge">Multi-LLM Orchestration</span>
+                        <span class="tech-badge">Vector DB</span>
+                        <span class="tech-badge">Async Pipelines</span>
+                        <span class="tech-badge">PII Handling</span>
+                        <span class="tech-badge">Microservices</span>
+                    </div>
+                </section>
+
+                <!-- App Gallery -->
+                <section id="gallery" class="article-section">
+                    <h2>App Gallery</h2>
+                    <p class="text-secondary mb-4">Click any image to explore the DocPortal AI interface in high resolution.</p>
+
+                    <!-- Dashboard -->
+                    <div class="step-heading"><i class="fas fa-chart-bar me-2"></i>Dashboard</div>
+                    <div class="row g-3 mb-5">
+                        <div class="col-12">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-dashboard.png" alt="Main Intelligence Dashboard">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Main Intelligence Dashboard</p>
+                        </div>
+                    </div>
+
+                    <!-- Upload Page -->
+                    <div class="step-heading"><i class="fas fa-upload me-2"></i>Document Upload</div>
+                    <div class="row g-3 mb-5">
+                        <div class="col-12">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-upload-page.png" alt="Document Upload Portal">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Document Ingestion Portal</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Dashboard -->
+                    <div class="step-heading"><i class="fas fa-folder-open me-2"></i>Project Dashboard</div>
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-projects-dashboard-page.png" alt="Projects Dashboard">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Projects Dashboard</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-projects-page.png" alt="Projects List">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Projects &amp; Documents List</p>
+                        </div>
+                        <div class="col-12">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/doc-portal-ai-generated-project-insights.png" alt="AI-Generated Project Insights">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">AI-Generated Project Insights</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-ai-generated-project-insights.png" alt="Project Insights Panel">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Project Insights Panel</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-insights-modal.png" alt="Intelligence Brief Modal">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Intelligence Brief Modal</p>
+                        </div>
+                    </div>
+
+                    <!-- Project Chat -->
+                    <div class="step-heading"><i class="fas fa-comments me-2"></i>Project Chat</div>
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-projectchat-1.png" alt="Project Chat — View 1">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Project Chat</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-projectchat-2.png" alt="Project Chat — View 2">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Project Chat — Response Detail</p>
+                        </div>
+                        <div class="col-12">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-projectchat-answercirtations-3.png" alt="Source Citations">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Inline Source Citations</p>
+                        </div>
+                    </div>
+
+                    <!-- Generic Chat -->
+                    <div class="step-heading"><i class="fas fa-globe me-2"></i>Global Chat</div>
+                    <div class="row g-3 mb-5">
+                        <div class="col-md-4">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-generic-chat-1.png" alt="Global Chat — View 1">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Global Chat</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-generic-chat-2.png" alt="Global Chat — View 2">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Global Chat — Multi-Project Response</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-generic-chat-3.png" alt="Global Chat — View 3">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Global Chat — Source Aggregation</p>
+                        </div>
+                    </div>
+
+                    <!-- Database Page -->
+                    <div class="step-heading"><i class="fas fa-database me-2"></i>Database Management</div>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-dbpage-1.png" alt="Database — Collections View">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Collections View</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-dbpage-2.png" alt="Database — Document Index">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Document Index</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/docportal-dbpage-3.png" alt="Database — Vector Stats">
+                            </div>
+                            <p class="text-secondary small text-center mt-2">Vector Stats</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Overlay -->
+    <div id="imageModal" class="modal-overlay" onclick="closeModal()">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <img id="modalImage" class="modal-content" src="" alt="Expanded View">
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Tusha Rahul Bellamkonda. All rights reserved.</p>
+            <div class="mt-3">
+                <a href="../index.html" class="text-secondary text-decoration-none me-3">Home</a>
+                <a href="../articles.html" class="text-secondary text-decoration-none">Articles</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function openModal(element) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const sourceImg = element.querySelector('img');
+            modal.style.display = 'flex';
+            modalImg.src = sourceImg.src;
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // TOC active section highlighting
+        window.addEventListener('DOMContentLoaded', () => {
+            const sections = Array.from(document.querySelectorAll('section[id]'));
+            const tocLinks = document.querySelectorAll('.toc-item a');
+
+            function setActiveLink(id) {
+                tocLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                });
+            }
+
+            function onScroll() {
+                const scrollMid = window.scrollY + window.innerHeight / 3;
+                let current = sections[0];
+                for (const section of sections) {
+                    if (section.offsetTop <= scrollMid) {
+                        current = section;
+                    }
+                }
+                if (current) setActiveLink(current.id);
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll(); // set on load
+        });
+    </script>
+</body>
+</html>
