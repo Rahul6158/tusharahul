@@ -1,55 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <!-- ========================================== -->
+  <!-- MAIN PAGES                                 -->
+  <!-- ========================================== -->
+
+  <!-- Homepage -->
   <url>
     <loc>https://tusharahul.netlify.app/</loc>
-    <lastmod>2025-01-18</lastmod>
+    <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
 
+  <!-- Technical Hub / Articles Index -->
+  <url>
+    <loc>https://tusharahul.netlify.app/articles.html</loc>
+    <lastmod>2025-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- INDIVIDUAL ARTICLES                        -->
+  <!-- ========================================== -->
+
+  <!-- Pioneer Pharma: Transforming Pharmaceutical Intelligence -->
+  <url>
+    <loc>https://tusharahul.netlify.app/articles/pioneer-nexus-article.html</loc>
+    <lastmod>2025-05-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- DocPortal AI: Enterprise Document Intelligence -->
+  <url>
+    <loc>https://tusharahul.netlify.app/articles/docportal-article.html</loc>
+    <lastmod>2025-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- AI-Powered LinkedIn Content Automation -->
+  <url>
+    <loc>https://tusharahul.netlify.app/articles/linkedin-automation.html</loc>
+    <lastmod>2025-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ========================================== -->
+  <!-- HOMEPAGE ANCHOR SECTIONS                   -->
+  <!-- ========================================== -->
+
+  <!-- Home Section -->
   <url>
     <loc>https://tusharahul.netlify.app/#home</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
+  <!-- About Section -->
   <url>
     <loc>https://tusharahul.netlify.app/#about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
+  <!-- Skills Section -->
   <url>
     <loc>https://tusharahul.netlify.app/#skills</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
+  <!-- Projects Section -->
   <url>
     <loc>https://tusharahul.netlify.app/#projects</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
+  <!-- Experience Section -->
   <url>
     <loc>https://tusharahul.netlify.app/#experience</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
+  <!-- Certificates Section -->
   <url>
     <loc>https://tusharahul.netlify.app/#certificates</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
+  <!-- Contact Section -->
   <url>
     <loc>https://tusharahul.netlify.app/#contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
+  <!-- ========================================== -->
+  <!-- KEY ASSETS & MEDIA                         -->
+  <!-- ========================================== -->
+
+  <!-- Resume / CV Document -->
   <url>
     <loc>https://tusharahul.netlify.app/img/1Tusha%20Rahul%20Bellamkonda.pdf</loc>
     <changefreq>yearly</changefreq>
