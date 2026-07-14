@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>NavosAI Research Agent - Autonomous AI Multi-Agent Pipeline | Tusha Rahul</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-bg: #050706;
+            --secondary-bg: #0a0e0c;
+            --card-bg: #111815;
+            --text-primary: #ffffff;
+            --text-secondary: #94a89f;
+            --accent-primary: #10b981; /* Emerald Green */
+            --accent-secondary: #34d399; /* Mint Green */
+            --accent-tertiary: #059669; /* Forest Green */
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--primary-bg);
+            line-height: 1.8;
+            overflow-x: hidden;
+            counter-reset: section;
+        }
+
+        .navbar {
+            background-color: rgba(5, 7, 6, 0.95);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--accent-primary) !important;
+        }
+
+        .article-hero {
+            padding: 180px 0 120px;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .article-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(5, 7, 6, 0.75), rgba(5, 7, 6, 0.85)), url('../img/navosai-research-report.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            transform: scale(1.1);
+            z-index: -1;
+        }
+
+        .article-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff 0%, #a4cbb7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInDown 0.8s ease-out;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .article-meta span i {
+            color: var(--accent-primary);
+            margin-right: 8px;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .article-content {
+            padding: 80px 0;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .article-section {
+            margin-bottom: 80px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .article-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 35px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.5px;
+        }
+
+        .article-section h2::before {
+            counter-increment: section;
+            content: "0" counter(section);
+            font-size: 1.2rem;
+            color: var(--accent-secondary);
+            margin-right: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            font-weight: 500;
+        }
+
+        .step-heading {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-card h4 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .img-container {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin: 50px 0;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            max-width: 100%;
+            cursor: zoom-in;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 35px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 40px 0;
+            color: #efefef;
+        }
+
+        .code-block {
+            background: #050505;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            color: #d1d1d1;
+            margin: 25px 0;
+            overflow-x: auto;
+        }
+
+        .tech-badge {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: var(--accent-primary);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-right: 12px;
+            margin-bottom: 12px;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .back-btn {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 40px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-primary);
+            transform: translateX(-8px);
+        }
+
+        .back-btn i {
+            margin-right: 12px;
+        }
+
+        .footer {
+            background-color: var(--secondary-bg);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .arch-card {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            transition: var(--transition);
+        }
+
+        .arch-card:hover {
+            border-color: var(--accent-secondary);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        @media (max-width: 992px) {
+            .article-title {
+                font-size: 3rem;
+            }
+            .article-content {
+                padding: 40px 0;
+            }
+            .toc-container {
+                margin-left: 0;
+                width: 100%;
+                max-width: none;
+                position: relative;
+                top: 0;
+            }
+        }
+
+        /* TOC Styles */
+        .toc-container {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeIn 1.2s ease-out;
+            position: sticky;
+            top: 100px;
+            z-index: 10;
+            width: 100%;
+            height: fit-content;
+            align-self: flex-start;
+        }
+
+        .toc-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        .toc-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 0;
+        }
+
+        .toc-item a:hover {
+            color: var(--accent-secondary);
+            padding-left: 5px;
+        }
+
+        .toc-item a.active {
+            color: var(--accent-secondary);
+            font-weight: 700;
+            padding-left: 10px;
+            border-left: 2px solid var(--accent-secondary);
+        }
+
+        .toc-item a i {
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+
+        /* Modal / Lightbox Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            cursor: zoom-out;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            z-index: 2001;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            transform: rotate(90deg);
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .architecture-diagram {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--accent-secondary);
+            overflow-x: auto;
+            white-space: pre;
+            margin: 30px 0;
+        }
+
+        .screenshot-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin: 40px 0;
+            align-items: center;
+        }
+
+        .screenshot-item {
+            width: 100%;
+            max-width: 850px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            cursor: zoom-in;
+            transition: var(--transition);
+        }
+
+        .screenshot-item:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .screenshot-label {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">TUSHA RAHUL</a>
+            <div class="ms-auto">
+                <a href="../index.html#projects" class="btn btn-outline-light btn-sm rounded-pill px-4">Back to Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-hero">
+        <div class="container">
+            <a href="../articles.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Articles</a>
+            <h1 class="article-title">NavosAI Research Agent:<br>Autonomous Multi-Agent Pipeline</h1>
+            <div class="article-meta">
+                <span><i class="far fa-calendar"></i> June 2025</span>
+                <span><i class="far fa-clock"></i> 18 min read</span>
+                <span><i class="fas fa-robot"></i> Multi-Agent AI</span>
+            </div>
+            <div class="mt-2">
+                <a href="https://github.com/Rahul6158/NavosAI-Research-Agent" class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold" target="_blank" rel="noopener">
+                    <i class="fab fa-github me-2"></i>View GitHub Repository
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="row">
+            <!-- Sidebar TOC -->
+            <aside class="col-lg-3 d-none d-lg-block">
+                <nav class="toc-container">
+                    <div class="toc-title"><i class="fas fa-list-ul"></i> Contents</div>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#introduction"><i class="fas fa-chevron-right"></i> Introduction</a></li>
+                        <li class="toc-item"><a href="#core-features"><i class="fas fa-chevron-right"></i> Core Features</a></li>
+                        <li class="toc-item"><a href="#architecture"><i class="fas fa-chevron-right"></i> System Architecture</a></li>
+                        <li class="toc-item"><a href="#pipeline"><i class="fas fa-chevron-right"></i> Multi-Stage Pipeline</a></li>
+                        <li class="toc-item"><a href="#graph"><i class="fas fa-chevron-right"></i> Knowledge Graph</a></li>
+                        <li class="toc-item"><a href="#sse"><i class="fas fa-chevron-right"></i> SSE Streaming</a></li>
+                        <li class="toc-item"><a href="#challenges"><i class="fas fa-chevron-right"></i> Engineering Challenges</a></li>
+                        <li class="toc-item"><a href="#app-gallery"><i class="fas fa-chevron-right"></i> App Gallery</a></li>
+                        <li class="toc-item"><a href="#code"><i class="fas fa-chevron-right"></i> Code & Deployment</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="col-lg-9 article-content">
+                <!-- Introduction -->
+                <section id="introduction" class="article-section">
+                    <h2>Introduction</h2>
+                    <p>
+                        <strong>NavosAI Research Agent</strong> is a production-grade, modular Research Agent that transforms any natural language learning query into a highly structured, evidence-backed research report. The platform coordinates a multi-stage pipeline of specialized agent components that work together asynchronously to analyze intents, formulate questions, perform parallel searches, score source credibility, and construct interactive knowledge graphs.
+                    </p>
+                    <div class="highlight-box">
+                        <strong>Core Philosophy:</strong> The agent never queries search engines blindly. It operates on a "Plan Before Search" approach, compiling target queries, ranking sources, resolving conflicts across platforms, and structuring findings into structured curriculum blocks called "Bytes".
+                    </div>
+                </section>
+
+                <!-- Core Features -->
+                <section id="core-features" class="article-section">
+                    <h2>Core Features</h2>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="feature-card h-100">
+                                <h4>Query Intent Understanding</h4>
+                                <p>Analyzes input queries, classifies targets, structures search domains, and breaks goals down into complex analytical objectives.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card h-100">
+                                <h4>Parallel Research Engine</h4>
+                                <p>Runs concurrent asynchronous searches across Google/DuckDuckGo web APIs, ArXiv academic research bases, local PDF repositories, and GitHub libraries.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card h-100">
+                                <h4>Evidence Credibility Grading</h4>
+                                <p>Ranks source documents by relevance and authority, stripping out low-quality inputs and validating evidence using custom evaluation prompts.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card h-100">
+                                <h4>Interactive Knowledge Graphs</h4>
+                                <p>Builds dynamic, interactive SVG-based concept and relationship maps, highlighting claims and nodes with direct hover citations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- System Architecture -->
+                <section id="architecture" class="article-section">
+                    <h2>System Architecture</h2>
+                    <p>NavosAI is structured around an event-driven AI workflow, communicating agent states in real time using Server-Sent Events (SSE) from a Python-based FastAPI gateway to a React/Vite web interface.</p>
+
+                    <div class="architecture-diagram">
+           User Query
+                │
+                ▼
+       [Query understanding] ──► [QueryAnalyzer]
+                │
+                ▼
+       [Research planning]  ──► [ResearchPlanner]
+                │
+                ▼
+   [Parallel search routing] ──► [ParallelResearcher] ──► [Web, Academic, APIs, Docs]
+                │
+                ▼
+   [Credibility assessment] ──► [EvidenceEvaluator]
+                │
+                ▼
+   [Conflict resolution]    ──► [ConflictResolver]
+                │
+                ▼
+   [SVG Map Construction]   ──► [GraphBuilder]
+                │
+                ▼
+   [Curriculum design]      ──► [CurriculumGenerator] ──► [Interactive "Bytes" Lessons]
+                    </div>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="arch-card h-100">
+                                <h4>FastAPI Async Backend</h4>
+                                <p>Built in <strong>Python</strong> utilizing asynchronous routing and LangChain/LangGraph abstractions. Features SSE process streams that broadcast live sub-task execution events.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="arch-card h-100">
+                                <h4>React & SVG Visuals</h4>
+                                <p>A responsive <strong>React dashboard</strong> featuring an interactive SVG network visualization engine for knowledge entity mapping, combined with modern Tailwind CSS styling.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Multi-Stage Pipeline -->
+                <section id="pipeline" class="article-section">
+                    <h2>The Multi-Stage Pipeline</h2>
+                    <p>The core intelligence of NavosAI relies on specialized, decoupled agents executing distinct tasks in sequence:</p>
+                    
+                    <div class="step-heading">1. Intent & Scope Analysis</div>
+                    <p>The <code>QueryAnalyzer</code> evaluates user topics to define query complexity, research domains, target schemas, and identify if academic or commercial tools are needed.</p>
+
+                    <div class="step-heading">2. Target Question Generation</div>
+                    <p>The <code>ResearchPlanner</code> models the subject by mapping out dependencies, establishing key topics, and drafting structural sections. It generates highly specific queries to search for.</p>
+
+                    <div class="step-heading">3. Credibility Grading & Filtering</div>
+                    <p>The <code>EvidenceEvaluator</code> grades raw text chunks retrieved by search tools. Chunks are scored for relevance, direct correlation to target questions, and source trust metrics before entering the knowledge repository.</p>
+
+                    <div class="step-heading">4. Conflict Resolution</div>
+                    <p>The <code>ConflictResolver</code> checks for overlapping or contradicting assertions across web pages and academic journals, aligning facts using reasoning algorithms before building final reports.</p>
+                </section>
+
+                <!-- Knowledge Graph -->
+                <section id="graph" class="article-section">
+                    <h2>Dynamic Entity & Relationship Graph</h2>
+                    <p>Rather than providing a flat text output, NavosAI generates an interactive knowledge map mapping key entities and their factual relationships.</p>
+                    <div class="highlight-box">
+                        <strong>Graph Builder Engine:</strong> The system parses extracted statements, isolates subject-predicate-object triples, and constructs SVG nodes representing entities. Users can click nodes and edges to inspect the underlying research claims and source hyperlinks.
+                    </div>
+                </section>
+
+                <!-- SSE Streaming -->
+                <section id="sse" class="article-section">
+                    <h2>Real-Time Server-Sent Events (SSE)</h2>
+                    <p>Since deep-dive research pipelines can take several minutes to run, the system keeps users engaged using real-time console updates:</p>
+                    <div class="code-block">
+event: agent_event
+data: {"agent": "QueryAnalyzer", "status": "completed", "message": "Structured query intent into 5 sub-questions."}
+
+event: agent_event
+data: {"agent": "ParallelResearcher", "status": "active", "message": "Searching ArXiv for mathematical bounds on agentic loops."}
+                    </div>
+                    <p class="small text-secondary">The React UI intercepts these SSE chunks and renders them in a collapsible, terminal-style console drawer.</p>
+                </section>
+
+                <!-- Engineering Challenges -->
+                <section id="challenges" class="article-section">
+                    <h2>Engineering Challenges Solved</h2>
+                    
+                    <div class="feature-card">
+                        <h4>Asynchronous LLM Throttle Control</h4>
+                        <p><strong>Challenge:</strong> Running 10+ parallel researcher tasks triggered API rate-limit errors from Anthropic and OpenAI endpoints.</p>
+                        <p><strong>Solution:</strong> Designed an async queue system with semaphore limits and adaptive retry logic to maximize throughput without hitting limits.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <h4>SVG Collision & Network Dynamics</h4>
+                        <p><strong>Challenge:</strong> Dynamically displaying 50+ nodes in raw SVG often caused overlap issues and unreadable graph clusters.</p>
+                        <p><strong>Solution:</strong> Developed a custom math-based repulsion algorithm in the React SVG component that positions nodes based on connection weight and page space bounds.</p>
+                    </div>
+                </section>
+
+                <!-- App Gallery -->
+                <section id="app-gallery" class="article-section">
+                    <h2>App Gallery</h2>
+                    <p>Visual tour of the NavosAI Research Agent platform interface.</p>
+                    
+                    <div class="screenshot-grid">
+                        <div class="screenshot-item" onclick="openModal(this)">
+                            <img src="../img/navosai-research-report.png" alt="Research Report Dashboard">
+                            <div class="screenshot-label">Research Report Dashboard & Structured Output</div>
+                        </div>
+                        <div class="screenshot-item" onclick="openModal(this)">
+                            <img src="../img/navosai-knowledge-graph.png" alt="Interactive SVG Knowledge Graph">
+                            <div class="screenshot-label">Dynamic Entity Knowledge Graph Visualization</div>
+                        </div>
+                        <div class="screenshot-item" onclick="openModal(this)">
+                            <img src="../img/navosai-api-settings.png" alt="API Settings & Model Selector">
+                            <div class="screenshot-label">Model Configurations & Integration Controls</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Code & Deployment -->
+                <section id="code" class="article-section text-center">
+                    <h2>Code & Deployment</h2>
+                    <p class="text-secondary">The complete source code for NavosAI Research Agent is open-source and available on GitHub.</p>
+                    <div class="mt-4">
+                        <a href="https://github.com/Rahul6158/NavosAI-Research-Agent" class="btn btn-outline-light rounded-pill px-4 py-2 fw-semibold" target="_blank" rel="noopener">
+                            <i class="fab fa-github me-2"></i>Explore Source Code on GitHub
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Overlay -->
+    <div id="imageModal" class="modal-overlay" onclick="closeModal()">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <img id="modalImage" class="modal-content" src="" alt="Expanded View">
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Tusha Rahul Bellamkonda. All rights reserved.</p>
+            <div class="mt-3">
+                <a href="../index.html" class="text-secondary text-decoration-none me-3">Home</a>
+                <a href="../articles.html" class="text-secondary text-decoration-none">Articles</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function openModal(element) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const sourceImg = element.querySelector('img');
+            modal.style.display = 'flex';
+            modalImg.src = sourceImg.src;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // TOC active section highlighting
+        window.addEventListener('DOMContentLoaded', () => {
+            const sections = Array.from(document.querySelectorAll('section[id]'));
+            const tocLinks = document.querySelectorAll('.toc-item a');
+
+            function setActiveLink(id) {
+                tocLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                });
+            }
+
+            function onScroll() {
+                const scrollMid = window.scrollY + window.innerHeight / 3;
+                let current = sections[0];
+                for (const section of sections) {
+                    if (section.offsetTop <= scrollMid) {
+                        current = section;
+                    }
+                }
+                if (current) setActiveLink(current.id);
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll(); // set on load
+        });
+    </script>
+</body>
+</html>
