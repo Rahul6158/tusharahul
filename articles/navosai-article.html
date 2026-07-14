@@ -223,6 +223,7 @@
             color: #d1d1d1;
             margin: 25px 0;
             overflow-x: auto;
+            white-space: pre;
         }
 
         .tech-badge {
@@ -800,13 +801,21 @@
                 <section id="sse" class="article-section">
                     <h2>Real-Time Server-Sent Events (SSE)</h2>
                     <p>Since deep-dive research pipelines can take several minutes to run, the system keeps users engaged using real-time console updates:</p>
-                    <div class="code-block">
+                    <pre class="code-block">
 event: agent_event
-data: {"agent": "QueryAnalyzer", "status": "completed", "message": "Structured query intent into 5 sub-questions."}
+data: {
+  "agent": "QueryAnalyzer",
+  "status": "completed",
+  "message": "Structured query intent into 5 sub-questions."
+}
 
 event: agent_event
-data: {"agent": "ParallelResearcher", "status": "active", "message": "Searching ArXiv for mathematical bounds on agentic loops."}
-                    </div>
+data: {
+  "agent": "ParallelResearcher",
+  "status": "active",
+  "message": "Searching ArXiv for mathematical bounds on agentic loops."
+}
+                    </pre>
                     <p class="small text-secondary">The React UI intercepts these SSE chunks and renders them in a collapsible, terminal-style console drawer.</p>
                 </section>
 
