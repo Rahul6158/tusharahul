@@ -18,14 +18,14 @@
     <!-- Custom CSS -->
     <style>
         :root {
-            --primary-bg: #050706;
-            --secondary-bg: #0a0e0c;
-            --card-bg: #111815;
+            --primary-bg: #05070a;
+            --secondary-bg: #0a0c12;
+            --card-bg: #11141d;
             --text-primary: #ffffff;
-            --text-secondary: #94a89f;
-            --accent-primary: #10b981; /* Emerald Green */
-            --accent-secondary: #34d399; /* Mint Green */
-            --accent-tertiary: #059669; /* Forest Green */
+            --text-secondary: #94a3b8;
+            --accent-primary: #3b82f6; /* Royal Blue */
+            --accent-secondary: #60a5fa; /* Sky Blue */
+            --accent-tertiary: #2563eb; /* Indigo Blue */
             --border-radius: 16px;
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
@@ -40,7 +40,7 @@
         }
 
         .navbar {
-            background-color: rgba(5, 7, 6, 0.95);
+            background-color: rgba(5, 7, 10, 0.95);
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -67,7 +67,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(rgba(5, 7, 6, 0.75), rgba(5, 7, 6, 0.85)), url('../img/navosai-research-report.png');
+            background: linear-gradient(rgba(5, 7, 10, 0.75), rgba(5, 7, 10, 0.85)), url('../img/navosai-research-report.png');
             background-size: cover;
             background-position: center;
             filter: blur(8px);
@@ -79,7 +79,7 @@
             font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 25px;
-            background: linear-gradient(135deg, #ffffff 0%, #a4cbb7 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #a4b7cb 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -145,10 +145,10 @@
             color: var(--accent-secondary);
             margin-right: 20px;
             font-family: 'JetBrains Mono', monospace;
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(59, 130, 246, 0.1);
             padding: 4px 12px;
             border-radius: 6px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.2);
             font-weight: 500;
         }
 
@@ -205,7 +205,7 @@
         }
 
         .highlight-box {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%);
             border-left: 4px solid var(--accent-secondary);
             padding: 35px;
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
@@ -226,8 +226,8 @@
         }
 
         .tech-badge {
-            background: rgba(16, 185, 129, 0.08);
-            border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.2);
             color: var(--accent-primary);
             padding: 8px 18px;
             border-radius: 50px;
@@ -275,7 +275,7 @@
 
         .arch-card:hover {
             border-color: var(--accent-secondary);
-            background: rgba(16, 185, 129, 0.05);
+            background: rgba(59, 130, 246, 0.05);
         }
 
         @media (max-width: 992px) {
@@ -381,7 +381,7 @@
             max-width: 90%;
             max-height: 90%;
             border-radius: 12px;
-            box-shadow: 0 0 50px rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
             animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -472,10 +472,56 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        /* Zero-Cost Box Styles */
+        .zero-cost-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(37, 99, 235, 0.02) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-left: 5px solid #3b82f6;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 30px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: var(--transition);
+        }
+
+        .zero-cost-box:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .zero-cost-icon {
+            font-size: 1.6rem;
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.08);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .zero-cost-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .zero-cost-content strong {
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.05rem;
+            letter-spacing: -0.3px;
+        }
+
         /* Report Download Card Styles */
         .report-download-card {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.03) 100%);
-            border: 1px solid rgba(16, 185, 129, 0.15);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(37, 99, 235, 0.03) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.15);
             border-radius: var(--border-radius);
             padding: 30px;
             display: flex;
@@ -488,7 +534,7 @@
         .report-download-card:hover {
             border-color: var(--accent-primary);
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.1);
         }
 
         .report-icon-wrapper {
@@ -545,7 +591,7 @@
             background: var(--accent-secondary);
             color: var(--primary-bg) !important;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -621,6 +667,15 @@
                     </p>
                     <div class="highlight-box">
                         <strong>Core Philosophy:</strong> The agent never queries search engines blindly. It operates on a "Plan Before Search" approach, compiling target queries, ranking sources, resolving conflicts across platforms, and structuring findings into structured curriculum blocks called "Bytes".
+                    </div>
+                    <!-- Zero-Cost Approach Box -->
+                    <div class="zero-cost-box">
+                        <div class="zero-cost-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="zero-cost-content">
+                            <strong>Zero-Cost Architecture:</strong> NavosAI is designed to be fully operational without any API expenses. By utilizing free-tier AI models (such as Google Gemini 2.5 Flash and Groq) alongside open search routing, it demonstrates that production-grade autonomous research pipelines can be executed with zero subscription or query fees.
+                        </div>
                     </div>
                     <!-- Report Download Card -->
                     <div class="report-download-card">
