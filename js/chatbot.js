@@ -54,7 +54,11 @@ GUIDELINES:
     let triggerBtn, chatWindow, chatHeader, messagesContainer, chatForm, chatInput, sendBtn, closeBtn, clearBtn, sizeBtn, sizeIcon, chipsBar;
     let resizeCorner;
 
-    document.addEventListener('DOMContentLoaded', initChatbot);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initChatbot);
+    } else {
+        initChatbot();
+    }
 
     function initChatbot() {
         triggerBtn = document.getElementById('chatbotTrigger');
@@ -420,13 +424,13 @@ GUIDELINES:
     }
 
     async function queryAI(messages, userQuery) {
-        // First try the Netlify / local serverless endpoint
+        // Tier 1: Try local or Netlify serverless endpoint (NVIDIA NIM or server-side proxy)
         const endpoints = ['/api/chat', '/.netlify/functions/chat'];
 
         for (const ep of endpoints) {
             try {
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 12000); // 12s timeout
+                const timeoutId = setTimeout(() => controller.abort(), 6000); // 6s fast timeout
 
                 const response = await fetch(ep, {
                     method: 'POST',
@@ -453,99 +457,143 @@ GUIDELINES:
                     }
                 }
             } catch (e) {
-                // Try next endpoint or fallback
+                // Try next endpoint or direct client AI
             }
         }
 
-        throw new Error('Endpoint unreachable');
+        // Tier 2: Direct browser client call to public AI endpoint (CORS-enabled, zero-key needed)
+        // Works seamlessly on file://, localhost, GitHub Pages, or any static host!
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+            const directRes = await fetch('https://text.pollinations.ai/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: messages,
+                    model: 'openai',
+                    temperature: 0.7
+                }),
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            if (directRes.ok) {
+                const text = await directRes.text();
+                if (text && text.trim()) {
+                    return text.trim();
+                }
+            }
+        } catch (directErr) {
+            console.warn('Direct AI client call unavailable:', directErr.message);
+        }
+
+        throw new Error('All online AI tiers unreachable');
     }
 
     /* -------------------------------------------------------------
-       Intelligent Local Persona Engine
+       Intelligent Local Persona Engine (Comprehensive Offline Fallback)
        ------------------------------------------------------------- */
     function generateIntelligentReply(query) {
         const q = query.toLowerCase().trim();
 
         // 1. Greetings & Pleasantries
-        if (/^(hi|hello|hey|yo|greetings|good\s*(morning|afternoon|evening)|sup|howdy)\b/i.test(q)) {
+        if (/^(hi|hello|hey|yo|greetings|good\s*(morning|afternoon|evening)|sup|howdy|hoi)\b/i.test(q)) {
             const greetings = [
-                `Hey there! 👋 It's wonderful to meet you! I'm Tusha Rahul's AI Twin. How can I help you today? Feel free to ask about my AI projects, my engineering work at Tabner Inc., or my tech stack!`,
+                `Hey there! 👋 Wonderful to meet you! I'm Tusha Rahul's AI Twin. How can I help you today? Feel free to ask about my AI projects, my engineering work at Tabner Inc., or my tech stack!`,
                 `Hello! Great to connect with you! 😊 I'm always energized to talk about Applied AI, machine learning systems, and full-stack engineering. What's on your mind?`,
                 `Hey! Thanks for stopping by my portfolio! 🚀 I'm ready to share anything you'd like to know about my journey, projects, or how we might collaborate!`
             ];
             return greetings[Math.floor(Math.random() * greetings.length)];
         }
 
-        // 2. Tabner Inc. & Current Role
-        if (q.includes('tabner') || q.includes('current role') || q.includes('current job') || q.includes('konfigai')) {
-            return `I'm currently working as an **Applied AI/ML Engineer & AI Agent Developer at Tabner Inc.**! 🚀\n\nAt Tabner, I build and scale enterprise AI systems like **KonfigAI** and **DocPortal**. My day-to-day focus includes:\n- Architecting multi-tenant RAG pipelines using **FastAPI** and **Weaviate** with dense + sparse hybrid vector search.\n- Developing LLM-driven agents and Text-to-SQL assistants that translate natural language queries into optimized PostgreSQL execution plans.\n- Containerizing and orchestrating services with **Docker** and **Kubernetes** on Google Cloud Platform and Microsoft Azure.\n\nIt's an intense, high-impact role where I get to turn cutting-edge LLM research into production systems!`;
+        // 2. Who is Rahul / Bio / About Me
+        if (q.includes('who are you') || q.includes('who is rahul') || q.includes('about rahul') || q.includes('about yourself') || q.includes('introduce yourself') || q.includes('tell me about you') || q.includes('background')) {
+            return `I'm **Tusha Rahul Bellamkonda**, an Applied AI/ML Engineer and AI Agent Developer based in Narsapur, Andhra Pradesh, India! 🇮🇳\n\n- **Current Role**: Applied AI Engineer at **Tabner Inc.** building production AI systems like **KonfigAI** and **DocPortal**.\n- **Specialties**: Multi-tenant enterprise RAG pipelines, autonomous multi-agent workflows, Text-to-SQL assistants, and cloud-native deployments on GCP & Azure.\n- **Content Creation**: I also run a daily engineering vlog on YouTube at **[@Rahuls_life_stories](https://www.youtube.com/@Rahuls_life_stories)** documenting my 5-year journey to becoming a world-class AI builder!\n\nWhether you want to explore my technical builds, chat about enterprise LLMs, or collaborate, I'm thrilled to connect!`;
         }
 
-        // 3. DocPortal
-        if (q.includes('docportal') || q.includes('rag') || q.includes('retriev') || q.includes('weaviate')) {
-            return `**DocPortal** is one of my flagship enterprise builds at Tabner Inc.! 📄\n\nHere are the key technical highlights:\n- **Problem**: 50+ enterprise users needed to query across 1,000+ complex technical documents with zero hallucinations and fast sub-second latency.\n- **Architecture**: Powered by **FastAPI** and **Weaviate** utilizing **HNSW Hybrid Search** (merging dense semantic embeddings with BM25 keyword matching) and strict metadata filtering.\n- **Impact**: Improved search accuracy from **58% to 85%**, drastically reduced retrieval noise, and provided grounded citation provenance for every answer!`;
+        // 3. Tabner Inc. & Current Role
+        if (q.includes('tabner') || q.includes('current role') || q.includes('current job') || q.includes('konfigai') || q.includes('what do you do at work')) {
+            return `I'm currently working as an **Applied AI/ML Engineer & AI Agent Developer at Tabner Inc.**! 🚀\n\nAt Tabner, I architect and scale production AI systems around **KonfigAI** and **DocPortal**:\n- **Multi-Tenant RAG**: Engineered with **FastAPI** and **Weaviate** using HNSW dense+sparse hybrid vector search and metadata isolation.\n- **Text-to-SQL Agents**: Building autonomous assistants that convert complex analytical questions into optimized, safe SQL queries for PostgreSQL.\n- **Cloud Infrastructure**: Packaging microservices into **Docker** containers and deploying on **Kubernetes** across Google Cloud Platform (GCP) and Azure.\n\nIt's a high-velocity role where cutting-edge agentic research directly transforms into enterprise products!`;
         }
 
-        // 4. Pioneer Nexus
-        if (q.includes('pioneer') || q.includes('nexus') || q.includes('text to sql') || q.includes('text-to-sql') || q.includes('sql assistant')) {
-            return `**Pioneer Nexus** is an LLM-powered Text-to-SQL AI Assistant I engineered for PostgreSQL databases! ⚡\n\n- **Core Purpose**: Business analysts and engineers often spend hours drafting complex multi-table SQL queries. Pioneer Nexus lets them ask questions in plain English.\n- **Key Features**: Dynamic database schema introspection, few-shot prompt chaining, syntax validation, and SQL guardrails to prevent unsafe transactions.\n- **Result**: Cut analyst query drafting time by **40%**, making analytical workflows dramatically faster and more accessible!`;
+        // 4. All Projects Overview
+        if (q.includes('projects') || q.includes('what have you built') || q.includes('portfolio work') || q.includes('key projects') || q.includes('what did you create')) {
+            return `Here are some of my flagship production and research AI builds:\n\n1. **DocPortal (Enterprise RAG)**: Multi-tenant RAG platform using FastAPI & Weaviate with hybrid search. 50+ enterprise users, 1,000+ docs, 85% search accuracy.\n2. **Pioneer Nexus (Text-to-SQL)**: LLM assistant translating natural language into PostgreSQL queries, cutting analyst drafting time by 40%.\n3. **NavosAI (Research Multi-Agent)**: LangGraph + FastAPI research pipeline that crawls sources, scores credibility, and streams live dynamic knowledge graphs via SSE.\n4. **Autonomous Cold Outreach Agent**: n8n + local LLaMA 3.2 via Ollama + Gmail API + WhatsApp execution dispatches.\n5. **Autonomous LinkedIn Growth Engine**: n8n + Gemini 2.5 + Cloudflare Workers for daily AI news synthesis and scheduled publication.\n6. **ClipYT**: AI-driven video highlight generator using OpenAI Whisper & semantic transcript clustering.\n7. **Ideate**: Voice-first brain-dump to structured Product Requirement Document (PRD) generator.\n\nWhich of these would you like to dive deeper into?`;
         }
 
-        // 5. NavosAI
-        if (q.includes('navos') || q.includes('research agent') || q.includes('langgraph') || q.includes('knowledge graph')) {
-            return `**NavosAI** is a production-grade multi-agent research pipeline I built! 🤖\n\n- **Framework**: Orchestrated with **LangGraph** and **FastAPI** on the backend, with a reactive SVG UI streaming live tokens over **Server-Sent Events (SSE)**.\n- **How It Works**: It decomposes open-ended questions into structured research intents, crawls and scores sources for credibility, resolves conflicting claims, and renders an interactive, dynamic knowledge graph of findings in real time!`;
+        // 5. DocPortal
+        if (q.includes('docportal') || q.includes('rag') || q.includes('retriev') || q.includes('weaviate') || q.includes('vector db') || q.includes('hnsw')) {
+            return `**DocPortal** is one of my core enterprise builds at Tabner Inc.! 📄\n\n- **The Challenge**: 50+ enterprise users needed to query across 1,000+ technical documents with strict data privacy and zero hallucinations.\n- **Architecture**: Built on **FastAPI** and **Weaviate**, utilizing **HNSW Hybrid Search** (dense semantic embeddings combined with BM25 sparse keyword matching) alongside dynamic metadata filters.\n- **Results**: Boosted search accuracy from **58% to 85%**, drastically reduced retrieval latency, and ensured grounded citation provenance for every answer!`;
         }
 
-        // 6. Cold Outreach Agent (n8n + Ollama + Gmail)
-        if (q.includes('outreach') || q.includes('cold email') || q.includes('n8n') || q.includes('ollama') || q.includes('whatsapp')) {
-            return `My **Autonomous AI Cold Outreach Agent** is an end-to-end automated pipeline built on **n8n**, **Local LLaMA 3.2 via Ollama**, the **Gmail API**, and **WhatsApp**! 📬\n\n- Fetches targeted prospect leads directly from Google Sheets.\n- Conducts automated prospect enrichment via live Tavily web searches.\n- Dynamically drafts hyper-personalized emails with localized LLMs.\n- Sends emails with throttled batch delivery to maintain domain sender reputation.\n- Dispatches instant execution summaries directly to my WhatsApp upon completion!`;
+        // 6. Pioneer Nexus
+        if (q.includes('pioneer') || q.includes('nexus') || q.includes('text to sql') || q.includes('text-to-sql') || q.includes('sql assistant') || q.includes('database query')) {
+            return `**Pioneer Nexus** is an LLM-powered Text-to-SQL assistant engineered for PostgreSQL databases! ⚡\n\n- **Purpose**: Helps data analysts and business leaders query relational databases using everyday natural language without manual SQL syntax struggles.\n- **Key Features**: Dynamic database schema introspection, few-shot prompt chaining, automated syntax linting, and security guardrails against destructive transactions.\n- **Impact**: Reduced query drafting time by **40%**, making enterprise data exploration lightning fast and reliable!`;
         }
 
-        // 7. LinkedIn Growth Engine
-        if (q.includes('linkedin engine') || q.includes('linkedin automation') || q.includes('social media agent')) {
-            return `The **Autonomous LinkedIn Growth Engine** is an intelligent content engine I built with **n8n**, **Gemini 2.5 Flash**, and **Cloudflare AI Workers**! 📱\n\n- Scrapes trending AI papers and tech news daily.\n- Synthesizes market insights and writes engaging technical LinkedIn posts tailored to my voice.\n- Manages approval workflows and schedules direct API publication to LinkedIn without manual overhead!`;
+        // 7. NavosAI
+        if (q.includes('navos') || q.includes('research agent') || q.includes('langgraph') || q.includes('knowledge graph') || q.includes('multi-agent') || q.includes('multi agent')) {
+            return `**NavosAI** is a production-grade multi-agent research pipeline! 🤖\n\n- **Framework**: Orchestrated with **LangGraph** and **FastAPI** on the backend, streaming live token updates via **Server-Sent Events (SSE)** to an interactive SVG frontend.\n- **Workflow**: Takes broad, ambiguous questions, breaks them down into sub-queries, scrapes sources, scores authority, resolves contradictory data points, and renders an interactive knowledge graph of discoveries in real time!`;
         }
 
-        // 8. ClipYT & Ideate
-        if (q.includes('clipyt') || q.includes('clip') || q.includes('video ai')) {
-            return `**ClipYT** is an intelligent AI video highlighting tool! 🎬 It ingests long-form YouTube videos, runs OpenAI Whisper for speech-to-text transcription, applies semantic clustering on transcripts to find high-engagement segments, and automatically extracts viral-worthy vertical clips!`;
-        }
-        if (q.includes('ideate') || q.includes('prd') || q.includes('voice')) {
-            return `**Ideate** is a voice-first ideation platform! 💡 It allows founders and engineers to record unstructured spoken voice brain-dumps, and automatically transforms that audio into clear, structured Product Requirement Documents (PRDs) with user stories, acceptance criteria, and system architectures!`;
+        // 8. Cold Outreach Agent
+        if (q.includes('outreach') || q.includes('cold email') || q.includes('n8n') || q.includes('ollama') || q.includes('whatsapp') || q.includes('lead gen')) {
+            return `My **Autonomous AI Cold Outreach Agent** is an automated pipeline built on **n8n**, **Local LLaMA 3.2 via Ollama**, the **Gmail API**, and **WhatsApp**! 📬\n\n- **Lead Ingestion**: Pulls prospect lists from Google Sheets automatically.\n- **Enrichment**: Executes live Tavily web searches to discover recent prospect news.\n- **Personalization**: Localized LLaMA models draft hyper-tailored pitch emails.\n- **Delivery & Notification**: Sends emails with throttled rate-limiting and dispatches instant completion reports directly to my WhatsApp!`;
         }
 
-        // 9. Past Internships (Tiger Analytics, AIMER, DataValley)
-        if (q.includes('intern') || q.includes('tiger') || q.includes('aimer') || q.includes('datavalley')) {
-            return `Here is a quick snapshot of my prior milestone internships:\n- **Tiger Analytics** (Data Science & Analytics Intern): Built retail analytics ETL pipelines, executive Power BI dashboards, and assisted in predictive sales models.\n- **AIMER Society** (AI Medical Intern): Trained convolutional neural networks (CNNs) for medical image classification and applied Grad-CAM for model explainability.\n- **DataValley** (Python Full-Stack Intern): Built database-driven web platforms, REST APIs, and full-stack responsive web applications!`;
+        // 9. LinkedIn Growth Engine
+        if (q.includes('linkedin engine') || q.includes('linkedin automation') || q.includes('social media agent') || q.includes('social agent')) {
+            return `The **Autonomous LinkedIn Growth Engine** is an intelligent content system I built using **n8n**, **Gemini 2.5 Flash**, and **Cloudflare AI Workers**! 📱\n\n- Monitors trending machine learning research papers and tech news daily.\n- Extracts strategic takeaways and crafts authentic, engaging technical LinkedIn posts tailored to my perspective.\n- Automatically queues approved drafts and triggers direct API publishing to LinkedIn!`;
         }
 
-        // 10. Tech Stack & Skills
-        if (q.includes('stack') || q.includes('skill') || q.includes('tech') || q.includes('tools') || q.includes('python') || q.includes('languages')) {
-            return `Here's a breakdown of my core technical stack:\n- **AI & ML**: LangChain, LangGraph, Ollama, Weaviate, ChromaDB, Hugging Face, PyTorch, RAG Pipelines, Multi-Agent Systems, Fine-Tuning.\n- **Languages**: Python, SQL, JavaScript, HTML5/CSS3.\n- **Backend & Cloud**: FastAPI, Django, Flask, Docker, Kubernetes, GCP, Azure, PostgreSQL, Redis, Netlify.\n- **Automation & Tools**: n8n, Git, GitHub, Power BI, Streamlit, Linux.`;
+        // 10. ClipYT & Ideate
+        if (q.includes('clipyt') || q.includes('clip') || q.includes('video ai') || q.includes('video summar')) {
+            return `**ClipYT** is an intelligent AI video highlighting tool! 🎬 It ingests long-form YouTube videos, runs **OpenAI Whisper** for high-precision audio transcription, applies semantic clustering on transcripts to detect peak-engagement moments, and automatically crops and exports viral vertical clips!`;
+        }
+        if (q.includes('ideate') || q.includes('prd') || q.includes('voice dump') || q.includes('voice')) {
+            return `**Ideate** is a voice-first ideation platform! 💡 It allows builders and founders to speak out spontaneous voice thoughts and automatically transforms the spoken audio into structured, comprehensive Product Requirement Documents (PRDs) with user stories, acceptance criteria, and system architecture diagrams!`;
         }
 
-        // 11. YouTube Channel
-        if (q.includes('youtube') || q.includes('channel') || q.includes('vlog') || q.includes('life stories')) {
-            return `Yes! I host a YouTube channel called **[@Rahuls_life_stories](https://www.youtube.com/@Rahuls_life_stories)** 🎥!\n\nMy personal tagline is: *"Time-traveling to the future, one daily vlog at a time. The destination? Me in five years."*\nI document my authentic engineering journey, personal development, AI experiments, and milestones. Be sure to check it out!`;
+        // 11. Tech Stack & Skills
+        if (q.includes('stack') || q.includes('skill') || q.includes('tech') || q.includes('tools') || q.includes('python') || q.includes('languages') || q.includes('framework')) {
+            return `Here is a comprehensive overview of my core technical stack:\n\n- **AI & ML**: LangChain, LangGraph, Ollama, Weaviate, ChromaDB, Hugging Face, PyTorch, RAG Pipelines, Multi-Agent Systems, Fine-Tuning.\n- **Languages**: Python, SQL (PostgreSQL), JavaScript (ES6+), HTML5/CSS3.\n- **Backend & Cloud**: FastAPI, Django, Flask, Docker, Kubernetes, Google Cloud Platform (GCP), Microsoft Azure, Redis, Netlify.\n- **Automation & CI/CD**: n8n, Git, GitHub, Linux, Power BI, Streamlit.`;
         }
 
-        // 12. Philosophy & Quotes (Monkey D. Luffy / One Piece)
-        if (q.includes('quote') || q.includes('philosophy') || q.includes('luffy') || q.includes('one piece') || q.includes('motto')) {
-            return `My guiding motto is from Monkey D. Luffy (*One Piece*):\n\n> *"The future belongs to those who never stop believing."*\n\nI believe that relentless curiosity, humility, and disciplined daily execution can solve even the toughest engineering challenges! ⚓✨`;
+        // 12. Past Experience (Tiger Analytics, AIMER, DataValley, DSV)
+        if (q.includes('intern') || q.includes('tiger') || q.includes('aimer') || q.includes('datavalley') || q.includes('experience') || q.includes('history')) {
+            return `Here's a look at my milestone journey before Tabner Inc.:\n\n- **Tiger Analytics** (Data Science & Analytics Intern): Built retail ETL pipelines, executive Power BI dashboards, and assisted in predictive sales models.\n- **AIMER Society** (AI Medical Intern): Trained convolutional neural networks (CNNs) for medical image classification and applied Grad-CAM explainability.\n- **DataValley** (Python Full-Stack Intern): Engineered database-driven web platforms, REST APIs, and responsive full-stack applications.\n- **DSV Project & FluenTranslate**: Built foundational web interfaces and real-time translation pipelines!`;
         }
 
-        // 13. Contact & Collaboration
-        if (q.includes('contact') || q.includes('hire') || q.includes('email') || q.includes('reach') || q.includes('collaborat') || q.includes('talk')) {
-            return `I'm always excited to collaborate on groundbreaking AI initiatives! 🤝 Here's how you can reach me directly:\n- **Email**: [tusharahul82@gmail.com](mailto:tusharahul82@gmail.com)\n- **LinkedIn**: [linkedin.com/in/tusha-rahul](https://www.linkedin.com/in/tusha-rahul/)\n- **GitHub**: [github.com/Rahul6158](https://github.com/Rahul6158)\n- **Portfolio**: [tusharahul.netlify.app](https://tusharahul.netlify.app)\n\nDrop me a message and let's build something extraordinary together!`;
+        // 13. YouTube Channel
+        if (q.includes('youtube') || q.includes('channel') || q.includes('vlog') || q.includes('life stories') || q.includes('video')) {
+            return `Yes! I run a YouTube channel called **[@Rahuls_life_stories](https://www.youtube.com/@Rahuls_life_stories)** 🎥!\n\nMy motto is: *"Time-traveling to the future, one daily vlog at a time. The destination? Me in five years."*\nI document my authentic engineering journey, personal development, AI experiments, and lessons learned. Join me on the journey!`;
         }
 
-        // 14. Location & About
-        if (q.includes('where') || q.includes('location') || q.includes('living') || q.includes('about you') || q.includes('who are you')) {
-            return `I'm **Tusha Rahul Bellamkonda**, an Applied AI/ML Engineer based in Narsapur, Andhra Pradesh, India! 🇮🇳\n\nI specialize in bringing generative AI and autonomous agents out of Jupyter notebooks and directly into enterprise production. Whether it's high-precision RAG search systems, Text-to-SQL query agents, or multi-agent research tools, I thrive at the intersection of AI research and robust software engineering!`;
+        // 14. Philosophy & Luffy Quote
+        if (q.includes('quote') || q.includes('philosophy') || q.includes('luffy') || q.includes('one piece') || q.includes('motto') || q.includes('inspiration')) {
+            return `My favorite guiding motto is from Monkey D. Luffy (*One Piece*):\n\n> *"The future belongs to those who never stop believing."*\n\nI believe that relentless curiosity, deep humility, and disciplined daily execution can solve even the most intimidating engineering challenges! ⚓✨`;
         }
 
-        // Default Enthusiastic Response
-        return `Thank you for asking! 😊 As an Applied AI/ML Engineer, I'm deeply passionate about production RAG systems, autonomous agentic workflows, and cloud-native AI architectures.\n\nCould I tell you more about one of my projects like **DocPortal** or **Pioneer Nexus**, my work at **Tabner Inc.**, or my core tech stack?`;
+        // 15. Contact & Collaboration / Hiring
+        if (q.includes('contact') || q.includes('hire') || q.includes('email') || q.includes('reach') || q.includes('collaborat') || q.includes('talk') || q.includes('linkedin') || q.includes('github') || q.includes('freelance') || q.includes('work together')) {
+            return `I'm always eager to collaborate on groundbreaking AI initiatives, enterprise RAG systems, or innovative engineering challenges! 🤝\n\nHere's how you can reach me directly:\n- **Email**: [tusharahul82@gmail.com](mailto:tusharahul82@gmail.com)\n- **LinkedIn**: [linkedin.com/in/tusha-rahul](https://www.linkedin.com/in/tusha-rahul/)\n- **GitHub**: [github.com/Rahul6158](https://github.com/Rahul6158)\n- **Portfolio**: [tusharahul.netlify.app](https://tusharahul.netlify.app)\n\nDrop me a message anytime and let's build something remarkable together!`;
+        }
+
+        // 16. Location & Education
+        if (q.includes('where') || q.includes('location') || q.includes('living') || q.includes('city') || q.includes('country') || q.includes('college') || q.includes('education') || q.includes('degree')) {
+            return `I am based in **Narsapur, Andhra Pradesh, India** 🇮🇳.\n\nI hold a strong academic foundation in Computer Science and Engineering with a deep specialization in Applied Artificial Intelligence, Machine Learning, and Cloud Systems!`;
+        }
+
+        // 17. Capabilities & How to Use
+        if (q.includes('what can you do') || q.includes('help') || q.includes('how do you work') || q.includes('commands') || q.includes('capabilities')) {
+            return `As Tusha Rahul's AI Twin, I can answer questions about:\n\n- **My Projects**: Details on DocPortal, Pioneer Nexus, NavosAI, and more.\n- **My Role at Tabner Inc.**: Architecture behind KonfigAI, multi-tenant RAG, and Text-to-SQL.\n- **My Technical Stack**: Tools, frameworks, vector DBs, and cloud orchestration.\n- **My Journey & Content**: Past internships, YouTube daily vlogs, and engineering philosophy.\n- **Hiring & Collaboration**: Direct contact details and opportunities to build together!\n\nWhat would you like to know?`;
+        }
+
+        // Default Contextual Synthesis
+        return `Thank you for asking! 😊 As an Applied AI/ML Engineer, I'm passionate about production RAG systems, autonomous agentic workflows, and cloud-native AI architectures.\n\nI can tell you all about my work at **Tabner Inc.**, projects like **DocPortal** and **Pioneer Nexus**, my core **tech stack**, or how to **get in touch**! What topic interests you most?`;
     }
 
     /* -------------------------------------------------------------

@@ -631,3 +631,20 @@
         display: none !important;
     }
 }
+
+/* ------------------------------------------------------------
+   Prevent Back-to-Top from overlapping the Chatbot Launcher
+   ------------------------------------------------------------ */
+.back-to-top {
+    bottom: 78px !important;
+    right: 24px !important;
+    border-radius: 50% !important;
+}
+
+@media (max-width: 600px) {
+    .back-to-top {
+        bottom: 68px !important;
+        right: 14px !important;
+    }
+}
+
