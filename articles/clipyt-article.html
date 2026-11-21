@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <title>clipYT: Standalone AI YouTube Viral Clipper | Tusha Rahul</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-bg: #090a0f;
+            --secondary-bg: #140d12;
+            --card-bg: #1c1219;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent-primary: #ff0033;
+            --accent-secondary: #a855f7;
+            --accent-tertiary: #76b900;
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--primary-bg);
+            line-height: 1.8;
+            overflow-x: hidden;
+            counter-reset: section;
+        }
+
+        .navbar {
+            background-color: rgba(9, 10, 15, 0.95);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--accent-primary) !important;
+            letter-spacing: -0.5px;
+        }
+
+        .article-hero {
+            padding: 180px 0 110px;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .article-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(10, 10, 15, 0.72), rgba(10, 10, 15, 0.85)), url('../img/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            transform: scale(1.1);
+            z-index: -1;
+        }
+
+        .article-badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .shield-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .shield-badge:hover {
+            border-color: var(--accent-primary);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .article-title {
+            font-size: clamp(2.3rem, 4.8vw, 3.6rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 45%, #ff0033 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .article-tagline {
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            font-weight: 500;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .article-meta {
+            color: var(--text-secondary);
+            margin-bottom: 35px;
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+        }
+
+        .article-meta span i {
+            color: var(--accent-primary);
+            margin-right: 8px;
+        }
+
+        .hero-action-buttons {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-action {
+            background: linear-gradient(135deg, #ff0033 0%, #dc2626 100%);
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 10px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(255, 0, 51, 0.35);
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary-action:hover {
+            background: linear-gradient(135deg, #e11d48 0%, #b91c1c 100%);
+            transform: translateY(-2px);
+            color: #ffffff;
+            box-shadow: 0 12px 30px rgba(255, 0, 51, 0.5);
+        }
+
+        .btn-github-repo {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 10px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-github-repo:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .article-content {
+            padding: 70px 0 100px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .article-section {
+            margin-bottom: 75px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .article-section h2 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 30px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.5px;
+        }
+
+        .article-section h2::before {
+            counter-increment: section;
+            content: "0" counter(section);
+            font-size: 1.1rem;
+            color: var(--accent-primary);
+            margin-right: 18px;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 0, 51, 0.1);
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 0, 51, 0.2);
+            font-weight: 600;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--border-radius);
+            padding: 26px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 0, 51, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 0, 51, 0.12);
+            color: var(--accent-primary);
+            display: grid;
+            place-items: center;
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+        }
+
+        .feature-card-icon.purple {
+            background: rgba(168, 85, 247, 0.12);
+            color: var(--accent-secondary);
+        }
+
+        .feature-card-icon.lime {
+            background: rgba(118, 185, 0, 0.12);
+            color: var(--accent-tertiary);
+        }
+
+        .feature-card h4 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 1.12rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 0, 51, 0.12) 0%, rgba(168, 85, 247, 0.05) 100%);
+            border-left: 4px solid var(--accent-primary);
+            padding: 28px 32px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 35px 0;
+            color: #f1f5f9;
+        }
+
+        /* High Contrast & Visibility Overrides */
+        .text-muted,
+        small.text-muted,
+        .text-secondary,
+        .stat-caption {
+            color: #94a3b8 !important;
+        }
+
+        .text-purple {
+            color: #c084fc !important;
+        }
+
+        .feature-card small,
+        .stat-caption {
+            color: #cbd5e1 !important;
+            font-size: 0.86rem;
+            display: block;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        /* Enhanced Code Container */
+        .code-block-container {
+            margin: 25px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #06070a;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .copy-code-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #94a3b8;
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-code-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        pre.code-block,
+        .code-block {
+            background: #06070a;
+            padding: 20px 24px;
+            margin: 0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            line-height: 1.65;
+            white-space: pre;
+            tab-size: 4;
+            border: none;
+        }
+
+        pre.code-block code {
+            font-family: inherit;
+            color: inherit;
+            background: transparent;
+            padding: 0;
+        }
+
+        .tech-badge {
+            background: rgba(255, 0, 51, 0.1);
+            border: 1px solid rgba(255, 0, 51, 0.25);
+            color: #ff99aa;
+            padding: 7px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .tech-badge:hover {
+            background: rgba(255, 0, 51, 0.22);
+            border-color: var(--accent-primary);
+            color: #ffffff;
+        }
+
+        .back-btn {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-primary);
+            transform: translateX(-6px);
+        }
+
+        .back-btn i {
+            margin-right: 10px;
+        }
+
+        .toc-container {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            position: sticky;
+            top: 95px;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .toc-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 6px;
+        }
+
+        .toc-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.84rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 0;
+        }
+
+        .toc-item a:hover {
+            color: var(--accent-primary);
+            padding-left: 6px;
+        }
+
+        .toc-item a.active {
+            color: var(--accent-primary);
+            font-weight: 700;
+            padding-left: 8px;
+            border-left: 2px solid var(--accent-primary);
+        }
+
+        .table-responsive {
+            margin: 28px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .table {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 2px solid var(--accent-primary);
+            color: var(--accent-primary);
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 14px 16px;
+        }
+
+        .table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px 16px;
+            font-size: 0.92rem;
+            vertical-align: middle;
+        }
+
+        /* Video Showcase Stage */
+        .video-showcase-box {
+            background: #000000;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            margin: 35px 0;
+        }
+
+        .video-aspect-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .aspect-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .aspect-card h5 {
+            color: var(--accent-primary);
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .aspect-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        .footer {
+            background-color: var(--secondary-bg);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">TUSHA RAHUL</a>
+            <div class="ms-auto">
+                <a href="../index.html#projects" class="btn btn-outline-light btn-sm rounded-pill px-4">Back to Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-hero">
+        <div class="container">
+            <a href="../articles.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Articles</a>
+            
+            <div class="article-badge-row">
+                <span class="shield-badge"><i class="fab fa-youtube me-1 text-danger"></i> YouTube Shorts</span>
+                <span class="shield-badge"><i class="fas fa-bolt me-1 text-warning"></i> FastAPI Backend</span>
+                <span class="shield-badge"><i class="fas fa-sparkles me-1 text-info"></i> Gemini 3.8 Flash</span>
+                <span class="shield-badge"><i class="fas fa-microphone me-1 text-success"></i> NVIDIA Canary-1B ASR</span>
+                <span class="shield-badge"><i class="fas fa-film me-1 text-primary"></i> FFmpeg Pipelines</span>
+            </div>
+
+            <h1 class="article-title">clipYT: Standalone AI YouTube<br>Viral Shorts &amp; Reels Clipper</h1>
+            <p class="article-tagline">Automating the extraction of high-retention vertical clips from widescreen video with dynamic captions and blurred backdrops</p>
+
+            <div class="article-meta">
+                <span><i class="far fa-calendar"></i> August 2025</span>
+                <span><i class="far fa-clock"></i> 12 min read</span>
+                <span><i class="fas fa-video"></i> Video AI &amp; DSP</span>
+                <span><i class="fas fa-desktop"></i> Standalone Full-Stack</span>
+            </div>
+
+            <div class="hero-action-buttons">
+                <a href="https://github.com/Rahul6158" class="btn-primary-action" target="_blank" rel="noopener">
+                    <i class="fas fa-download"></i> View Application Code
+                </a>
+                <a href="../index.html#projects" class="btn-github-repo">
+                    <i class="fas fa-layer-group"></i> Back to Portfolio
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="row">
+            <!-- Sidebar TOC -->
+            <aside class="col-lg-3 d-none d-lg-block">
+                <nav class="toc-container">
+                    <div class="toc-title"><i class="fas fa-list-ul"></i> Contents</div>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#overview"><i class="fas fa-chevron-right"></i> Executive Overview</a></li>
+                        <li class="toc-item"><a href="#hard-problems"><i class="fas fa-chevron-right"></i> Solved Video Challenges</a></li>
+                        <li class="toc-item"><a href="#framing"><i class="fas fa-chevron-right"></i> Smart Aspect Framing</a></li>
+                        <li class="toc-item"><a href="#captions"><i class="fas fa-chevron-right"></i> Word Burst Chunker</a></li>
+                        <li class="toc-item"><a href="#gemini-engine"><i class="fas fa-chevron-right"></i> Gemini Virality Engine</a></li>
+                        <li class="toc-item"><a href="#nvidia-asr"><i class="fas fa-chevron-right"></i> NVIDIA Canary-1B ASR</a></li>
+                        <li class="toc-item"><a href="#bot-bypass"><i class="fas fa-chevron-right"></i> YouTube Cookie Bypassing</a></li>
+                        <li class="toc-item"><a href="#architecture"><i class="fas fa-chevron-right"></i> Architecture &amp; Dashboard</a></li>
+                        <li class="toc-item"><a href="#deployment"><i class="fas fa-chevron-right"></i> Deployment &amp; Config</a></li>
+                        <li class="toc-item"><a href="#gallery"><i class="fas fa-chevron-right"></i> Project Visual Gallery</a></li>
+                        <li class="toc-item"><a href="#takeaways"><i class="fas fa-chevron-right"></i> Engineering Takeaways</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="col-lg-9 article-content">
+                <!-- Section 1: Overview -->
+                <section id="overview" class="article-section">
+                    <h2>Executive Overview</h2>
+                    <p>
+                        Short-form video platforms—YouTube Shorts, Instagram Reels, and TikTok—have fundamentally changed content discovery. However, repurposing long-form widescreen videos (podcasts, tutorials, conference keynotes) into high-retention 9:16 vertical shorts manually requires hours of timestamp hunting, manual cropping, and subtitle alignment.
+                    </p>
+                    <p>
+                        Existing cloud services charge steep monthly subscriptions and enforce cloud watermarks. <strong>clipYT</strong> is a <strong>standalone desktop web application</strong> featuring a high-performance <strong>FastAPI backend</strong> and modern dark glassmorphic web UI. It operates with zero external workflow orchestration (zero n8n required) and runs directly on local hardware or private containers.
+                    </p>
+
+                    <div class="highlight-box">
+                        <strong>Core Innovation:</strong> An integrated end-to-end media DSP pipeline combining Gemini LLM semantic virality scoring, NVIDIA Canary-1B high-speed speech-to-text, complex FFmpeg blurred backdrop canvas filters, and safe-zone subtitle rendering.
+                    </div>
+                </section>
+
+                <!-- Section 2: Hard Problems -->
+                <section id="hard-problems" class="article-section">
+                    <h2>Solving the Hard Video Engineering Challenges</h2>
+                    <p>
+                        Automating video reframing involves subtle visual and UX hurdles that simple scripts fail to handle:
+                    </p>
+
+                    <div class="row g-3 my-4">
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <div class="feature-card-icon"><i class="fas fa-eye-slash"></i></div>
+                                <h4>The "Peephole" Problem</h4>
+                                <p>Blind center crops chop off presentation slides, co-hosts, and wide podcast tables, leaving viewers disoriented.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <div class="feature-card-icon purple"><i class="fas fa-closed-captioning"></i></div>
+                                <h4>Subtitle Overflow &amp; Blocking</h4>
+                                <p>Standard subtitles render across the entire screen width, getting covered by TikTok/Reels UI buttons and avatar sidebars.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Smart Framing -->
+                <section id="framing" class="article-section">
+                    <h2>Smart Aspect Ratio &amp; Blurred Backdrop Engine</h2>
+                    <p>
+                        clipYT implements an advanced multi-pass FFmpeg <code>filter_complex</code> pipeline that resolves the framing dilemma:
+                    </p>
+
+                    <div class="video-aspect-comparison">
+                        <div class="aspect-card">
+                            <h5>1. Blurred Backdrop (Recommended)</h5>
+                            <p>Preserves 100% of the widescreen video in the vertical center while dynamically synthesizing a heavily blurred, scaled background layer behind it. Perfect for coding tutorials, podcasts, and gaming.</p>
+                        </div>
+                        <div class="aspect-card">
+                            <h5>2. Center Fill (9:16)</h5>
+                            <p>Zooms and crops tightly to center screen. Ideal for single talking-head interviews and solo vloggers.</p>
+                        </div>
+                        <div class="aspect-card">
+                            <h5>3. Native Landscape (16:9)</h5>
+                            <p>Preserves native widescreen proportions for Twitter/X video dispatches and desktop embeds.</p>
+                        </div>
+                    </div>
+
+                    <div class="code-block-container">
+                        <div class="code-block-header">
+                            <span class="code-lang"><i class="fas fa-film text-danger me-2"></i> FFmpeg Dual-Layer Blurred Backdrop Filter</span>
+                            <button type="button" class="copy-code-btn" onclick="copyCode(this)" title="Copy Code"><i class="far fa-copy me-1"></i> Copy</button>
+                        </div>
+                        <pre class="code-block"><code># FFmpeg Dual-Layer Blurred Backdrop Filter:
+ffmpeg -i input.mp4 -filter_complex \
+"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=20:5[bg]; \
+ [0:v]scale=1080:608:force_original_aspect_ratio=decrease[fg]; \
+ [bg][fg]overlay=(W-w)/2:(H-h)/2" \
+-c:a copy output_vertical.mp4</code></pre>
+                    </div>
+                </section>
+
+                <!-- Section 4: Word Burst Chunker -->
+                <section id="captions" class="article-section">
+                    <h2>Word Burst Chunker &amp; Safe Zone Captions</h2>
+                    <p>
+                        Captions are vital: over 75% of mobile users browse short-form videos with audio muted. clipYT introduces a <strong>Word Burst Chunker</strong>:
+                    </p>
+                    <ul>
+                        <li><strong>Pacing:</strong> Rather than dumping whole sentences onto the canvas, it segments cues into 3–5 word bursts (1–2 seconds each) mimicking TikTok creator pacing.</li>
+                        <li><strong>Safe Zone Enforcing:</strong> Positioned in the lower-third with strict margins:
+                            <br><code>MarginL=80, MarginR=80, MarginV=260</code>
+                            <br>Words never clip beyond screen boundaries or collide with platform like/comment icons.
+                        </li>
+                        <li><strong>High-Contrast Typography:</strong> Vibrant yellow or crisp white font paired with thick black outlines and drop shadows, ensuring 100% legibility on bright or dark footage.</li>
+                        <li><strong>Top Hook Banner:</strong> Renders an attention-grabbing title banner at the top of the video during the first 5 seconds to maximize viewer retention.</li>
+                    </ul>
+                </section>
+
+                <!-- Section 5: Gemini Engine -->
+                <section id="gemini-engine" class="article-section">
+                    <h2>Gemini AI Virality Engine</h2>
+                    <p>
+                        clipYT employs Google's <strong>Gemini 3.8 Flash</strong> (with automatic fallback to <code>gemini-3.5-flash</code> and <code>gemini-3.1-flash-lite</code>) to analyze transcript semantics:
+                    </p>
+                    <div class="row g-3 my-3">
+                        <div class="col-md-4">
+                            <div class="feature-card text-center">
+                                <h4 class="text-danger fw-bold">Retention Scoring</h4>
+                                <p>Calculates virality scores (e.g. 96/100) based on emotional peaks, sudden reveals, and suspenseful hooks.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card text-center">
+                                <h4 class="text-purple fw-bold">Hook Titles</h4>
+                                <p>Generates high-CTR video header copy crafted specifically for instant viewer intrigue.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card text-center">
+                                <h4 class="text-success fw-bold">Social Kit</h4>
+                                <p>Outputs ready-to-post descriptions, hashtags, and engagement prompts for YouTube Shorts, Reels, and TikTok.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6: NVIDIA ASR -->
+                <section id="nvidia-asr" class="article-section">
+                    <h2>Automatic Speech-to-Text via NVIDIA Canary-1B NIM</h2>
+                    <p>
+                        Many valuable YouTube videos lack native subtitles or have auto-captions disabled by creators. clipYT solves this seamlessly:
+                    </p>
+                    <ol>
+                        <li>Extracts the high-fidelity audio stream from YouTube via <code>yt-dlp</code>.</li>
+                        <li>Transmits the compressed audio chunks to <strong>NVIDIA Canary-1B-ASR NIM</strong> microservices.</li>
+                        <li>Executes rapid parallel speech-to-text inference with automatic punctuation and sentence segmentation.</li>
+                        <li>Generates word-aligned WebVTT caption tracks in seconds without human transcription.</li>
+                    </ol>
+                </section>
+
+                <!-- Section 7: Bot Bypass -->
+                <section id="bot-bypass" class="article-section">
+                    <h2>Bypassing YouTube Bot Restrictions (<code>cookies.txt</code>)</h2>
+                    <p>
+                        YouTube employs aggressive anti-scraping and rate-limiting measures, frequently throwing <em>"Sign in to confirm you're not a bot"</em> errors when downloading high-resolution streams.
+                    </p>
+                    <p>
+                        clipYT integrates native Netscape-format cookie parsing:
+                    </p>
+                    <div class="code-block-container">
+                        <div class="code-block-header">
+                            <span class="code-lang"><i class="fas fa-cookie-bite text-warning me-2"></i> YouTube Cookie Authentication</span>
+                            <button type="button" class="copy-code-btn" onclick="copyCode(this)" title="Copy Code"><i class="far fa-copy me-1"></i> Copy</button>
+                        </div>
+                        <pre class="code-block"><code># Step 1: Export cookies locally via Chrome Extension ('Get cookies.txt LOCALLY')
+# Step 2: Place cookies.txt in the application root directory
+# Step 3: Run application:
+python run.py
+
+# Startup verification logs:
+# • YouTube Cookies: ✅ Loaded (cookies.txt)
+# • Gemini API: ✅ Connected
+# • NVIDIA Canary ASR: ✅ Ready</code></pre>
+                    </div>
+                </section>
+
+                <!-- Section 8: Architecture -->
+                <section id="architecture" class="article-section">
+                    <h2>Architecture &amp; Real-Time Dashboard</h2>
+                    <p>
+                        The application is built on modern asynchronous primitives:
+                    </p>
+                    <ul>
+                        <li><strong>FastAPI Async Core:</strong> Non-blocking media processing and background subprocess management.</li>
+                        <li><strong>Server-Sent Events (SSE):</strong> 4-stage live progress bar communicating audio extraction, transcription, AI hook scoring, and FFmpeg video rendering.</li>
+                        <li><strong>In-Browser Video Player:</strong> Custom HTML5 video player with real-time aspect toggles.</li>
+                        <li><strong>One-Click Asset Copy:</strong> Copy buttons for viral hooks, social captions, and direct MP4 downloads.</li>
+                    </ul>
+                </section>
+
+                <!-- Section 9: Deployment -->
+                <section id="deployment" class="article-section">
+                    <h2>Deployment &amp; Quick Start</h2>
+                    <p>clipYT supports native execution and Docker containerization:</p>
+
+                    <div class="code-block-container">
+                        <div class="code-block-header">
+                            <span class="code-lang"><i class="fas fa-terminal text-info me-2"></i> Execution &amp; Deployment</span>
+                            <button type="button" class="copy-code-btn" onclick="copyCode(this)" title="Copy Code"><i class="far fa-copy me-1"></i> Copy</button>
+                        </div>
+                        <pre class="code-block"><code># Method 1: Native Python (Fastest &amp; Recommended)
+python run.py
+# Server automatically opens http://127.0.0.1:8787 in your browser!
+
+# Method 2: Docker Compose
+docker compose up --build -d</code></pre>
+                    </div>
+
+                    <p>Environment Configuration (<code>.env</code>):</p>
+                    <div class="code-block-container">
+                        <div class="code-block-header">
+                            <span class="code-lang"><i class="fas fa-key text-success me-2"></i> Environment Configuration (.env)</span>
+                            <button type="button" class="copy-code-btn" onclick="copyCode(this)" title="Copy Code"><i class="far fa-copy me-1"></i> Copy</button>
+                        </div>
+                        <pre class="code-block"><code>GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-3.8-flash
+PORT=8787
+HOST=127.0.0.1
+OUTPUT_DIR=output
+NVIDIA_API_KEY=your_nvidia_nim_api_key_here
+NVIDIA_ASR_MODEL=canary-1b-asr</code></pre>
+                    </div>
+                </section>
+
+                <!-- Section 10: Visual Gallery -->
+                <section id="gallery" class="article-section">
+                    <h2>Project Visual Gallery &amp; Architecture Showcase</h2>
+                    <p class="text-secondary mb-4">
+                        Visual breakdown of clipYT's media DSP algorithms, intelligent framing engines, safe-zone subtitles, and end-to-end execution flow:
+                    </p>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-12">
+                            <div class="code-block-container">
+                                <div class="code-block-header">
+                                    <span class="code-lang"><i class="fas fa-project-diagram text-danger me-2"></i> clipYT End-to-End Media Processing Engine</span>
+                                    <span class="code-badge">Interactive Flowchart</span>
+                                </div>
+                                <pre class="mermaid">
+flowchart LR
+    A["🎥 YouTube Video / Audio"] -->|Cookies.txt + yt-dlp| B["⚡ Stream Extraction (1080p + AAC)"]
+    B --> C["🎙️ NVIDIA Canary-1B ASR"]
+    C -->|Timestamped SRT Chunks| D["🧠 Gemini 3.8 Virality Engine"]
+    D -->|Scored 30s-60s Viral Hooks| E["✂️ Precision FFmpeg DSP Pipeline"]
+    subgraph "Dual-Layer Smart Canvas Engine"
+        E --> F["Layer 1: Scaled & Boxblurred 9:16 Backdrop"]
+        E --> G["Layer 2: Centered 16:9 Crisp Feed"]
+        F & G --> H["Layer 3: Safe-Zone Word Burst Subtitles"]
+    end
+    H --> I["📱 Viral Vertical Short (.mp4)"]
+                                </pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="feature-card h-100 p-4" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 109, 90, 0.3); border-radius: 12px;">
+                                <div class="d-flex align-items-center mb-3">
+                                    <span class="badge bg-danger me-2"><i class="fas fa-layer-group"></i> DSP Visual 1</span>
+                                    <h5 class="text-white mb-0">Dual-Layer Blurred Backdrop</h5>
+                                </div>
+                                <p class="text-secondary small mb-3">Eliminates the "peephole effect" by synthesizing a gaussian blurred 1080x1920 background under the original 16:9 centered video layer.</p>
+                                <div class="p-3 text-center" style="background: #020617; border-radius: 8px; border: 1px dashed rgba(255, 109, 90, 0.4);">
+                                    <div style="width: 140px; height: 240px; margin: 0 auto; background: linear-gradient(180deg, #1e1b4b, #311042); position: relative; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                                        <div style="position: absolute; inset: 0; background: radial-gradient(circle, rgba(239,68,68,0.2), transparent 70%); filter: blur(8px);"></div>
+                                        <div style="width: 130px; height: 75px; background: #0f172a; border: 1px solid #ff6d5a; border-radius: 4px; display: flex; align-items: center; justify-content: center; z-index: 2;">
+                                            <span style="font-size: 0.65rem; color: #ff6d5a; font-weight: bold;"><i class="fas fa-play me-1"></i> 16:9 Crisp Video</span>
+                                        </div>
+                                        <div style="position: absolute; bottom: 35px; width: 100%; text-align: center; z-index: 3;">
+                                            <span style="background: #eab308; color: #000; font-size: 0.55rem; font-weight: 800; padding: 1px 4px; border-radius: 2px;">SAFE-ZONE CAPTIONS</span>
+                                        </div>
+                                    </div>
+                                    <span class="badge bg-dark text-muted mt-2">FFmpeg filter_complex 9:16 Canvas</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="feature-card h-100 p-4" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px;">
+                                <div class="d-flex align-items-center mb-3">
+                                    <span class="badge bg-primary me-2"><i class="fas fa-mobile-alt"></i> DSP Visual 2</span>
+                                    <h5 class="text-white mb-0">Safe-Zone Subtitle Placement</h5>
+                                </div>
+                                <p class="text-secondary small mb-3">Dynamic word-burst chunker positions text at exactly <code>margin_v=240</code> to protect captions from Reels, Shorts, and TikTok overlays.</p>
+                                <div class="p-3 text-center" style="background: #020617; border-radius: 8px; border: 1px dashed rgba(59, 130, 246, 0.4);">
+                                    <div style="width: 140px; height: 240px; margin: 0 auto; background: #0b0f19; position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+                                        <div style="position: absolute; top: 8px; left: 8px; right: 8px; height: 20px; background: rgba(239,68,68,0.15); border: 1px dashed #ef4444; border-radius: 2px; font-size: 0.5rem; color: #ef4444; line-height: 18px;">Top Status Bar (Blocked)</div>
+                                        <div style="position: absolute; right: 6px; top: 60px; bottom: 60px; width: 22px; background: rgba(239,68,68,0.15); border: 1px dashed #ef4444; border-radius: 2px; font-size: 0.45rem; color: #ef4444; writing-mode: vertical-rl; padding: 4px 2px;">App Action Buttons</div>
+                                        <div style="position: absolute; bottom: 8px; left: 8px; right: 8px; height: 35px; background: rgba(239,68,68,0.15); border: 1px dashed #ef4444; border-radius: 2px; font-size: 0.5rem; color: #ef4444; line-height: 16px;">Username &amp; Audio (Blocked)</div>
+                                        <div style="position: absolute; bottom: 50px; left: 15px; right: 35px; height: 26px; background: rgba(34,197,94,0.25); border: 1px solid #22c55e; border-radius: 3px; font-size: 0.55rem; color: #4ade80; font-weight: bold; line-height: 24px;">✅ clipYT Safe Zone</div>
+                                    </div>
+                                    <span class="badge bg-dark text-muted mt-2">Zero UI Collision Guarantee</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 11: Takeaways -->
+                <section id="takeaways" class="article-section">
+                    <h2>Engineering Takeaways</h2>
+                    <p>
+                        clipYT proves that standalone, locally controlled AI applications can outperform expensive cloud SaaS platforms in speed, privacy, and visual customization:
+                    </p>
+                    <div class="row g-3 my-3">
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <h4>Zero Third-Party Subscriptions</h4>
+                                <p>No recurring SaaS fees or watermark branding. You control the compute, media storage, and model parameters.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <h4>Pixel-Perfect Mobile Retention</h4>
+                                <p>Combining safe-zone subtitle positioning with dual-layer blurred backgrounds ensures professional, creator-grade short-form content.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <a href="https://github.com/Rahul6158" class="btn-primary-action me-3" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i> Star clipYT on GitHub
+                        </a>
+                        <a href="../articles.html" class="btn-github-repo">
+                            <i class="fas fa-layer-group"></i> Browse All Articles
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <h5 class="fw-bold text-white mb-2">TUSHA RAHUL BELLAMKONDA</h5>
+            <p class="mb-4">Applied AI/ML Engineer &bull; Agentic Workflow Architect</p>
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <a href="https://github.com/Rahul6158" class="text-secondary fs-5" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/tusha-rahul/" class="text-secondary fs-5" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                <a href="mailto:tusharahul82@gmail.com" class="text-secondary fs-5"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p class="small text-muted mb-0">&copy; 2026 Tusha Rahul. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modal Lightbox -->
+    <div id="imageModal" class="modal-overlay" onclick="closeModal()">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage" alt="Enlarged screenshot">
+    </div>
+
+    <!-- Mermaid.js for interactive architecture flowcharts -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof mermaid !== 'undefined') {
+                mermaid.initialize({
+                    startOnLoad: true,
+                    theme: 'dark',
+                    securityLevel: 'loose',
+                    themeVariables: {
+                        darkMode: true,
+                        background: '#06080d',
+                        primaryColor: '#1e293b',
+                        primaryTextColor: '#f8fafc',
+                        primaryBorderColor: 'rgba(255, 109, 90, 0.4)',
+                        lineColor: '#ff6d5a',
+                        secondaryColor: '#1e293b',
+                        tertiaryColor: '#0f172a',
+                        fontFamily: 'Inter, sans-serif'
+                    }
+                });
+            }
+        });
+
+        function openModal(element) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const img = element.querySelector('img');
+            if (img && modal && modalImg) {
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+                modal.style.display = 'flex';
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') closeModal();
+        });
+    </script>
+    <!-- Scripts -->
+    <script>
+        // Copy Code to Clipboard
+        function copyCode(btn) {
+            const container = btn.closest('.code-block-container');
+            const codeEl = container.querySelector('code, pre');
+            if (!codeEl) return;
+            const text = codeEl.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check text-success me-1"></i> Copied!';
+                setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
+            });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const link = document.querySelector(`.toc-item a[href="#${id}"]`);
+                if (entry.isIntersecting && link) {
+                    document.querySelectorAll('.toc-item a').forEach(a => a.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+        document.querySelectorAll('section[id]').forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>

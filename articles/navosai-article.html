@@ -652,7 +652,7 @@
                         <li class="toc-item"><a href="#graph"><i class="fas fa-chevron-right"></i> Knowledge Graph</a></li>
                         <li class="toc-item"><a href="#sse"><i class="fas fa-chevron-right"></i> SSE Streaming</a></li>
                         <li class="toc-item"><a href="#challenges"><i class="fas fa-chevron-right"></i> Engineering Challenges</a></li>
-                        <li class="toc-item"><a href="#app-gallery"><i class="fas fa-chevron-right"></i> App Gallery</a></li>
+                        <li class="toc-item"><a href="#gallery"><i class="fas fa-chevron-right"></i> Project Visual Gallery</a></li>
                         <li class="toc-item"><a href="#code"><i class="fas fa-chevron-right"></i> Code & Deployment</a></li>
                     </ul>
                 </nav>
@@ -836,23 +836,38 @@ data: {
                     </div>
                 </section>
 
-                <!-- App Gallery -->
-                <section id="app-gallery" class="article-section">
-                    <h2>App Gallery</h2>
-                    <p>Visual tour of the NavosAI Research Agent platform interface.</p>
+                <!-- Project Visual Gallery -->
+                <section id="gallery" class="article-section">
+                    <h2>Project Visual Gallery</h2>
+                    <p class="text-secondary mb-4">Click any screenshot to inspect the NavosAI Research Agent platform interface, dynamic knowledge graphs, and configuration settings in high definition.</p>
                     
-                    <div class="screenshot-grid">
-                        <div class="screenshot-item" onclick="openModal(this)">
-                            <img src="../img/navosai-research-report.png" alt="Research Report Dashboard">
-                            <div class="screenshot-label">Research Report Dashboard & Structured Output</div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/navosai-research-report.png" alt="Research Report Dashboard & Structured Output" loading="lazy">
+                                <div class="img-caption">
+                                    <span><strong>Figure 1:</strong> Research Report Dashboard &amp; Structured Output</span>
+                                    <span class="hint"><i class="fas fa-search-plus"></i> Zoom</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="screenshot-item" onclick="openModal(this)">
-                            <img src="../img/navosai-knowledge-graph.png" alt="Interactive SVG Knowledge Graph">
-                            <div class="screenshot-label">Dynamic Entity Knowledge Graph Visualization</div>
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/navosai-knowledge-graph.png" alt="Dynamic Entity Knowledge Graph Visualization" loading="lazy">
+                                <div class="img-caption">
+                                    <span><strong>Figure 2:</strong> Dynamic Entity Knowledge Graph Visualization</span>
+                                    <span class="hint"><i class="fas fa-search-plus"></i> Zoom</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="screenshot-item" onclick="openModal(this)">
-                            <img src="../img/navosai-api-settings.png" alt="API Settings & Model Selector">
-                            <div class="screenshot-label">Model Configurations & Integration Controls</div>
+                        <div class="col-12">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="../img/navosai-api-settings.png" alt="API Settings & Model Configurations" loading="lazy">
+                                <div class="img-caption">
+                                    <span><strong>Figure 3:</strong> API Settings &amp; Model Configurations Control Panel</span>
+                                    <span class="hint"><i class="fas fa-search-plus"></i> Zoom</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>

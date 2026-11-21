@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <title>Autonomous AI Cold Outreach Agent | Tusha Rahul</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../img/logo.png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-bg: #090a0f;
+            --secondary-bg: #121017;
+            --card-bg: #1a1622;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --accent-primary: #ff6d5a;
+            --accent-secondary: #25d366;
+            --accent-tertiary: #f59e0b;
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--primary-bg);
+            line-height: 1.8;
+            overflow-x: hidden;
+            counter-reset: section;
+        }
+
+        .navbar {
+            background-color: rgba(9, 10, 15, 0.95);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            color: var(--accent-primary) !important;
+            letter-spacing: -0.5px;
+        }
+
+        .article-hero {
+            padding: 180px 0 110px;
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .article-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(10, 10, 15, 0.72), rgba(10, 10, 15, 0.85)), url('https://raw.githubusercontent.com/Rahul6158/n8n-ai-cold-outreach-agent/main/screenshots/workflow-scrreenshot.jpeg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px);
+            transform: scale(1.1);
+            z-index: -1;
+        }
+
+        .article-badge-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .shield-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .shield-badge:hover {
+            border-color: var(--accent-secondary);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .article-title {
+            font-size: clamp(2.3rem, 4.8vw, 3.6rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 45%, #ff6d5a 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .article-tagline {
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            font-weight: 500;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .article-meta {
+            color: var(--text-secondary);
+            margin-bottom: 35px;
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+        }
+
+        .article-meta span i {
+            color: var(--accent-primary);
+            margin-right: 8px;
+        }
+
+        .hero-action-buttons {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary-action {
+            background: linear-gradient(135deg, #ff6d5a 0%, #ea580c 100%);
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 10px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(255, 109, 90, 0.35);
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary-action:hover {
+            background: linear-gradient(135deg, #f43f5e 0%, #c2410c 100%);
+            transform: translateY(-2px);
+            color: #ffffff;
+            box-shadow: 0 12px 30px rgba(255, 109, 90, 0.5);
+        }
+
+        .btn-github-repo {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 10px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-github-repo:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .article-content {
+            padding: 70px 0 100px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .article-section {
+            margin-bottom: 75px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .article-section h2 {
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 30px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.5px;
+        }
+
+        .article-section h2::before {
+            counter-increment: section;
+            content: "0" counter(section);
+            font-size: 1.1rem;
+            color: var(--accent-primary);
+            margin-right: 18px;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 109, 90, 0.1);
+            padding: 4px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 109, 90, 0.2);
+            font-weight: 600;
+        }
+
+        .step-heading {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-top: 35px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--border-radius);
+            padding: 26px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 109, 90, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 109, 90, 0.12);
+            color: var(--accent-primary);
+            display: grid;
+            place-items: center;
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+        }
+
+        .feature-card-icon.green {
+            background: rgba(37, 211, 102, 0.12);
+            color: var(--accent-secondary);
+        }
+
+        .feature-card-icon.amber {
+            background: rgba(245, 158, 11, 0.12);
+            color: var(--accent-tertiary);
+        }
+
+        .feature-card h4 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 1.12rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .img-container {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin: 36px 0;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
+            cursor: zoom-in;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .img-container:hover {
+            border-color: rgba(255, 109, 90, 0.4);
+            transform: scale(1.008);
+        }
+
+        .img-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .img-caption {
+            padding: 12px 18px;
+            background: rgba(18, 16, 23, 0.95);
+            font-size: 0.84rem;
+            color: #cbd5e1;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .img-caption span.hint {
+            color: var(--accent-secondary);
+            font-size: 0.75rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(255, 109, 90, 0.12) 0%, rgba(37, 211, 102, 0.05) 100%);
+            border-left: 4px solid var(--accent-primary);
+            padding: 28px 32px;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            margin: 35px 0;
+            color: #f1f5f9;
+        }
+
+        /* High Contrast & Visibility Overrides */
+        .text-muted,
+        small.text-muted,
+        .text-secondary,
+        .stat-caption {
+            color: #94a3b8 !important;
+        }
+
+        .feature-card small,
+        .stat-caption {
+            color: #cbd5e1 !important;
+            font-size: 0.86rem;
+            display: block;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        /* Enhanced Code & Diagram Container */
+        .code-block-container {
+            margin: 25px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #06070a;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .code-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .code-badge {
+            background: rgba(255, 109, 90, 0.12);
+            border: 1px solid rgba(255, 109, 90, 0.3);
+            color: #ffaa9d;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .copy-code-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #94a3b8;
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-code-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        pre.code-block,
+        .code-block,
+        pre.mermaid {
+            background: #06070a;
+            padding: 20px 24px;
+            margin: 0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            overflow-x: auto;
+            line-height: 1.65;
+            white-space: pre;
+            tab-size: 4;
+            border: none;
+        }
+
+        pre.code-block code {
+            font-family: inherit;
+            color: inherit;
+            background: transparent;
+            padding: 0;
+        }
+
+        .mermaid {
+            background: #06080d;
+            padding: 24px;
+            border-radius: 0 0 12px 12px;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .mermaid svg {
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .tech-badge {
+            background: rgba(255, 109, 90, 0.1);
+            border: 1px solid rgba(255, 109, 90, 0.25);
+            color: #ffaa9d;
+            padding: 7px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: inline-block;
+            transition: var(--transition);
+        }
+
+        .tech-badge:hover {
+            background: rgba(255, 109, 90, 0.22);
+            border-color: var(--accent-primary);
+            color: #ffffff;
+        }
+
+        .back-btn {
+            color: var(--text-primary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-primary);
+            transform: translateX(-6px);
+        }
+
+        .back-btn i {
+            margin-right: 10px;
+        }
+
+        .toc-container {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            position: sticky;
+            top: 95px;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .toc-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 6px;
+        }
+
+        .toc-item a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.84rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 0;
+        }
+
+        .toc-item a:hover {
+            color: var(--accent-primary);
+            padding-left: 6px;
+        }
+
+        .toc-item a.active {
+            color: var(--accent-primary);
+            font-weight: 700;
+            padding-left: 8px;
+            border-left: 2px solid var(--accent-primary);
+        }
+
+        .table-responsive {
+            margin: 28px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .table {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 2px solid var(--accent-primary);
+            color: var(--accent-primary);
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 14px 16px;
+        }
+
+        .table td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px 16px;
+            font-size: 0.92rem;
+            vertical-align: middle;
+        }
+
+        /* Lightbox Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.94);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            cursor: zoom-out;
+            padding: 20px;
+        }
+
+        .modal-content {
+            max-width: 92%;
+            max-height: 90vh;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(255, 109, 90, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2001;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            transform: rotate(90deg);
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .footer {
+            background-color: var(--secondary-bg);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">TUSHA RAHUL</a>
+            <div class="ms-auto">
+                <a href="../index.html#projects" class="btn btn-outline-light btn-sm rounded-pill px-4">Back to Projects</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="article-hero">
+        <div class="container">
+            <a href="../articles.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Articles</a>
+            
+            <div class="article-badge-row">
+                <span class="shield-badge"><i class="fas fa-project-diagram me-1 text-danger"></i> n8n Automation</span>
+                <span class="shield-badge"><i class="fas fa-microchip me-1 text-warning"></i> Ollama (LLaMA 3.2:1b)</span>
+                <span class="shield-badge"><i class="fas fa-search me-1 text-info"></i> Tavily AI Research</span>
+                <span class="shield-badge"><i class="fas fa-envelope me-1 text-danger"></i> Gmail API</span>
+                <span class="shield-badge"><i class="fab fa-whatsapp me-1 text-success"></i> WhatsApp Cloud API</span>
+            </div>
+
+            <h1 class="article-title">Autonomous AI Cold Outreach Agent<br>(n8n + Ollama + Gmail + WhatsApp)</h1>
+            <p class="article-tagline">End-to-end automated cold email pipeline with live web research, local LLM synthesis, and real-time WhatsApp dispatch alerts</p>
+
+            <div class="article-meta">
+                <span><i class="far fa-calendar"></i> July 2025</span>
+                <span><i class="far fa-clock"></i> 11 min read</span>
+                <span><i class="fas fa-robot"></i> Multi-Agent Systems</span>
+                <span><i class="fas fa-dollar-sign"></i> Zero API Cost</span>
+            </div>
+
+            <div class="hero-action-buttons">
+                <a href="https://github.com/Rahul6158/n8n-ai-cold-outreach-agent" class="btn-primary-action" target="_blank" rel="noopener">
+                    <i class="fas fa-code-branch"></i> Explore Workflows
+                </a>
+                <a href="https://github.com/Rahul6158/n8n-ai-cold-outreach-agent" class="btn-github-repo" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i> View GitHub Repository
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="row">
+            <!-- Sidebar TOC -->
+            <aside class="col-lg-3 d-none d-lg-block">
+                <nav class="toc-container">
+                    <div class="toc-title"><i class="fas fa-list-ul"></i> Contents</div>
+                    <ul class="toc-list">
+                        <li class="toc-item"><a href="#overview"><i class="fas fa-chevron-right"></i> Executive Overview</a></li>
+                        <li class="toc-item"><a href="#architecture"><i class="fas fa-chevron-right"></i> Architecture &amp; Flow</a></li>
+                        <li class="toc-item"><a href="#workflows"><i class="fas fa-chevron-right"></i> Dual Execution Modes</a></li>
+                        <li class="toc-item"><a href="#local-llm"><i class="fas fa-chevron-right"></i> Local Ollama &amp; Privacy</a></li>
+                        <li class="toc-item"><a href="#research"><i class="fas fa-chevron-right"></i> Tavily Web Intelligence</a></li>
+                        <li class="toc-item"><a href="#whatsapp"><i class="fas fa-chevron-right"></i> WhatsApp Alerting</a></li>
+                        <li class="toc-item"><a href="#idempotency"><i class="fas fa-chevron-right"></i> Sheets &amp; Deliverability</a></li>
+                        <li class="toc-item"><a href="#gallery"><i class="fas fa-chevron-right"></i> Visual Gallery</a></li>
+                        <li class="toc-item"><a href="#code-deepdive"><i class="fas fa-chevron-right"></i> Code &amp; JS Nodes</a></li>
+                        <li class="toc-item"><a href="#takeaways"><i class="fas fa-chevron-right"></i> Results &amp; Takeaways</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="col-lg-9 article-content">
+                <!-- Section 1: Overview -->
+                <section id="overview" class="article-section">
+                    <h2>Executive Overview</h2>
+                    <p>
+                        Traditional cold email automation relies on static mail-merge templates that swap out <code>{{firstName}}</code> and <code>{{company}}</code>. Today's corporate spam filters and executive gatekeepers instantly recognize and discard these cookie-cutter emails. Conversely, bespoke manual research on every prospect consumes 15 to 30 minutes per lead, rendering large-scale outreach impractical.
+                    </p>
+                    <p>
+                        This project architects an <strong>Autonomous AI Cold Outreach Agent</strong> using <strong>n8n</strong> as the orchestration hub. The system ingests uncontacted prospects from Google Sheets, performs real-time corporate intelligence queries using <strong>Tavily Search</strong>, synthesizes hyper-tailored pitch hooks using a local <strong>Ollama (LLaMA 3.2:1b)</strong> model, delivers emails through <strong>Gmail API OAuth2</strong>, and immediately notifies the sender on <strong>WhatsApp</strong> with complete dispatch metadata.
+                    </p>
+
+                    <div class="highlight-box">
+                        <strong>Key Breakthrough:</strong> 100% private, zero-token-cost local LLM inference paired with real-time web research, rate-limiting domain protection, and instant smartphone notifications.
+                    </div>
+                </section>
+
+                <!-- Section 2: Architecture -->
+                <section id="architecture" class="article-section">
+                    <h2>Architecture &amp; Logic Flow</h2>
+                    <p>
+                        The automated pipeline executes in a sequential, throttled loop to maintain strict domain health and eliminate repetitive API triggers:
+                    </p>
+
+                    <div class="code-block-container">
+                        <div class="code-block-header">
+                            <span class="code-lang"><i class="fas fa-project-diagram me-2 text-danger"></i> Pipeline Logic Flow</span>
+                            <span class="code-badge">Interactive Flowchart</span>
+                        </div>
+                        <pre class="mermaid">
+flowchart TD
+    A["⏱️ Schedule / Manual Trigger"] --> B["📊 Fetch Leads from Google Sheets"]
+    B --> C{"🔍 Filter: Valid Email & Not Sent?"}
+    C -- No --> D["🛑 End / Skip Row"]
+    C -- Yes --> E["⚡ Limit Batch Size & Loop Items"]
+    E --> F["🤖 AI Agent + Ollama LLM"]
+    F -.->|Live Context| G["🌐 Tavily Web Search"]
+    F --> H["⚙️ Parse & Sanitize Email Draft JS Node"]
+    H --> I["📧 Send Email via Gmail API"]
+    I --> J["📝 Mark Lead as 'Sent' in Google Sheets"]
+    J --> K["📱 Send Dispatch Intimation to WhatsApp"]
+    K --> L["⏳ Wait Delay Between Emails"]
+    L --> E
+                        </pre>
+                    </div>
+
+                    <div class="row g-3 my-4">
+                        <div class="col-md-4">
+                            <div class="feature-card">
+                                <div class="feature-card-icon"><i class="fas fa-robot"></i></div>
+                                <h4>Autonomous Agent</h4>
+                                <p>n8n AI Agent tool calling coordinates lead data with live search engines and local LLM prompt templates.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card">
+                                <div class="feature-card-icon green"><i class="fab fa-whatsapp"></i></div>
+                                <h4>Instant Alerts</h4>
+                                <p>Meta WhatsApp Cloud API notifies your smartphone the exact second each email successfully dispatches.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card">
+                                <div class="feature-card-icon amber"><i class="fas fa-shield-alt"></i></div>
+                                <h4>Anti-Spam Guard</h4>
+                                <p>Configurable batch sizes and randomized sleep delays protect sender reputation and prevent IP blacklisting.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Dual Workflows -->
+                <section id="workflows" class="article-section">
+                    <h2>Dual Workflow Configurations</h2>
+                    <p>
+                        Outreach scenarios demand different operational workflows depending on volume and precision:
+                    </p>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Workflow Blueprint</th>
+                                    <th>Trigger Mode</th>
+                                    <th>Primary Highlights &amp; Characteristics</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong><code>mail_outreach.json</code></strong></td>
+                                    <td><span class="badge bg-danger">Manual Trigger</span></td>
+                                    <td>
+                                        &bull; Real-time web intelligence via <strong>Tavily Search Tool</strong><br>
+                                        &bull; Interactive AI agent reasoning with local Ollama (<code>llama3.2:1b</code>)<br>
+                                        &bull; One-click execution for targeted, high-touch executive leads<br>
+                                        &bull; Instant WhatsApp report with lead intelligence preview
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong><code>Schedulable_mail_outreach.json</code></strong></td>
+                                    <td><span class="badge bg-success">Cron Schedule</span></td>
+                                    <td>
+                                        &bull; Autonomous daily recurring schedule (e.g. 10:00 AM weekdays)<br>
+                                        &bull; <strong>Batch rate limiter</strong> strictly complying with Gmail sending thresholds<br>
+                                        &bull; Sequential looping over prospects with <strong>sleep delay throttling</strong><br>
+                                        &bull; <strong>Idempotent Sheets auto-update</strong> (marks row as <code>Sent</code> immediately)<br>
+                                        &bull; WhatsApp dispatch confirmation on every successful loop iteration
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Section 4: Local LLM -->
+                <section id="local-llm" class="article-section">
+                    <h2>Zero API Cost &amp; Privacy via Local Ollama</h2>
+                    <p>
+                        Proprietary commercial APIs (such as GPT-4o or Claude 3.5 Sonnet) can quickly incur significant expenses when processing multi-step agent reasoning across hundreds of leads daily. Moreover, transmitting sensitive prospect information, internal pitch deck figures, and contact lists to third-party cloud models raises data privacy concerns.
+                    </p>
+                    <p>
+                        This solution utilizes <strong>Ollama</strong> hosting Meta's compact, highly efficient <strong>LLaMA 3.2:1b</strong> locally. Running in the same network or Docker compose cluster as n8n, it delivers:
+                    </p>
+                    <ul>
+                        <li><strong>Zero Per-Token Billing:</strong> Run 1,000 or 100,000 iterations without accumulating cloud API invoices.</li>
+                        <li><strong>Low-Latency Inference:</strong> The 1B quantized architecture generates sharp 120-word cold email bodies in under 1.4 seconds on modest hardware.</li>
+                        <li><strong>Strict Data Sovereignty:</strong> Lead records and outbound message bodies never traverse external AI vendors.</li>
+                    </ul>
+
+                    <div class="code-block-container">
+                        <div class="code-block-header">
+                            <span class="code-lang"><i class="fas fa-terminal text-info me-2"></i> Bash / Ollama Node Configuration</span>
+                            <button type="button" class="copy-code-btn" onclick="copyCode(this)" title="Copy Code"><i class="far fa-copy me-1"></i> Copy</button>
+                        </div>
+                        <pre class="code-block"><code># Launch local Ollama instance with LLaMA 3.2 1B
+ollama run llama3.2:1b
+
+# Point n8n Ollama Model Node:
+Base URL: http://localhost:11434
+Model: llama3.2:1b
+Temperature: 0.3</code></pre>
+                    </div>
+                </section>
+
+                <!-- Section 5: Web Research -->
+                <section id="research" class="article-section">
+                    <h2>Real-Time Intelligence with Tavily AI Search</h2>
+                    <p>
+                        A key failure of automated outreach is hallucinating irrelevant company facts. In <code>mail_outreach.json</code>, the n8n AI Agent node is granted direct tool execution rights over the <strong>Tavily Search API</strong>:
+                    </p>
+                    <ol>
+                        <li>The agent takes the lead's company name and executive title from Google Sheets.</li>
+                        <li>It formulates an exploratory search query (e.g., <em>"Acme Corp recent AI product launches and engineering stack 2025"</em>).</li>
+                        <li>Tavily returns filtered, high-relevance semantic snippets of recent press releases and tech blogs.</li>
+                        <li>The Ollama model synthesizes a custom opening sentence referencing the company's actual recent achievements.</li>
+                    </ol>
+                </section>
+
+                <!-- Section 6: WhatsApp -->
+                <section id="whatsapp" class="article-section">
+                    <h2>Real-Time WhatsApp Dispatch Notifications</h2>
+                    <p>
+                        Instead of forcing developers to constantly refresh Gmail Sent Folders or inspect n8n execution tables, the pipeline connects to the <strong>Meta WhatsApp Cloud API</strong>:
+                    </p>
+                    <div class="row g-3 my-3">
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <h4>Dispatched Intimation Payload</h4>
+                                <p>Every time an email successfully clears the Gmail OAuth2 node, a structured JSON payload is formatted containing:
+                                <br>&bull; Recipient Name &amp; Company
+                                <br>&bull; Target Email Address
+                                <br>&bull; Generated Subject Line
+                                <br>&bull; Message Hook Snippet
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-card">
+                                <h4>Instant Peace of Mind</h4>
+                                <p>Whether you are away from your workstation or monitoring from mobile, you receive instant, audit-ready confirmation that your pipeline is executing seamlessly on schedule.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 7: Idempotency -->
+                <section id="idempotency" class="article-section">
+                    <h2>Google Sheets Schema &amp; Idempotency Protection</h2>
+                    <p>
+                        To prevent sending duplicate emails to the same prospect, the spreadsheet is designed with a state machine:
+                    </p>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Company</th>
+                                    <th>Title</th>
+                                    <th>Status</th>
+                                    <th>row_number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Alex Mercer</td>
+                                    <td>alex@example.com</td>
+                                    <td>Acme Corp</td>
+                                    <td>VP of Engineering</td>
+                                    <td><span class="badge bg-secondary">Pending</span></td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>Sarah Connor</td>
+                                    <td>sarah@skynet.ai</td>
+                                    <td>Cyberdyne Systems</td>
+                                    <td>Head of AI</td>
+                                    <td><span class="badge bg-success">Sent</span></td>
+                                    <td>3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>
+                        The n8n trigger filters with <code>Status != 'Sent' AND Email IS NOT EMPTY</code>. As soon as the Gmail node dispatches, the Google Sheets node immediately marks that row as <code>Sent</code> before invoking the sleep delay.
+                    </p>
+                </section>
+
+                <!-- Section 8: Visual Gallery -->
+                <section id="gallery" class="article-section">
+                    <h2>Project Visual Gallery</h2>
+                    <p>
+                        High-resolution captures demonstrating end-to-end autonomous execution, Ollama model inference, automated email dispatch, and instant WhatsApp delivery confirmation:
+                    </p>
+
+                    <div class="img-container" onclick="openModal(this)">
+                        <img src="https://raw.githubusercontent.com/Rahul6158/n8n-ai-cold-outreach-agent/main/screenshots/workflow-scrreenshot.jpeg" alt="n8n Workflow Canvas Architecture" onerror="this.src='../img/n8n-linkedin-post-generator.png'">
+                        <div class="img-caption">
+                            <span><strong>Figure 1:</strong> Complete n8n Workflow Canvas: Google Sheets, Ollama LLM, Gmail, and WhatsApp dispatch.</span>
+                            <span class="hint"><i class="fas fa-search-plus"></i> Zoom</span>
+                        </div>
+                    </div>
+
+                    <div class="img-container" onclick="openModal(this)">
+                        <img src="https://raw.githubusercontent.com/Rahul6158/n8n-ai-cold-outreach-agent/main/screenshots/executed-workflow-screenshot.jpeg" alt="Live Green Execution Flow" onerror="this.src='../img/n8n-aiagent-node-1.png'">
+                        <div class="img-caption">
+                            <span><strong>Figure 2:</strong> Green execution path confirming successful lead ingestion, LLM drafting, and delivery.</span>
+                            <span class="hint"><i class="fas fa-search-plus"></i> Zoom</span>
+                        </div>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="https://raw.githubusercontent.com/Rahul6158/n8n-ai-cold-outreach-agent/main/screenshots/sent-mail-screenshots.jpeg" alt="Sent Cold Email in Gmail" onerror="this.src='../img/n8n-linkedin-post.png'">
+                                <div class="img-caption">
+                                    <span><strong>Figure 3:</strong> Delivered cold email with tailored achievements</span>
+                                    <span class="hint"><i class="fas fa-search-plus"></i> Zoom</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="img-container" onclick="openModal(this)">
+                                <img src="https://raw.githubusercontent.com/Rahul6158/n8n-ai-cold-outreach-agent/main/screenshots/outreach-mail-details-intimaion-in-whatsapp.jpeg" alt="WhatsApp Real-Time Intimation" onerror="this.src='../img/n8n-telegram-trigger.png'">
+                                <div class="img-caption">
+                                    <span><strong>Figure 4:</strong> Instant WhatsApp dispatch alert on mobile</span>
+                                    <span class="hint"><i class="fas fa-search-plus"></i> Zoom</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 9: Code Deepdive -->
+                <section id="code-deepdive" class="article-section">
+                    <h2>Code &amp; JavaScript Sanitization Node</h2>
+                    <p>
+                        The core parser node in n8n cleans raw model outputs, extracts subject headers, and appends verified portfolio URLs:
+                    </p>
+
+                    <div class="code-block-container">
+                        <div class="code-block-header">
+                            <span class="code-lang"><i class="fab fa-js text-warning me-2"></i> JavaScript — n8n Code Node (Sanitization &amp; Signature)</span>
+                            <button type="button" class="copy-code-btn" onclick="copyCode(this)" title="Copy Code"><i class="far fa-copy me-1"></i> Copy</button>
+                        </div>
+                        <pre class="code-block"><code>// Node: Parse & Sanitize Email Draft
+const rawOutput = $node["AI Agent"].json.output || "";
+const lead = $node["Loop Over Items"].json;
+
+// Extract Subject Line from LLM text
+const subjectMatch = rawOutput.match(/Subject:\s*(.*)/i);
+const subject = subjectMatch ? subjectMatch[1].trim() : `Collaboration with ${lead.Company}`;
+
+// Clean body and sanitize unwanted conversational chatter
+let cleanBody = rawOutput.replace(/Subject:.*\n/i, '').trim();
+
+// Append verified personal portfolio signature
+const signature = `\n\nBest regards,\n${lead.Sender_Name || 'Tusha Rahul'}\nApplied AI/ML Engineer\nPortfolio: https://tusharahul.netlify.app\nGitHub: https://github.com/Rahul6158`;
+
+return {
+  json: {
+    to: lead.Email,
+    recipientName: lead.Name,
+    company: lead.Company,
+    subject: subject,
+    body: cleanBody + signature,
+    rowNumber: lead.row_number
+  }
+};</code></pre>
+                    </div>
+                </section>
+
+                <!-- Section 10: Takeaways -->
+                <section id="takeaways" class="article-section">
+                    <h2>Results &amp; Key Takeaways</h2>
+                    <p>
+                        Implementing this autonomous pipeline resulted in measurable efficiency gains:
+                    </p>
+                    <div class="row g-3 my-3">
+                        <div class="col-md-4">
+                            <div class="feature-card text-center">
+                                <h3 class="text-success fw-bold mb-1">$0</h3>
+                                <p class="text-white fw-semibold mb-0">API Inference Cost</p>
+                                <small class="stat-caption text-secondary">Local LLaMA 3.2 via Ollama</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card text-center">
+                                <h3 class="text-danger fw-bold mb-1">&lt; 2s</h3>
+                                <p class="text-white fw-semibold mb-0">Draft Synthesis Time</p>
+                                <small class="stat-caption text-secondary">Per prospect lead</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-card text-center">
+                                <h3 class="text-warning fw-bold mb-1">100%</h3>
+                                <p class="text-white fw-semibold mb-0">Domain Reputation Safety</p>
+                                <small class="stat-caption text-secondary">Throttled batch delivery</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <a href="https://github.com/Rahul6158/n8n-ai-cold-outreach-agent" class="btn-primary-action me-3" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i> Download n8n Workflows
+                        </a>
+                        <a href="../articles.html" class="btn-github-repo">
+                            <i class="fas fa-layer-group"></i> Browse All Articles
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Lightbox -->
+    <div id="imageModal" class="modal-overlay" onclick="closeModal()">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage" alt="Enlarged screenshot">
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <h5 class="fw-bold text-white mb-2">TUSHA RAHUL BELLAMKONDA</h5>
+            <p class="mb-4">Applied AI/ML Engineer &bull; Agentic Workflow Architect</p>
+            <div class="d-flex justify-content-center gap-3 mb-4">
+                <a href="https://github.com/Rahul6158" class="text-secondary fs-5" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/tusha-rahul/" class="text-secondary fs-5" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+                <a href="mailto:tusharahul82@gmail.com" class="text-secondary fs-5"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p class="small text-muted mb-0">&copy; 2026 Tusha Rahul. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Mermaid.js for interactive architecture flowcharts -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof mermaid !== 'undefined') {
+                mermaid.initialize({
+                    startOnLoad: true,
+                    theme: 'dark',
+                    securityLevel: 'loose',
+                    themeVariables: {
+                        darkMode: true,
+                        background: '#06080d',
+                        primaryColor: '#1e293b',
+                        primaryTextColor: '#f8fafc',
+                        primaryBorderColor: 'rgba(255, 109, 90, 0.4)',
+                        lineColor: '#ff6d5a',
+                        secondaryColor: '#1e293b',
+                        tertiaryColor: '#0f172a',
+                        fontFamily: 'Inter, sans-serif'
+                    }
+                });
+            }
+        });
+
+        // Copy Code to Clipboard
+        function copyCode(btn) {
+            const container = btn.closest('.code-block-container');
+            const codeEl = container.querySelector('code, pre');
+            if (!codeEl) return;
+            const text = codeEl.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check text-success me-1"></i> Copied!';
+                setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
+            });
+        }
+    </script>
+    <!-- Scripts -->
+    <script>
+        function openModal(element) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const img = element.querySelector('img');
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') closeModal();
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const link = document.querySelector(`.toc-item a[href="#${id}"]`);
+                if (entry.isIntersecting && link) {
+                    document.querySelectorAll('.toc-item a').forEach(a => a.classList.remove('active'));
+                    link.classList.add('active');
+                }
+            });
+        }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+        document.querySelectorAll('section[id]').forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
