@@ -1701,21 +1701,132 @@ body.slideshow-active #experience .section-subtitle {
         max-height: 360px;
         flex: none;
     }
+    /* Current Station Node on Map: Inward shift to prevent right-edge clipping */
+    .exp-milestone-node.is-current-station {
+        left: 80% !important;
+        top: 32% !important;
+    }
+    .current-station-plate {
+        margin-top: 6px !important;
+        max-width: 130px !important;
+        padding: 3px 8px !important;
+    }
+    .current-station-plate .node-plate-title {
+        font-size: 0.68rem !important;
+    }
+    .current-station-plate .node-plate-role {
+        font-size: 0.60rem !important;
+    }
 }
 
 @media (max-width: 768px) {
+    /* Current Station Map Node Sizing & Inward Anchor */
+    .exp-milestone-node.is-current-station {
+        left: 77% !important;
+        top: 32% !important;
+    }
     .current-avatar-marker-wrap {
-        width: 66px;
-        height: 78px;
+        width: 62px;
+        height: 74px;
     }
     .current-avatar-full-img {
-        width: 66px;
-        height: 78px;
+        width: 62px;
+        height: 74px;
     }
     .avatar-location-badge {
         font-size: 0.52rem;
         padding: 2px 6px;
         bottom: -5px;
+    }
+    .current-station-plate {
+        margin-top: 5px !important;
+        max-width: 118px !important;
+        padding: 2px 6px !important;
+    }
+    .current-station-plate .node-plate-title {
+        font-size: 0.64rem !important;
+    }
+    .current-station-plate .node-plate-role {
+        font-size: 0.56rem !important;
+    }
+    .avatar-radar-wave {
+        width: 52px;
+        height: 52px;
+    }
+
+    /* Current Station Captain Highlight Banner Responsive Layout */
+    .logbook-captain-banner,
+    .exp-deck-captain-banner {
+        padding: 6px 10px !important;
+        gap: 10px !important;
+        margin-bottom: 10px !important;
+        border-radius: 10px !important;
+    }
+    .captain-banner-avatar {
+        width: 38px !important;
+        height: 46px !important;
+    }
+    .captain-banner-tag {
+        font-size: 0.60rem !important;
+        letter-spacing: 0.4px !important;
+    }
+    .captain-banner-status {
+        font-size: 0.72rem !important;
+        white-space: normal !important;
+        line-height: 1.25 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ultra-compact Current Station on small phones (iPhone SE, Galaxy A series, etc.) */
+    .exp-milestone-node.is-current-station {
+        left: 74% !important;
+        top: 33% !important;
+    }
+    .current-avatar-marker-wrap {
+        width: 54px;
+        height: 64px;
+    }
+    .current-avatar-full-img {
+        width: 54px;
+        height: 64px;
+    }
+    .avatar-location-badge {
+        font-size: 0.48rem;
+        padding: 1px 5px;
+        bottom: -4px;
+    }
+    .current-station-plate {
+        margin-top: 4px !important;
+        max-width: 102px !important;
+        padding: 2px 5px !important;
+    }
+    .current-station-plate .node-plate-title {
+        font-size: 0.60rem !important;
+    }
+    .current-station-plate .node-plate-role {
+        font-size: 0.52rem !important;
+    }
+    .avatar-radar-wave {
+        width: 44px;
+        height: 44px;
+    }
+    .captain-banner-avatar {
+        width: 32px !important;
+        height: 40px !important;
+    }
+    .captain-banner-tag {
+        font-size: 0.56rem !important;
+    }
+    .captain-banner-status {
+        font-size: 0.68rem !important;
+    }
+    .logbook-stop-badge {
+        font-size: 0.65rem !important;
+        padding: 2px 7px !important;
+    }
+    .logbook-period-text {
+        font-size: 0.68rem !important;
     }
 }
 

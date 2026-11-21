@@ -865,10 +865,24 @@
             const m = MILESTONES[activeIndex];
             if (!m) return;
 
-            // 1. Move sailing beacon
+            // 1. Move sailing beacon (aligned with responsive milestone coordinates on mobile)
             if (beacon) {
-                beacon.style.left = `${m.coordinates.x}%`;
-                beacon.style.top = `${m.coordinates.y}%`;
+                let beaconX = m.coordinates.x;
+                let beaconY = m.coordinates.y;
+                if (m.isCurrent) {
+                    if (window.innerWidth <= 480) {
+                        beaconX = 74;
+                        beaconY = 33;
+                    } else if (window.innerWidth <= 768) {
+                        beaconX = 77;
+                        beaconY = 32;
+                    } else if (window.innerWidth <= 991) {
+                        beaconX = 80;
+                        beaconY = 32;
+                    }
+                }
+                beacon.style.left = `${beaconX}%`;
+                beacon.style.top = `${beaconY}%`;
                 const ping = beacon.querySelector('.beacon-ping');
                 if (ping) {
                     ping.className = `beacon-ping ${m.isCurrent ? 'is-gold' : ''}`;
