@@ -522,6 +522,23 @@
     }
 }
 
+/* Streaming Typewriter Cursor */
+.chat-typing-cursor {
+    display: inline-block;
+    width: 6px;
+    height: 14px;
+    background: #ff6b35;
+    margin-left: 3px;
+    vertical-align: middle;
+    border-radius: 2px;
+    animation: cursorBlink 0.75s infinite ease-in-out;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; transform: scaleY(1); }
+    50% { opacity: 0.15; transform: scaleY(0.7); }
+}
+
 /* ------------------------------------------------------------
    Footer / Input Form
    ------------------------------------------------------------ */

@@ -922,8 +922,8 @@
             if (logbookStopBadge) {
                 logbookStopBadge.className = `logbook-stop-badge ${m.isCurrent ? 'is-gold' : ''}`;
                 logbookStopBadge.innerHTML = m.isCurrent
-                    ? '<img src="img/tusha-avatar.png" alt="Tusha Rahul" class="logbook-mini-avatar me-1"> Current Station &bull; Stop X'
-                    : `<i class="fas fa-anchor me-1"></i> Logbook Stop ${m.stopCode}`;
+                    ? '<i class="fas fa-star me-1 text-warning"></i> Stop X &bull; AI Summit'
+                    : `<i class="fas fa-anchor me-1"></i> Stop ${m.stopCode} &bull; ${m.islandName}`;
             }
             if (logbookPeriod) {
                 logbookPeriod.textContent = m.period;
@@ -975,7 +975,7 @@
                     <div class="exp-deck-detail-header ${m.isCurrent ? 'is-gold-header' : ''}">
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <span class="logbook-stop-badge ${m.isCurrent ? 'is-gold' : ''}">
-                                ${m.isCurrent ? '<img src="img/tusha-avatar.png" alt="Tusha Rahul" class="logbook-mini-avatar me-1"> Current Station &bull; Stop X' : `<i class="fas fa-anchor me-1"></i> Stop ${m.stopCode} &bull; ${m.islandName}`}
+                                ${m.isCurrent ? '<i class="fas fa-star me-1 text-warning"></i> Stop X &bull; AI Summit' : `<i class="fas fa-anchor me-1"></i> Stop ${m.stopCode} &bull; ${m.islandName}`}
                             </span>
                             <span class="logbook-period-text">${m.period}</span>
                         </div>
@@ -984,7 +984,7 @@
                             <div class="exp-deck-captain-banner">
                                 <img src="img/tusha-avatar.png" alt="Tusha Rahul" class="captain-banner-avatar">
                                 <div class="captain-banner-info">
-                                    <span class="captain-banner-tag"><i class="fas fa-map-marker-alt text-warning me-1"></i>CURRENT STATION</span>
+                                    <span class="captain-banner-tag"><i class="fas fa-map-marker-alt text-warning me-1"></i>CURRENT STATION &bull; ACTIVE NOW</span>
                                     <span class="captain-banner-status">Tusha Rahul &bull; Applied AI Engineer</span>
                                 </div>
                             </div>

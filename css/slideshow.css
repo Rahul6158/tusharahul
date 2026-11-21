@@ -2383,6 +2383,17 @@ body.slideshow-active #experience .section-subtitle {
    Experience Section - Comprehensive Responsive Layouts (Voyage & Deck)
    ============================================================ */
 @media (max-width: 991px) {
+    /* Experience Section Outer Container: Enable Smooth Touch Scrolling */
+    body.slideshow-active #experience .container.exp-outer-container {
+        max-height: calc(100vh - 40px) !important;
+        height: auto !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        justify-content: flex-start !important;
+        padding-top: 10px !important;
+        padding-bottom: 24px !important;
+    }
+
     /* Header Bar Stacking on Tablets & Mobile */
     .exp-header-bar {
         flex-direction: column !important;
@@ -2394,19 +2405,22 @@ body.slideshow-active #experience .section-subtitle {
     .exp-voyage-view {
         height: auto !important;
         max-height: none !important;
+        display: flex !important;
         flex-direction: column !important;
         overflow: visible !important;
         gap: 16px !important;
         width: 100% !important;
+        max-width: 100% !important;
     }
 
     /* Nautical Sea Chart */
     .exp-voyage-chart {
         width: 100% !important;
         max-width: 100% !important;
-        height: 330px !important;
-        max-height: 330px !important;
-        flex: none !important;
+        min-width: 100% !important;
+        flex: 0 0 auto !important;
+        height: 320px !important;
+        max-height: 320px !important;
         border-radius: 14px !important;
         box-sizing: border-box !important;
     }
@@ -2415,7 +2429,9 @@ body.slideshow-active #experience .section-subtitle {
     .exp-logbook-card {
         width: 100% !important;
         max-width: 100% !important;
-        flex: none !important;
+        min-width: 100% !important;
+        flex: 0 0 auto !important;
+        align-self: stretch !important;
         height: auto !important;
         max-height: none !important;
         min-height: auto !important;
@@ -2430,9 +2446,12 @@ body.slideshow-active #experience .section-subtitle {
     }
 
     .logbook-header .d-flex.justify-content-between {
-        flex-wrap: wrap !important;
-        gap: 8px !important;
+        display: flex !important;
+        flex-direction: row !important;
         align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: nowrap !important;
+        gap: 8px !important;
         margin-bottom: 10px !important;
     }
 
@@ -2440,11 +2459,13 @@ body.slideshow-active #experience .section-subtitle {
         white-space: nowrap !important;
         font-size: 0.72rem !important;
         padding: 3px 10px !important;
+        flex-shrink: 0 !important;
     }
 
     .logbook-period-text {
         white-space: nowrap !important;
         font-size: 0.74rem !important;
+        flex-shrink: 0 !important;
     }
 
     /* Current Station Captain Highlight Banner */
@@ -2458,9 +2479,9 @@ body.slideshow-active #experience .section-subtitle {
         gap: 12px !important;
         margin: 8px 0 12px 0 !important;
         border-radius: 12px !important;
-        background: rgba(250, 204, 21, 0.08) !important;
-        border: 1px solid rgba(250, 204, 21, 0.3) !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(250, 204, 21, 0.06) !important;
+        background: linear-gradient(135deg, rgba(30, 24, 14, 0.95), rgba(18, 22, 30, 0.95)) !important;
+        border: 1.5px solid rgba(250, 204, 21, 0.5) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 16px rgba(250, 204, 21, 0.25) !important;
     }
 
     .captain-banner-avatar {
@@ -2685,15 +2706,23 @@ body.slideshow-active #experience .section-subtitle {
 
     .logbook-captain-banner,
     .exp-deck-captain-banner {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
         padding: 8px 12px !important;
         gap: 10px !important;
         margin: 8px 0 10px 0 !important;
         border-radius: 10px !important;
+        background: linear-gradient(135deg, rgba(30, 24, 14, 0.95), rgba(18, 22, 30, 0.95)) !important;
+        border: 1.5px solid rgba(250, 204, 21, 0.45) !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 14px rgba(250, 204, 21, 0.2) !important;
     }
 
     .captain-banner-avatar {
         width: 38px !important;
         height: 46px !important;
+        flex-shrink: 0 !important;
     }
 
     .captain-banner-tag {
@@ -2703,6 +2732,17 @@ body.slideshow-active #experience .section-subtitle {
 
     .captain-banner-status {
         font-size: 0.78rem !important;
+    }
+
+    .logbook-stop-badge {
+        font-size: 0.70rem !important;
+        padding: 3px 8px !important;
+        white-space: nowrap !important;
+    }
+
+    .logbook-period-text {
+        font-size: 0.72rem !important;
+        white-space: nowrap !important;
     }
 
     .logbook-title {
@@ -2760,9 +2800,24 @@ body.slideshow-active #experience .section-subtitle {
         height: 44px !important;
     }
 
+    .logbook-captain-banner,
+    .exp-deck-captain-banner {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 7px 10px !important;
+        gap: 8px !important;
+        margin: 6px 0 10px 0 !important;
+        border-radius: 10px !important;
+        background: linear-gradient(135deg, rgba(30, 24, 14, 0.95), rgba(18, 22, 30, 0.95)) !important;
+        border: 1.5px solid rgba(250, 204, 21, 0.45) !important;
+    }
+
     .captain-banner-avatar {
         width: 34px !important;
         height: 42px !important;
+        flex-shrink: 0 !important;
     }
 
     .captain-banner-tag {
@@ -2774,12 +2829,14 @@ body.slideshow-active #experience .section-subtitle {
     }
 
     .logbook-stop-badge {
-        font-size: 0.66rem !important;
+        font-size: 0.65rem !important;
         padding: 2px 7px !important;
+        white-space: nowrap !important;
     }
 
     .logbook-period-text {
         font-size: 0.68rem !important;
+        white-space: nowrap !important;
     }
 
     .logbook-title {

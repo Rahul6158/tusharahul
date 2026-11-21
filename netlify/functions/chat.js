@@ -1,7 +1,7 @@
 /**
  * Netlify Serverless Function: /api/chat
- * Secure server-side proxy for NVIDIA NIM API with automated resilient fallback
- * Solves browser CORS and protects API key from client exposure.
+ * High-speed, strictly grounded server-side proxy for Tusha Rahul's AI Portfolio Chatbot
+ * Supports NVIDIA NIM API with automated keyless resilient fallback.
  */
 
 const https = require('https');
@@ -35,7 +35,7 @@ function queryPollinations(messages) {
         const postData = JSON.stringify({
             messages: messages,
             model: 'openai',
-            temperature: 0.7
+            temperature: 0.4
         });
         const req = https.request({
             hostname: 'text.pollinations.ai',
@@ -69,7 +69,7 @@ function queryPollinations(messages) {
             });
         });
         req.on('error', err => reject(err));
-        req.setTimeout(9000, () => {
+        req.setTimeout(8000, () => {
             req.destroy();
             reject(new Error('Pollinations timeout'));
         });
@@ -79,7 +79,6 @@ function queryPollinations(messages) {
 }
 
 exports.handler = async function (event, context) {
-    // CORS headers for permissive browser access
     const corsHeaders = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -114,14 +113,14 @@ exports.handler = async function (event, context) {
             };
         }
 
-        // 1. If NVIDIA_API_KEY is available, try NVIDIA NIM first
+        // 1. Try NVIDIA NIM first if key is present
         if (NVIDIA_API_KEY && NVIDIA_API_KEY.length > 10) {
             try {
                 const postData = JSON.stringify({
                     model: payload.model || 'minimaxai/minimax-m3.1-flash',
                     messages: messages,
-                    max_tokens: payload.max_tokens || 1024,
-                    temperature: payload.temperature !== undefined ? payload.temperature : 0.7
+                    max_tokens: payload.max_tokens || 550,
+                    temperature: payload.temperature !== undefined ? payload.temperature : 0.4
                 });
 
                 const nvidiaResponse = await new Promise((resolve, reject) => {
@@ -146,7 +145,7 @@ exports.handler = async function (event, context) {
                     });
 
                     req.on('error', err => reject(err));
-                    req.setTimeout(8000, () => {
+                    req.setTimeout(6500, () => {
                         req.destroy();
                         reject(new Error('NVIDIA API timeout'));
                     });
