@@ -58,12 +58,18 @@
         // Cache slide DOM elements
         slideElements = SLIDE_IDS.map(id => document.getElementById(id)).filter(Boolean);
 
-        // Check user's saved mode preference
-        const savedMode = localStorage.getItem('tusha_portfolio_mode');
+        // Detect mobile screen or mobile device user agent
+        const isMobile = window.innerWidth <= 991 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // Check user's saved mode preference (versioned key to avoid legacy stale value)
+        const savedMode = localStorage.getItem('tusha_portfolio_mode_v2');
         if (savedMode === 'normal') {
             isSlideshowMode = false;
-        } else {
+        } else if (savedMode === 'slideshow') {
             isSlideshowMode = true;
+        } else {
+            // Default: Standard mode for mobile devices, Slideshow mode for desktop
+            isSlideshowMode = !isMobile;
         }
 
         // Setup DOM components
@@ -91,11 +97,11 @@
             }
         }
 
-        // Apply initial mode
+        // Apply initial mode without overwriting storage default
         if (isSlideshowMode) {
-            enableSlideshowMode(initialSlide);
+            enableSlideshowMode(initialSlide, false);
         } else {
-            enableNormalMode();
+            enableNormalMode(false);
         }
 
         // Attach global event listeners
@@ -1511,7 +1517,7 @@
     /**
      * Enable Slideshow Mode
      */
-    function enableSlideshowMode(targetIndex = 0) {
+    function enableSlideshowMode(targetIndex = 0, savePreference = true) {
         isSlideshowMode = true;
         document.documentElement.classList.add('slideshow-active');
         document.body.classList.add('slideshow-active');
@@ -1541,13 +1547,15 @@
         }
 
         updateToggleButtonUI();
-        localStorage.setItem('tusha_portfolio_mode', 'slideshow');
+        if (savePreference) {
+            localStorage.setItem('tusha_portfolio_mode_v2', 'slideshow');
+        }
     }
 
     /**
      * Enable Normal Browsing Mode
      */
-    function enableNormalMode() {
+    function enableNormalMode(savePreference = true) {
         isSlideshowMode = false;
         document.documentElement.classList.remove('slideshow-active');
         document.body.classList.remove('slideshow-active');
@@ -1566,8 +1574,8 @@
             navLi.appendChild(btn);
         }
 
-        // Scroll to the current section in normal mode
-        if (slideElements[currentIndex]) {
+        // Only scroll to the current section when explicitly toggled from slideshow mode
+        if (savePreference && slideElements[currentIndex]) {
             setTimeout(() => {
                 const targetOffset = $(slideElements[currentIndex]).offset().top - 70;
                 $('html, body').animate({ scrollTop: targetOffset }, 600);
@@ -1575,7 +1583,9 @@
         }
 
         updateToggleButtonUI();
-        localStorage.setItem('tusha_portfolio_mode', 'normal');
+        if (savePreference) {
+            localStorage.setItem('tusha_portfolio_mode_v2', 'normal');
+        }
     }
 
     /**
@@ -1583,7 +1593,7 @@
      */
     function togglePortfolioMode() {
         if (isSlideshowMode) {
-            enableNormalMode();
+            enableNormalMode(true);
         } else {
             // Find which section is currently closest to the viewport top
             const scrollPos = window.scrollY + 120;
@@ -1598,7 +1608,7 @@
                 }
             });
 
-            enableSlideshowMode(closestIdx);
+            enableSlideshowMode(closestIdx, true);
         }
     }
 
