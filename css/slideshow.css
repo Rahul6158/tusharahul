@@ -115,9 +115,13 @@ body.slideshow-active #portfolioModeToggle:hover {
     transform: translateY(-2px) !important;
 }
 
-/* Smooth Butter Scrolling Across the Entire Page */
-html {
-    scroll-behavior: smooth !important;
+/* Responsive Scrolling Engine */
+html:not(.slideshow-active) {
+    scroll-padding-top: 75px !important;
+}
+
+body:not(.slideshow-active) .section {
+    contain: layout style;
 }
 
 /* Master Slideshow Slide */
@@ -603,14 +607,26 @@ body.slideshow-active .gallery-track::-webkit-scrollbar-thumb:hover {
     border: 1px solid rgba(255, 255, 255, 0.22);
     cursor: pointer;
     transition:
-        transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-        opacity 0.5s ease,
-        filter 0.5s ease,
-        box-shadow 0.5s ease,
+        transform 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+        opacity 0.35s ease,
+        box-shadow 0.35s ease,
         border-color 0.35s ease;
-    will-change: transform, opacity, filter;
+    will-change: transform, opacity;
     overflow: hidden;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+}
+
+/* Dimming overlay on cards (GPU-accelerated opacity instead of expensive filter) */
+.article-stacked-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #000000;
+    opacity: 0.55;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 5;
 }
 
 /* Subtle dark scrim so text stays readable on bright images */
@@ -621,6 +637,7 @@ body.slideshow-active .gallery-track::-webkit-scrollbar-thumb:hover {
     border-radius: inherit;
     background: linear-gradient(to top, rgba(10, 12, 18, 0.96) 0%, rgba(10, 12, 18, 0.72) 48%, rgba(10, 12, 18, 0.32) 100%);
     pointer-events: none;
+    z-index: 1;
 }
 
 .article-stacked-card h2 {
@@ -629,6 +646,8 @@ body.slideshow-active .gallery-track::-webkit-scrollbar-thumb:hover {
     line-height: 1.25;
     font-weight: 700;
     color: #ffffff;
+    position: relative;
+    z-index: 2;
 }
 
 .article-stacked-card p.project-card-desc {
@@ -641,13 +660,18 @@ body.slideshow-active .gallery-track::-webkit-scrollbar-thumb:hover {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    position: relative;
+    z-index: 2;
 }
 
 .article-stacked-card.is-active {
     border-color: rgba(255, 107, 53, 0.95) !important;
     box-shadow: 0 28px 70px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 107, 53, 0.45), inset 0 0 20px rgba(255, 107, 53, 0.08) !important;
     cursor: default;
-    filter: brightness(1.1) !important;
+}
+
+.article-stacked-card.is-active::after {
+    opacity: 0;
 }
 
 .article-stacked-card.is-active .project-card-number {
@@ -658,13 +682,15 @@ body.slideshow-active .gallery-track::-webkit-scrollbar-thumb:hover {
 }
 
 .article-stacked-card:not(.is-active) {
-    filter: brightness(0.42) saturate(0.85);
     border-color: rgba(255, 255, 255, 0.12);
 }
 
 .article-stacked-card:not(.is-active):hover {
-    filter: brightness(0.78) saturate(1) !important;
     border-color: rgba(255, 255, 255, 0.28);
+}
+
+.article-stacked-card:not(.is-active):hover::after {
+    opacity: 0.22;
 }
 
 /* ============================================================
@@ -687,14 +713,26 @@ body.slideshow-active .gallery-track::-webkit-scrollbar-thumb:hover {
     border: 1px solid rgba(255, 255, 255, 0.18);
     cursor: pointer;
     transition:
-        transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
-        opacity 0.5s ease,
-        filter 0.5s ease,
-        box-shadow 0.5s ease,
+        transform 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+        opacity 0.35s ease,
+        box-shadow 0.35s ease,
         border-color 0.35s ease;
-    will-change: transform, opacity, filter;
+    will-change: transform, opacity;
     overflow: hidden;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+}
+
+/* Dimming overlay on cards (GPU-accelerated opacity instead of expensive filter) */
+.project-stacked-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #000000;
+    opacity: 0.52;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    z-index: 5;
 }
 
 /* Complete Image Banner in Project Card */
@@ -712,16 +750,20 @@ body.slideshow-active .gallery-track::-webkit-scrollbar-thumb:hover {
     border-radius: 19px 19px 0 0;
 }
 
-/* Ambient colored blur backdrop matching project image */
+/* Ambient colored blur backdrop matching project image (only active center card renders blur to save GPU) */
 .project-banner-ambient {
     position: absolute;
     inset: -14px;
     background-size: cover;
     background-position: center;
-    filter: blur(16px) brightness(0.28) saturate(1.3);
+    filter: blur(14px) brightness(0.28) saturate(1.2);
     opacity: 0.8;
     z-index: 1;
     pointer-events: none;
+}
+
+.project-stacked-card:not(.is-active) .project-banner-ambient {
+    display: none !important;
 }
 
 /* COMPLETE IMAGE VISIBLE - ZERO CROPPING */
@@ -843,7 +885,10 @@ body.slideshow-active .gallery-track::-webkit-scrollbar-thumb:hover {
     border-color: rgba(255, 107, 53, 0.95) !important;
     box-shadow: 0 28px 70px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 107, 53, 0.45), inset 0 0 20px rgba(255, 107, 53, 0.08) !important;
     cursor: default;
-    filter: brightness(1.05) !important;
+}
+
+.project-stacked-card.is-active::after {
+    opacity: 0;
 }
 
 .project-stacked-card.is-active .project-card-number {
@@ -854,13 +899,15 @@ body.slideshow-active .gallery-track::-webkit-scrollbar-thumb:hover {
 }
 
 .project-stacked-card:not(.is-active) {
-    filter: brightness(0.48) saturate(0.85);
     border-color: rgba(255, 255, 255, 0.12);
 }
 
 .project-stacked-card:not(.is-active):hover {
-    filter: brightness(0.82) saturate(1) !important;
     border-color: rgba(255, 255, 255, 0.28);
+}
+
+.project-stacked-card:not(.is-active):hover::after {
+    opacity: 0.2;
 }
 
 .project-card-content {
@@ -2996,6 +3043,158 @@ body.slideshow-active #skills .container.skills-outer-container {
 
     100% {
         transform: translateX(0%);
+    }
+}
+
+/* Vertical Ticker Animations for Responsive Mode */
+@keyframes skillsBeltUp {
+    0% {
+        transform: translateY(0%);
+    }
+
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+@keyframes skillsBeltDown {
+    0% {
+        transform: translateY(-50%);
+    }
+
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+/* ============================================================
+   Responsive Technical Skills (Vertical Stream Layout)
+   Covers vertical height cleanly on mobile and tablets
+   ============================================================ */
+@media (max-width: 991px) {
+    body.slideshow-active #skills .container.skills-outer-container,
+    body:not(.slideshow-active) #skills .container.skills-outer-container {
+        max-height: calc(100vh - 40px);
+        justify-content: flex-start;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .skills-belts-wrapper {
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        height: clamp(420px, 62vh, 570px) !important;
+        max-height: calc(100vh - 190px) !important;
+        margin: 6px auto 0 auto !important;
+        overflow: hidden !important;
+        width: 100% !important;
+    }
+
+    .skills-belt-container {
+        flex: 1 1 0 !important;
+        max-width: 320px !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        padding: 0 4px !important;
+        mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%) !important;
+        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%) !important;
+    }
+
+    .skills-belt-track {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        height: max-content !important;
+        gap: 12px !important;
+    }
+
+    .skills-belt-track.belt-left {
+        animation: skillsBeltUp 26s linear infinite !important;
+    }
+
+    .skills-belt-track.belt-right {
+        animation: skillsBeltDown 26s linear infinite !important;
+    }
+
+    .skills-belt-container:hover .skills-belt-track,
+    .skills-belt-container:active .skills-belt-track {
+        animation-play-state: paused !important;
+    }
+
+    .skill-rect-card {
+        flex: 0 0 auto !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 94px !important;
+        padding: 9px 12px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-belts-wrapper {
+        gap: 8px !important;
+        height: clamp(380px, 58vh, 500px) !important;
+    }
+    .skills-belt-container {
+        padding: 0 2px !important;
+    }
+    .skills-belt-track {
+        gap: 9px !important;
+    }
+    .skill-rect-card {
+        padding: 8px 9px !important;
+        min-height: 84px !important;
+    }
+    .skill-rect-name {
+        font-size: 0.82rem !important;
+    }
+    .skill-rect-badge {
+        font-size: 0.62rem !important;
+        padding: 1px 5px !important;
+    }
+    .skill-rect-icon-wrap {
+        width: 26px !important;
+        height: 26px !important;
+    }
+    .skill-proj-name {
+        font-size: 0.66rem !important;
+    }
+}
+
+/* ============================================================
+   Projects & Articles Mobile Optimization (Fast 60 FPS Swipes)
+   ============================================================ */
+@media (max-width: 768px) {
+    .project-banner-ambient {
+        display: none !important;
+    }
+
+    .project-stacked-card *,
+    .article-stacked-card * {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    .carousel-stage {
+        perspective: 900px !important;
+        height: 410px !important;
+    }
+
+    #projectCarouselStage {
+        height: 440px !important;
+    }
+
+    .project-stacked-card,
+    .article-stacked-card {
+        width: clamp(285px, 86vw, 360px) !important;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7) !important;
+    }
+
+    .project-stacked-card.is-active,
+    .article-stacked-card.is-active {
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.8), 0 0 18px rgba(255, 107, 53, 0.3) !important;
     }
 }
 

@@ -34,8 +34,8 @@
     let isLocked = false;
     let lastSlideChangeTime = 0;
     let wheelQuietTimer = null;
-    const MIN_SLIDE_INTERVAL = 900; // Minimum ms between slide changes to prevent momentum runaway
-    const WHEEL_DELTA_THRESHOLD = 32; // Strict gesture threshold to ignore decaying inertia
+    const MIN_SLIDE_INTERVAL = 450; // Snappy, responsive interval between slide changes
+    const WHEEL_DELTA_THRESHOLD = 28; // Strict gesture threshold to ignore decaying inertia
     let isSlideshowMode = true; // Default
     let slideElements = [];
     let touchStartX = 0;
@@ -47,9 +47,6 @@
     document.addEventListener('DOMContentLoaded', function () {
         // Register GSAP plugins if available
         if (typeof gsap !== 'undefined') {
-            if (typeof ScrollTrigger !== 'undefined') {
-                gsap.registerPlugin(ScrollTrigger);
-            }
             if (typeof ScrollToPlugin !== 'undefined') {
                 gsap.registerPlugin(ScrollToPlugin);
             }
@@ -245,31 +242,35 @@
      * Initialize 3D Stacked Card Carousels for Projects and Articles
      */
     function init3DStackedCarousels() {
-        // Projects Carousel (9 items - starts in middle, user-driven smooth scroll)
+        // Projects Carousel (starts in middle)
         setupStacked3DCarousel({
             stageId: 'projectCarouselStage',
             prevBtnId: 'projectPrevBtn',
             nextBtnId: 'projectNextBtn',
             dotsId: 'projectDots',
             cardClass: '.project-stacked-card',
-            autoPlayInterval: 0
+            autoPlayInterval: 0,
+            startIndex: 'middle',
+            namespace: 'project'
         });
 
-        // Articles Carousel (5 items - starts in middle)
+        // Articles Carousel (First card ALWAYS "Browse All Articles")
         setupStacked3DCarousel({
             stageId: 'articlesCarouselStage',
             prevBtnId: 'articlesPrevBtn',
             nextBtnId: 'articlesNextBtn',
             dotsId: 'articlesDots',
             cardClass: '.article-stacked-card',
-            autoPlayInterval: 0
+            autoPlayInterval: 0,
+            startIndex: 0,
+            namespace: 'articles'
         });
     }
 
     /**
      * Reusable Centered Stacked 3D Card Carousel with Infinite Loop & Throttled Scroll
      */
-    function setupStacked3DCarousel({ stageId, prevBtnId, nextBtnId, dotsId, cardClass, autoPlayInterval = 0 }) {
+    function setupStacked3DCarousel({ stageId, prevBtnId, nextBtnId, dotsId, cardClass, autoPlayInterval = 0, startIndex = 'middle', namespace = '' }) {
         const stage = document.getElementById(stageId);
         if (!stage) return;
 
@@ -281,8 +282,14 @@
         const dotsContainer = document.getElementById(dotsId);
 
         const total = cards.length;
-        // ALWAYS START IN THE MIDDLE as requested!
-        let activeIndex = Math.floor(total / 2);
+        // Start in middle for projects, or at 0 for articles (Browse All Articles)
+        let activeIndex = startIndex === 'middle' ? Math.floor(total / 2) : (typeof startIndex === 'number' ? startIndex : 0);
+
+        // Expose global controller for arrow keys and external controls
+        if (namespace) {
+            window[namespace + 'CarouselNext'] = () => { goTo(activeIndex + 1); resetAutoPlay(); };
+            window[namespace + 'CarouselPrev'] = () => { goTo(activeIndex - 1); resetAutoPlay(); };
+        }
 
         // Auto-Play Engine
         let autoPlayTimer = null;
@@ -331,9 +338,17 @@
 
         function update() {
             const stageWidth = stage.offsetWidth || 1100;
+            const isMobile = stageWidth <= 768;
+
             // Dynamically scale card spread so cards stretch across the full width of their section
-            const baseSpread = Math.min(270, Math.max(180, stageWidth * 0.22));
-            const extraSpread = Math.min(130, Math.max(85, stageWidth * 0.10));
+            const baseSpread = isMobile
+                ? Math.min(150, Math.max(90, stageWidth * 0.26))
+                : Math.min(270, Math.max(180, stageWidth * 0.22));
+            const extraSpread = isMobile
+                ? Math.min(70, Math.max(35, stageWidth * 0.10))
+                : Math.min(130, Math.max(85, stageWidth * 0.10));
+
+            const maxVisibleOffset = isMobile ? 1 : 2;
 
             cards.forEach((card, i) => {
                 // Circular offset wrapping for seamless infinite looping
@@ -345,24 +360,39 @@
                 const absOffset = Math.abs(offset);
                 const sign = Math.sign(offset);
 
+                // PERFORMANCE CULLING: Completely hide cards that are far off-screen to save GPU fillrate
+                if (absOffset > maxVisibleOffset) {
+                    card.style.visibility = 'hidden';
+                    card.style.opacity = '0';
+                    card.style.pointerEvents = 'none';
+                    card.classList.remove('is-active');
+                    return;
+                }
+
+                card.style.visibility = 'visible';
+
                 if (offset === 0) {
-                    card.style.transform = 'translateX(0) translateY(0) scale(1.04) rotateY(0deg)';
+                    card.style.transform = isMobile
+                        ? 'translateX(0) translateY(0) scale(1.02) rotateY(0deg)'
+                        : 'translateX(0) translateY(0) scale(1.04) rotateY(0deg)';
                     card.style.zIndex = 30;
                     card.style.opacity = '1';
                     card.style.pointerEvents = 'auto';
                     card.classList.add('is-active');
                 } else {
                     const x = sign * (baseSpread + (absOffset - 1) * extraSpread);
-                    const y = absOffset * 10;
-                    const scale = Math.max(0.65, 1 - absOffset * 0.08);
-                    const rotY = -sign * Math.min(22, absOffset * 6.5);
-                    const op = Math.max(0.12, 1 - absOffset * 0.22);
+                    const y = absOffset * (isMobile ? 6 : 10);
+                    const scale = Math.max(0.68, 1 - absOffset * 0.08);
+                    const rotY = isMobile
+                        ? -sign * Math.min(12, absOffset * 5)
+                        : -sign * Math.min(22, absOffset * 6.5);
+                    const op = Math.max(0.18, 1 - absOffset * 0.25);
 
                     card.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale}) rotateY(${rotY}deg)`;
                     card.style.zIndex = 30 - absOffset;
                     card.style.opacity = op;
                     // Allow interaction on center and immediately adjacent cards
-                    card.style.pointerEvents = absOffset <= 2 ? 'auto' : 'none';
+                    card.style.pointerEvents = absOffset <= 1 ? 'auto' : 'none';
                     card.classList.remove('is-active');
                 }
             });
@@ -426,6 +456,29 @@
         let isDragging = false;
         let hasMoved = false;
 
+        const onMouseMove = (e) => {
+            if (!isDragging) return;
+            if (Math.abs(e.clientX - startX) > 6) {
+                hasMoved = true;
+            }
+        };
+
+        const onMouseUp = (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            isUserInteracting = false;
+            document.body.style.cursor = '';
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+
+            const diff = e.clientX - startX;
+            if (Math.abs(diff) > 40) {
+                if (diff < 0) goTo(activeIndex + 1);
+                else goTo(activeIndex - 1);
+            }
+            resetAutoPlay();
+        };
+
         stage.addEventListener('mousedown', (e) => {
             if (e.target.closest('.project-card-btn, a, button')) return;
             isDragging = true;
@@ -433,38 +486,26 @@
             stopAutoPlay();
             hasMoved = false;
             startX = e.clientX;
+            document.body.style.cursor = 'grabbing';
+            window.addEventListener('mousemove', onMouseMove, { passive: true });
+            window.addEventListener('mouseup', onMouseUp);
         });
 
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            if (Math.abs(e.clientX - startX) > 6) {
-                hasMoved = true;
-            }
-        });
-
-        window.addEventListener('mouseup', (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            isUserInteracting = false;
-            const diff = e.clientX - startX;
-            if (Math.abs(diff) > 40) {
-                if (diff < 0) goTo(activeIndex + 1);
-                else goTo(activeIndex - 1);
-            }
-            resetAutoPlay();
-        });
-
+        let touchStartY = 0;
         stage.addEventListener('touchstart', (e) => {
             isUserInteracting = true;
             stopAutoPlay();
             startX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
         }, { passive: true });
 
         stage.addEventListener('touchend', (e) => {
             isUserInteracting = false;
-            const diff = e.changedTouches[0].clientX - startX;
-            if (Math.abs(diff) > 40) {
-                if (diff < 0) goTo(activeIndex + 1);
+            const diffX = e.changedTouches[0].clientX - startX;
+            const diffY = e.changedTouches[0].clientY - touchStartY;
+            // Only trigger card change if horizontal swipe dominates over vertical movement
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
+                if (diffX < 0) goTo(activeIndex + 1);
                 else goTo(activeIndex - 1);
             }
             resetAutoPlay();
@@ -545,8 +586,12 @@
         update();
         startAutoPlay();
 
-        // Responsive spread adjustment on window resize
-        window.addEventListener('resize', update);
+        // Responsive spread adjustment on window resize (debounced with rAF)
+        let resizeRaf = null;
+        window.addEventListener('resize', () => {
+            if (resizeRaf) cancelAnimationFrame(resizeRaf);
+            resizeRaf = requestAnimationFrame(update);
+        }, { passive: true });
     }
 
     /**
@@ -1354,8 +1399,28 @@
             isLocked = false;
         }, MIN_SLIDE_INTERVAL);
 
+        // Pause WebGL ripples on hero when moving away to save CPU/GPU cycles
+        if (typeof window.jQuery !== 'undefined') {
+            const $hero = window.jQuery('#home');
+            if ($hero.length && typeof $hero.ripples === 'function') {
+                try {
+                    if (targetIndex === 0) {
+                        $hero.ripples('play');
+                    } else {
+                        $hero.ripples('pause');
+                    }
+                } catch (e) {}
+            }
+        }
+
         const currentSlide = slideElements[currentIndex];
         const nextSlide = slideElements[targetIndex];
+
+        // Pause heavy continuous ticker belts during slide transitions to free GPU bandwidth
+        const skillTracks = document.querySelectorAll('.skills-belt-track');
+        if (skillTracks.length) {
+            skillTracks.forEach(t => t.style.animationPlayState = 'paused');
+        }
 
         // Slate Moving Up Animation (Tactile Physical Slate Glide)
         if (typeof gsap !== 'undefined') {
@@ -1374,8 +1439,7 @@
                     zIndex: 10,
                     yPercent: 0,
                     scale: 1,
-                    opacity: 1,
-                    filter: 'brightness(1)'
+                    opacity: 1
                 });
 
                 gsap.set(nextSlide, {
@@ -1384,33 +1448,37 @@
                     scale: 1,
                     opacity: 1,
                     zIndex: 25,
-                    boxShadow: '0 -28px 75px rgba(0, 0, 0, 0.95), 0 -4px 25px rgba(255, 107, 53, 0.15)'
+                    boxShadow: '0 -24px 60px rgba(0, 0, 0, 0.9), 0 -2px 15px rgba(255, 107, 53, 0.12)'
                 });
 
                 const tl = gsap.timeline({
                     onComplete: () => {
                         currentSlide.classList.remove('slide-active');
-                        gsap.set(currentSlide, { visibility: 'hidden', opacity: 0, filter: 'none' });
+                        gsap.set(currentSlide, { visibility: 'hidden', opacity: 0 });
                         gsap.set(nextSlide, { boxShadow: 'none' });
                         currentIndex = targetIndex;
                         isAnimating = false;
                         nextSlide.scrollTop = 0;
                         updateSlideUI();
+                        // Resume skills ticker belt if arriving at skills slide
+                        if (targetIndex === 4 || (slideElements[targetIndex] && slideElements[targetIndex].id === 'skills')) {
+                            skillTracks.forEach(t => t.style.animationPlayState = 'running');
+                        }
                     }
                 });
 
-                // Base slate subtly deepens in tone as the new slate covers it, but stays completely stationary
+                // Smooth GPU-composited fade out of previous slide instead of expensive full-screen filter
                 tl.to(currentSlide, {
-                    filter: 'brightness(0.72)',
-                    duration: 0.65,
+                    opacity: 0.35,
+                    duration: 0.38,
                     ease: 'power2.out'
                 }, 0);
 
                 // Incoming slate slides UP smoothly over the previous slide, stacking physically on top
                 tl.to(nextSlide, {
                     yPercent: 0,
-                    duration: 0.65,
-                    ease: 'power3.out'
+                    duration: 0.38,
+                    ease: 'power2.out'
                 }, 0);
 
             } else {
@@ -1423,9 +1491,8 @@
                     visibility: 'visible',
                     yPercent: 0,
                     scale: 1,
-                    opacity: 1,
-                    zIndex: 10,
-                    filter: 'brightness(0.72)'
+                    opacity: 0.35,
+                    zIndex: 10
                 });
 
                 gsap.set(currentSlide, {
@@ -1433,33 +1500,36 @@
                     opacity: 1,
                     scale: 1,
                     yPercent: 0,
-                    boxShadow: '0 -28px 75px rgba(0, 0, 0, 0.95)'
+                    boxShadow: '0 -24px 60px rgba(0, 0, 0, 0.9)'
                 });
 
                 const tl = gsap.timeline({
                     onComplete: () => {
                         currentSlide.classList.remove('slide-active');
-                        gsap.set(currentSlide, { visibility: 'hidden', yPercent: 0, opacity: 0, boxShadow: 'none', filter: 'none' });
-                        gsap.set(nextSlide, { filter: 'none' });
+                        gsap.set(currentSlide, { visibility: 'hidden', yPercent: 0, opacity: 0, boxShadow: 'none' });
                         currentIndex = targetIndex;
                         isAnimating = false;
                         nextSlide.scrollTop = 0;
                         updateSlideUI();
+                        // Resume skills ticker belt if arriving at skills slide
+                        if (targetIndex === 4 || (slideElements[targetIndex] && slideElements[targetIndex].id === 'skills')) {
+                            skillTracks.forEach(t => t.style.animationPlayState = 'running');
+                        }
                     }
                 });
 
-                // Base slate restores full brightness as top slate slides away
+                // Base slate restores full opacity as top slate slides away
                 tl.to(nextSlide, {
-                    filter: 'brightness(1)',
-                    duration: 0.65,
+                    opacity: 1,
+                    duration: 0.38,
                     ease: 'power2.out'
                 }, 0);
 
                 // Top slate slides DOWN off the viewport, smoothly revealing the previous slide underneath
                 tl.to(currentSlide, {
                     yPercent: 100,
-                    duration: 0.65,
-                    ease: 'power3.inOut'
+                    duration: 0.38,
+                    ease: 'power2.inOut'
                 }, 0);
             }
         } else {
@@ -1470,6 +1540,9 @@
             isAnimating = false;
             nextSlide.scrollTop = 0;
             updateSlideUI();
+            if (targetIndex === 4 || (slideElements[targetIndex] && slideElements[targetIndex].id === 'skills')) {
+                skillTracks.forEach(t => t.style.animationPlayState = 'running');
+            }
         }
     }
 
@@ -1521,9 +1594,10 @@
             if ($hero.length && typeof $hero.ripples === 'function') {
                 setTimeout(() => {
                     try {
+                        $hero.ripples('play');
                         $hero.ripples('updateSize');
                     } catch (e) {}
-                }, 150);
+                }, 80);
             }
         }
     }
@@ -1580,6 +1654,17 @@
                 gsap.set(el, { clearProps: 'all' });
             }
         });
+
+        // Ensure hero water ripples are active and properly sized in normal mode
+        if (typeof window.jQuery !== 'undefined') {
+            const $hero = window.jQuery('#home');
+            if ($hero.length && typeof $hero.ripples === 'function') {
+                try {
+                    $hero.ripples('play');
+                    $hero.ripples('updateSize');
+                } catch (e) {}
+            }
+        }
 
         // Move mode toggle button back into the navbar menu item
         const btn = document.getElementById('portfolioModeToggle');
@@ -1681,7 +1766,7 @@
                 clearTimeout(wheelQuietTimer);
                 wheelQuietTimer = setTimeout(() => {
                     isLocked = false;
-                }, 260); // Must observe at least 260ms of absolute silence before unlocking
+                }, 140); // 140ms quiet window for snappy responsiveness
                 return;
             }
 
@@ -1698,7 +1783,7 @@
             clearTimeout(wheelQuietTimer);
             wheelQuietTimer = setTimeout(() => {
                 isLocked = false;
-            }, 260);
+            }, 140);
 
             // One Deliberate Scroll = Exactly One Slide!
             if (e.deltaY > 0) {
@@ -1777,6 +1862,32 @@
                 }
             }
 
+            // If user is currently viewing Projects slide, ArrowLeft and ArrowRight step through project cards
+            if (currentSlideElem && currentSlideElem.id === 'projects' && !e.target.matches('input, textarea')) {
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (window.projectCarouselNext) window.projectCarouselNext();
+                    return;
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    if (window.projectCarouselPrev) window.projectCarouselPrev();
+                    return;
+                }
+            }
+
+            // If user is currently viewing Articles slide, ArrowLeft and ArrowRight step through article cards
+            if (currentSlideElem && currentSlideElem.id === 'articles' && !e.target.matches('input, textarea')) {
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (window.articlesCarouselNext) window.articlesCarouselNext();
+                    return;
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    if (window.articlesCarouselPrev) window.articlesCarouselPrev();
+                    return;
+                }
+            }
+
             const now = Date.now();
             if (e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.target.matches('input, textarea, button'))) {
                 e.preventDefault();
@@ -1804,7 +1915,25 @@
             }
         });
 
-        // 5. Intercept Navbar Click in Slideshow Mode
+        // 5. Mobile Navbar Auto-Collapse Helper (Works in both Slideshow and Standard Mode)
+        function closeMobileNavbar() {
+            const navbarCollapse = document.getElementById('navbarNav');
+            if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Collapse) {
+                    const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse) || new bootstrap.Collapse(navbarCollapse, { toggle: false });
+                    bsCollapse.hide();
+                } else {
+                    navbarCollapse.classList.remove('show');
+                }
+            }
+        }
+
+        // Close mobile navbar on any link or brand click in standard mode
+        document.querySelectorAll('.navbar-nav .nav-link, .navbar-brand').forEach(el => {
+            el.addEventListener('click', closeMobileNavbar);
+        });
+
+        // 6. Intercept Navbar Click in Slideshow Mode
         document.querySelectorAll('.navbar-nav a[href^="#"]').forEach(link => {
             link.addEventListener('click', function (e) {
                 if (!isSlideshowMode) return;
@@ -1815,17 +1944,106 @@
                 if (targetIdx !== -1) {
                     e.preventDefault();
                     e.stopImmediatePropagation();
-
-                    // Close mobile navbar collapse if open
-                    const navbarCollapse = document.getElementById('navbarNav');
-                    if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-                        const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
-                        if (bsCollapse) bsCollapse.hide();
-                    }
-
+                    closeMobileNavbar();
                     goToSlide(targetIdx);
                 }
             });
+        });
+
+        // 7. Standard Mode Arrow Key Support when hovering or focusing project/article carousels
+        window.addEventListener('keydown', function (e) {
+            if (isSlideshowMode) return;
+            if (e.target.matches('input, textarea')) return;
+
+            const hoveredStage = document.querySelector('#projectCarouselStage:hover, #articlesCarouselStage:hover');
+            if (hoveredStage) {
+                const isProject = hoveredStage.id === 'projectCarouselStage';
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (isProject && window.projectCarouselNext) window.projectCarouselNext();
+                    else if (!isProject && window.articlesCarouselNext) window.articlesCarouselNext();
+                } else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    if (isProject && window.projectCarouselPrev) window.projectCarouselPrev();
+                    else if (!isProject && window.articlesCarouselPrev) window.articlesCarouselPrev();
+                }
+            }
+        });
+
+        // 8. Click to Advance Slide in Slideshow Mode (excluding interactive elements, widgets, and modals)
+        let clickStartX = 0;
+        let clickStartY = 0;
+        let clickStartTime = 0;
+
+        document.addEventListener('mousedown', function (e) {
+            clickStartX = e.clientX;
+            clickStartY = e.clientY;
+            clickStartTime = Date.now();
+        }, { passive: true });
+
+        document.addEventListener('click', function (e) {
+            if (!isSlideshowMode || isAnimating) return;
+
+            // If user dragged (distance > 10px) or held down for > 400ms, ignore
+            const dist = Math.hypot(e.clientX - clickStartX, e.clientY - clickStartY);
+            if (dist > 10 || (Date.now() - clickStartTime > 400)) return;
+
+            // Ignore if text is selected
+            if (window.getSelection && window.getSelection().toString().trim().length > 0) return;
+
+            // Ignore if any modal is currently open
+            if (document.querySelector('.treasure-clue-modal.active, #portfolioModal[style*="flex"], #expDetailModal[style*="flex"]')) return;
+
+            // Ignore if clicking on interactive elements or interactive widgets
+            const interactiveSelector = [
+                'a',
+                'button',
+                'input',
+                'textarea',
+                'select',
+                'label',
+                '.mode-toggle-btn',
+                '.slideshow-dots-nav',
+                '.slideshow-bottom-bar',
+                '#portfolioModeToggle',
+                '#chatbotWindow',
+                '#chatbotToggleBtn',
+                '.chatbot-container',
+                '.project-stacked-card',
+                '.article-stacked-card',
+                '.carousel-stage',
+                '.project-carousel-controls',
+                '.exp-deck-3d-stage',
+                '.exp-deck-card',
+                '.exp-voyage-btn',
+                '.exp-nav-btn',
+                '.exp-deck-dot',
+                '.exp-deck-pill',
+                '.voyage-map-island',
+                '.clue-island-pin',
+                '.skills-belt-container',
+                '.skills-belt-track',
+                '.skill-rect-card',
+                '.timeline-item',
+                '.cert-marquee-card',
+                '.navbar',
+                '.modal',
+                '.modal-content'
+            ].join(', ');
+
+            if (e.target.closest(interactiveSelector)) {
+                return;
+            }
+
+            // Only trigger if click occurred inside the current active slide
+            const currentSlide = slideElements[currentIndex];
+            if (currentSlide && (currentSlide.contains(e.target) || e.target === currentSlide)) {
+                if (currentIndex < slideElements.length - 1) {
+                    goToSlide(currentIndex + 1, 1);
+                } else {
+                    goToSlide(0, 1);
+                }
+            }
         });
     }
 
