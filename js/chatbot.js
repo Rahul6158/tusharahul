@@ -1,7 +1,7 @@
 /**
  * Tusha Rahul Portfolio - Interactive AI Chatbot Twin
  * Strictly Grounded to Portfolio & Production AI Projects
- * Powered by Resilient Multi-Tiered AI Architecture with Live Streaming Typewriter Animation
+ * Powered by NVIDIA NIM (Nemotron 3.5 Bolt) with Real-Time SSE Token Streaming
  */
 
 (function () {
@@ -13,7 +13,7 @@ Always respond warmly with an encouraging, energetic vibe. Keep your responses c
 
 CRITICAL GROUNDING RULES:
 1. You are EXCLUSIVELY an assistant for Tusha Rahul's portfolio and his professional journey. You MUST ONLY answer questions directly about Tusha Rahul, his projects, work, skills, and background.
-2. Under NO circumstances should you provide answers to general, out-of-the-box, or unrelated queries (such as general programming tutorials, writing essays, math equations, recipes, politics, world trivia, or other companies/people).
+2. Under NO circumstances should you provide answers to general, out-of-the-box, or unrelated queries (such as general programming tutorials, recipes, trivia, politics, world facts, or writing random code).
 3. If a user asks anything outside Tusha Rahul and his portfolio, you MUST politely and firmly decline and redirect them back:
    Example: "I am exclusively dedicated to sharing information about Tusha Rahul's portfolio, AI projects, and engineering journey! While that's an interesting question, I specialize only in Rahul's work. Feel free to ask about his RAG systems (DocPortal), Text-to-SQL (Pioneer Nexus), his role at Tabner Inc., his tech stack, or how to get in touch!"
 4. Never make up facts not listed in your knowledge base.
@@ -52,11 +52,10 @@ KEY FACTS ABOUT ME:
 
     let isOpen = false;
     let isGenerating = false;
-    let currentSizeMode = 'standard'; // 'standard' | 'expanded'
+    let currentSizeMode = 'standard'; // 'standard' | 'expanded' | 'custom'
 
     // DOM Elements
-    let triggerBtn, chatWindow, chatHeader, messagesContainer, chatForm, chatInput, sendBtn, closeBtn, clearBtn, sizeBtn, sizeIcon, chipsBar;
-    let resizeCorner;
+    let triggerBtn, chatWindow, chatHeader, messagesContainer, chatForm, chatInput, sendBtn, closeBtn, clearBtn, sizeBtn, sizeIcon, chipsBar, resizeCorner;
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initChatbot);
@@ -120,7 +119,7 @@ KEY FACTS ABOUT ME:
             });
         }
 
-        // Setup Corner Resize Handle
+        // Corner Resize Handle
         initResizeHandler();
 
         // Render Welcome Message
@@ -180,7 +179,7 @@ KEY FACTS ABOUT ME:
 
         if (mode === 'standard') {
             chatWindow.style.width = '440px';
-            chatWindow.style.height = '580px';
+            chatWindow.style.height = '590px';
             if (sizeIcon) sizeIcon.className = 'fas fa-expand';
             if (sizeBtn) sizeBtn.setAttribute('title', 'Expand window');
         } else {
@@ -234,7 +233,7 @@ KEY FACTS ABOUT ME:
         let startX, startY, startW, startH;
 
         function startResize(e) {
-            if (window.innerWidth <= 600) return; // Disable on small mobile devices
+            if (window.innerWidth <= 600) return;
             isResizing = true;
             const clientX = e.touches ? e.touches[0].clientX : e.clientX;
             const clientY = e.touches ? e.touches[0].clientY : e.clientY;
@@ -248,7 +247,6 @@ KEY FACTS ABOUT ME:
 
             chatWindow.classList.add('is-resizing');
             document.body.style.userSelect = 'none';
-
             e.preventDefault();
         }
 
@@ -295,7 +293,7 @@ KEY FACTS ABOUT ME:
     }
 
     /* -------------------------------------------------------------
-       Message Rendering & Streaming Typewriter Writer
+       Message Rendering
        ------------------------------------------------------------- */
     function getFormattedTimestamp() {
         const now = new Date();
@@ -309,7 +307,7 @@ KEY FACTS ABOUT ME:
                     <img src="img/tusha-avatar.png" alt="Rahul" onerror="this.src='img/profile.jpeg'">
                 </div>
                 <div class="chat-msg-wrapper">
-                    <div class="chat-msg-sender">Tusha Rahul</div>
+                    <div class="chat-msg-sender">Tusha Rahul &bull; AI Twin</div>
                     <div class="chat-msg-bubble">
                         <p class="mb-1"><strong>Hi, I'm Tusha Rahul!</strong> 👋</p>
                         <p class="mb-2">Welcome to my portfolio! I'm an Applied AI/ML Engineer at Tabner Inc., building production multi-tenant RAG systems, autonomous agentic pipelines, and Text-to-SQL copilots.</p>
@@ -340,37 +338,7 @@ KEY FACTS ABOUT ME:
         scrollToBottom();
     }
 
-    function appendBotLoading() {
-        const loaderDiv = document.createElement('div');
-        loaderDiv.className = 'chat-msg chat-msg-bot chat-loading-indicator';
-        loaderDiv.id = 'chatLoadingIndicator';
-        loaderDiv.innerHTML = `
-            <div class="chat-msg-avatar">
-                <img src="img/tusha-avatar.png" alt="Rahul" onerror="this.src='img/profile.jpeg'">
-            </div>
-            <div class="chat-msg-wrapper">
-                <div class="chat-msg-sender">Tusha Rahul</div>
-                <div class="chat-msg-bubble">
-                    <div class="chat-dots-wave">
-                        <span></span><span></span><span></span>
-                    </div>
-                </div>
-            </div>
-        `;
-        messagesContainer.appendChild(loaderDiv);
-        scrollToBottom();
-    }
-
-    function removeBotLoading() {
-        const loader = document.getElementById('chatLoadingIndicator');
-        if (loader) loader.remove();
-    }
-
-    /**
-     * Typewrite Effect: Writes out the answer dynamically for each question
-     */
-    function typewriteBotMessage(markdownText, onDone) {
-        removeBotLoading();
+    function createBotStreamBubble() {
         const msgDiv = document.createElement('div');
         msgDiv.className = 'chat-msg chat-msg-bot';
         msgDiv.innerHTML = `
@@ -378,9 +346,12 @@ KEY FACTS ABOUT ME:
                 <img src="img/tusha-avatar.png" alt="Rahul" onerror="this.src='img/profile.jpeg'">
             </div>
             <div class="chat-msg-wrapper">
-                <div class="chat-msg-sender">Tusha Rahul</div>
+                <div class="chat-msg-sender">Tusha Rahul &bull; AI Twin</div>
                 <div class="chat-msg-bubble">
-                    <span class="chat-text-target"></span><span class="chat-typing-cursor"></span>
+                    <div class="chat-typing-preloader">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span class="chat-text-target" style="display:none;"></span><span class="chat-streaming-cursor" style="display:none;"></span>
                 </div>
                 <span class="chat-timestamp">${getFormattedTimestamp()}</span>
             </div>
@@ -388,31 +359,50 @@ KEY FACTS ABOUT ME:
         messagesContainer.appendChild(msgDiv);
         scrollToBottom();
 
+        const preloader = msgDiv.querySelector('.chat-typing-preloader');
         const textTarget = msgDiv.querySelector('.chat-text-target');
-        const cursor = msgDiv.querySelector('.chat-typing-cursor');
+        const cursor = msgDiv.querySelector('.chat-streaming-cursor');
 
-        let charIndex = 0;
-        const totalChars = markdownText.length;
-        // Fast dynamic step so output completes naturally in ~0.8s to 1.6s
-        const stepDelay = 14;
-        const stepChunk = Math.max(3, Math.ceil(totalChars / 55));
+        let isStarted = false;
+        let accumulatedText = '';
 
-        function step() {
-            charIndex = Math.min(charIndex + stepChunk, totalChars);
-            const currentSlice = markdownText.slice(0, charIndex);
-            textTarget.innerHTML = formatMarkdown(currentSlice);
-            scrollToBottom();
-
-            if (charIndex < totalChars) {
-                setTimeout(step, stepDelay);
-            } else {
-                if (cursor) cursor.remove();
+        return {
+            appendChunk(chunk) {
+                if (!isStarted) {
+                    isStarted = true;
+                    if (preloader) preloader.remove();
+                    if (textTarget) textTarget.style.display = 'inline';
+                    if (cursor) cursor.style.display = 'inline-block';
+                }
+                accumulatedText += chunk;
+                if (textTarget) {
+                    textTarget.innerHTML = formatStreamingMarkdown(accumulatedText);
+                }
                 scrollToBottom();
-                if (onDone) onDone();
+            },
+            complete() {
+                if (!isStarted && accumulatedText) {
+                    if (preloader) preloader.remove();
+                    if (textTarget) textTarget.style.display = 'inline';
+                }
+                if (cursor) cursor.remove();
+                if (textTarget) {
+                    textTarget.innerHTML = formatStreamingMarkdown(accumulatedText);
+                }
+                scrollToBottom();
+                return accumulatedText;
+            },
+            abort(fallbackText) {
+                if (preloader) preloader.remove();
+                if (cursor) cursor.remove();
+                if (textTarget) {
+                    textTarget.style.display = 'inline';
+                    textTarget.innerHTML = formatStreamingMarkdown(fallbackText || accumulatedText);
+                }
+                scrollToBottom();
+                return fallbackText || accumulatedText;
             }
-        }
-
-        step();
+        };
     }
 
     function scrollToBottom() {
@@ -422,7 +412,7 @@ KEY FACTS ABOUT ME:
     }
 
     /* -------------------------------------------------------------
-       Message Dispatch Pipeline: API Call + Live Typing Writer
+       Message Dispatch Pipeline: Live SSE Streaming + Fast Fallback
        ------------------------------------------------------------- */
     async function sendMessage(text) {
         if (chatInput) chatInput.value = '';
@@ -430,106 +420,150 @@ KEY FACTS ABOUT ME:
         if (sendBtn) sendBtn.disabled = true;
 
         appendUserMessage(text);
-        appendBotLoading();
+        const streamBubble = createBotStreamBubble();
 
         chatHistory.push({ role: 'user', content: text });
 
-        // Keep last 6 messages for fast processing and crisp context
+        // Keep last 6 messages for high-speed prompt processing
         const contextPayload = [
-            chatHistory[0], // system prompt with strict grounding
+            chatHistory[0], // strictly grounded system prompt
             ...chatHistory.slice(-5)
         ];
 
         try {
-            const reply = await queryAI(contextPayload, text);
-            chatHistory.push({ role: 'assistant', content: reply });
-            typewriteBotMessage(reply, () => {
-                isGenerating = false;
-                if (sendBtn) sendBtn.disabled = false;
-                if (chatInput) chatInput.focus();
-            });
+            const streamedText = await streamFromAI(contextPayload, text, streamBubble);
+            chatHistory.push({ role: 'assistant', content: streamedText });
         } catch (err) {
-            console.warn('Online AI endpoint unavailable, utilizing grounded local engine:', err.message);
+            console.warn('Real-time AI stream unavailable, running grounded local engine:', err.message);
             const fallbackReply = generateIntelligentReply(text);
+            await streamWordByWord(fallbackReply, streamBubble);
             chatHistory.push({ role: 'assistant', content: fallbackReply });
-            typewriteBotMessage(fallbackReply, () => {
-                isGenerating = false;
-                if (sendBtn) sendBtn.disabled = false;
-                if (chatInput) chatInput.focus();
-            });
+        } finally {
+            isGenerating = false;
+            if (sendBtn) sendBtn.disabled = false;
+            if (chatInput) chatInput.focus();
         }
     }
 
     /**
-     * Executes the API call with multi-tiered resilience and fast timeouts
+     * Connects to /api/chat with SSE streaming (ReadableStream)
      */
-    async function queryAI(messages, userQuery) {
-        // Fast routing: If running on static file:// or github.io, skip serverless proxy and query direct AI immediately
+    async function streamFromAI(messages, userQuery, streamBubble) {
+        // If static host without backend (e.g. file:// or github.io), route directly to local grounded engine
         const isStaticHost = window.location.protocol === 'file:' || window.location.hostname.includes('github.io');
+        if (isStaticHost) {
+            throw new Error('Static host environment - switching to instant grounded persona engine');
+        }
 
-        if (!isStaticHost) {
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 4500); // 4.5s fast timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 7500);
 
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        model: 'minimaxai/minimax-m3.1-flash',
-                        messages: messages,
-                        max_tokens: 500,
-                        temperature: 0.4
-                    }),
-                    signal: controller.signal
-                });
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                model: 'nvidia/nemotron-3.5-bolt-e4b',
+                messages: messages,
+                max_tokens: 450,
+                temperature: 0.3,
+                stream: true
+            }),
+            signal: controller.signal
+        });
 
-                clearTimeout(timeoutId);
+        clearTimeout(timeoutId);
 
-                if (response.ok) {
-                    const data = await response.json();
-                    const choice = data.choices && data.choices[0];
-                    if (choice && choice.message) {
-                        let content = choice.message.content || choice.message.reasoning_content;
-                        if (content && content.trim()) {
-                            return content.trim();
+        if (!response.ok) {
+            throw new Error(`Endpoint returned status ${response.status}`);
+        }
+
+        const contentType = response.headers.get('content-type') || '';
+
+        // Case 1: Server-Sent Events (SSE) Stream
+        if (contentType.includes('text/event-stream') && response.body) {
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let done = false;
+            let buffer = '';
+            let receivedAnyToken = false;
+
+            while (!done) {
+                const { value, done: streamDone } = await reader.read();
+                done = streamDone;
+
+                if (value) {
+                    buffer += decoder.decode(value, { stream: true });
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop(); // keep partial trailing line
+
+                    for (const line of lines) {
+                        const trimmed = line.trim();
+                        if (!trimmed || trimmed.startsWith(':')) continue;
+                        if (trimmed === 'data: [DONE]') {
+                            done = true;
+                            break;
+                        }
+                        if (trimmed.startsWith('data: ')) {
+                            try {
+                                const parsed = JSON.parse(trimmed.slice(6));
+                                const delta = parsed.choices && parsed.choices[0] && parsed.choices[0].delta;
+                                const content = delta ? (delta.content || delta.reasoning_content || '') : '';
+                                if (content) {
+                                    receivedAnyToken = true;
+                                    streamBubble.appendChunk(content);
+                                }
+                            } catch (e) {
+                                // Ignore partial JSON chunk
+                            }
                         }
                     }
                 }
-            } catch (e) {
-                // Serverless proxy unavailable, proceed immediately to direct AI
             }
+
+            if (!receivedAnyToken) {
+                throw new Error('No tokens received in SSE stream');
+            }
+
+            return streamBubble.complete();
         }
 
-        // Tier 2: Direct browser client call to public AI endpoint (CORS-enabled, zero-key needed)
-        try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 6500);
+        // Case 2: JSON Response (Buffers then stream-types word-by-word)
+        const data = await response.json();
+        const choice = data.choices && data.choices[0];
+        const content = choice && choice.message ? (choice.message.content || choice.message.reasoning_content || '') : '';
 
-            const directRes = await fetch('https://text.pollinations.ai/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    messages: messages,
-                    model: 'openai',
-                    temperature: 0.4
-                }),
-                signal: controller.signal
-            });
+        if (!content || !content.trim()) {
+            throw new Error('Empty JSON response from AI endpoint');
+        }
 
-            clearTimeout(timeoutId);
+        await streamWordByWord(content.trim(), streamBubble);
+        return content.trim();
+    }
 
-            if (directRes.ok) {
-                const text = await directRes.text();
-                if (text && text.trim() && !text.includes('Free limit reached')) {
-                    return text.trim();
+    /**
+     * Progressive streaming simulation (word-by-word with micro-steps)
+     * Provides instantaneous response rendering when falling back to the local engine
+     */
+    function streamWordByWord(fullText, streamBubble) {
+        return new Promise(resolve => {
+            const tokens = fullText.split(/(\s+)/); // split preserving spaces
+            let index = 0;
+            const tokenStepDelay = 12; // 12ms per token
+
+            function step() {
+                if (index < tokens.length) {
+                    const chunk = tokens.slice(index, index + 2).join('');
+                    index += 2;
+                    streamBubble.appendChunk(chunk);
+                    setTimeout(step, tokenStepDelay);
+                } else {
+                    const final = streamBubble.complete();
+                    resolve(final);
                 }
             }
-        } catch (directErr) {
-            console.warn('Direct AI client call unavailable:', directErr.message);
-        }
 
-        throw new Error('All online AI tiers unreachable');
+            step();
+        });
     }
 
     /* -------------------------------------------------------------
@@ -665,8 +699,22 @@ KEY FACTS ABOUT ME:
             .replace(/'/g, '&#039;');
     }
 
-    function formatMarkdown(text) {
+    /**
+     * Progressive streaming markdown formatter that balances incomplete tags
+     */
+    function formatStreamingMarkdown(raw) {
+        let text = raw;
+
+        // Temporarily balance unclosed code blocks
+        const codeBlockCount = (text.match(/```/g) || []).length;
+        if (codeBlockCount % 2 !== 0) text += '\n```';
+
+        // Temporarily balance unclosed bold tags
+        const boldCount = (text.match(/\*\*/g) || []).length;
+        if (boldCount % 2 !== 0) text += '**';
+
         let html = escapeHtml(text);
+
         // Code blocks ```code```
         html = html.replace(/```([a-z]*)\n([\s\S]*?)```/g, '<pre class="chat-code-block"><code>$2</code></pre>');
         // Inline code `code`
@@ -676,15 +724,16 @@ KEY FACTS ABOUT ME:
         // Bold
         html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
         // Italic
-        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        html = html.replace(/(^|[^\*])\*([^\*]+)\*([^\*]|$)/g, '$1<em>$2</em>$3');
         // Links
         html = html.replace(/\[(.*?)\]\((https?:\/\/.*?)\)/g, '<a href="$2" target="_blank" rel="noopener" class="chat-link">$1 <i class="fas fa-external-link-alt fa-xs"></i></a>');
-        // Bullet points
-        html = html.replace(/^\s*[-&bull;]\s+(.*)$/gm, '<li class="chat-li">$1</li>');
-        html = html.replace(/(<li class="chat-li">.*<\/li>)/s, '<ul class="chat-ul mb-2">$1</ul>');
+        // Lists
+        html = html.replace(/^\s*[-•]\s+(.*)$/gm, '<li class="chat-li">$1</li>');
+        html = html.replace(/(<li class="chat-li">[\s\S]*?<\/li>)/g, '<ul class="chat-ul mb-2">$1</ul>');
         // Paragraphs & Line Breaks
         html = html.replace(/\n\n+/g, '</p><p class="mb-2">');
         html = html.replace(/\n/g, '<br>');
+
         return `<p class="mb-0">${html}</p>`;
     }
 })();

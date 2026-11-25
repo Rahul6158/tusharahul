@@ -242,7 +242,7 @@
      * Initialize 3D Stacked Card Carousels for Projects and Articles
      */
     function init3DStackedCarousels() {
-        // Projects Carousel (starts in middle)
+        // Projects Carousel (First card DocPortal AI)
         setupStacked3DCarousel({
             stageId: 'projectCarouselStage',
             prevBtnId: 'projectPrevBtn',
@@ -250,7 +250,7 @@
             dotsId: 'projectDots',
             cardClass: '.project-stacked-card',
             autoPlayInterval: 0,
-            startIndex: 'middle',
+            startIndex: 0,
             namespace: 'project'
         });
 

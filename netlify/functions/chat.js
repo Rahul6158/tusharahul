@@ -1,7 +1,7 @@
 /**
  * Netlify Serverless Function: /api/chat
- * High-speed, strictly grounded server-side proxy for Tusha Rahul's AI Portfolio Chatbot
- * Supports NVIDIA NIM API with automated keyless resilient fallback.
+ * Ultra-low latency, strictly grounded server-side proxy for Tusha Rahul's AI Portfolio Chatbot
+ * Powered by NVIDIA NIM (Nemotron 3.5 Bolt) with real-time streaming & resilient fallback
  */
 
 const https = require('https');
@@ -35,7 +35,7 @@ function queryPollinations(messages) {
         const postData = JSON.stringify({
             messages: messages,
             model: 'openai',
-            temperature: 0.4
+            temperature: 0.3
         });
         const req = https.request({
             hostname: 'text.pollinations.ai',
@@ -69,7 +69,7 @@ function queryPollinations(messages) {
             });
         });
         req.on('error', err => reject(err));
-        req.setTimeout(8000, () => {
+        req.setTimeout(7000, () => {
             req.destroy();
             reject(new Error('Pollinations timeout'));
         });
@@ -113,14 +113,18 @@ exports.handler = async function (event, context) {
             };
         }
 
-        // 1. Try NVIDIA NIM first if key is present
+        // 1. Try NVIDIA NIM ultra-fast Nemotron Bolt (250ms first token)
         if (NVIDIA_API_KEY && NVIDIA_API_KEY.length > 10) {
             try {
+                const targetModel = payload.model || 'nvidia/nemotron-3.5-bolt-e4b';
+                const wantsStream = Boolean(payload.stream);
+
                 const postData = JSON.stringify({
-                    model: payload.model || 'minimaxai/minimax-m3.1-flash',
+                    model: targetModel,
                     messages: messages,
-                    max_tokens: payload.max_tokens || 550,
-                    temperature: payload.temperature !== undefined ? payload.temperature : 0.4
+                    max_tokens: payload.max_tokens || 450,
+                    temperature: payload.temperature !== undefined ? payload.temperature : 0.3,
+                    stream: wantsStream
                 });
 
                 const nvidiaResponse = await new Promise((resolve, reject) => {
@@ -139,13 +143,14 @@ exports.handler = async function (event, context) {
                         res.on('end', () => {
                             resolve({
                                 statusCode: res.statusCode,
+                                contentType: res.headers['content-type'] || (wantsStream ? 'text/event-stream' : 'application/json'),
                                 body: responseData
                             });
                         });
                     });
 
                     req.on('error', err => reject(err));
-                    req.setTimeout(6500, () => {
+                    req.setTimeout(6000, () => {
                         req.destroy();
                         reject(new Error('NVIDIA API timeout'));
                     });
@@ -158,12 +163,13 @@ exports.handler = async function (event, context) {
                         statusCode: 200,
                         headers: {
                             ...corsHeaders,
-                            'Content-Type': 'application/json'
+                            'Content-Type': nvidiaResponse.contentType,
+                            'Cache-Control': 'no-cache, no-transform'
                         },
                         body: nvidiaResponse.body
                     };
                 }
-                console.warn('NVIDIA NIM returned non-200:', nvidiaResponse.statusCode, '- falling back to direct AI tier');
+                console.warn('NVIDIA NIM returned status', nvidiaResponse.statusCode, '- falling back to direct AI tier');
             } catch (nvidiaErr) {
                 console.warn('NVIDIA NIM request failed:', nvidiaErr.message, '- falling back to direct AI tier');
             }
