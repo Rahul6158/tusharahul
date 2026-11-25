@@ -67,7 +67,7 @@ KEY FACTS ABOUT ME:
         triggerBtn = document.getElementById('chatbotTrigger');
         chatWindow = document.getElementById('chatbotWindow');
         chatHeader = document.getElementById('chatbotHeader');
-        messagesContainer = document.getElementById('chatbotMessages');
+        messagesContainer = document.getElementById('phoneMessagesStream') || document.getElementById('chatbotMessages');
         chatForm = document.getElementById('chatbotForm');
         chatInput = document.getElementById('chatbotInput');
         sendBtn = document.getElementById('chatbotSendBtn');
@@ -82,6 +82,24 @@ KEY FACTS ABOUT ME:
 
         // Restore saved custom dimensions if present
         restoreSavedSize();
+
+        // Soundwave to Send Button morphing on input
+        if (chatInput && sendBtn) {
+            chatInput.addEventListener('input', function () {
+                if (this.value.trim().length > 0) {
+                    sendBtn.classList.add('can-send');
+                } else {
+                    sendBtn.classList.remove('can-send');
+                }
+            });
+        }
+
+        // Escape key to close phone
+        window.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && isOpen) {
+                closeChat();
+            }
+        });
 
         // Toggle Open/Close
         triggerBtn.addEventListener('click', toggleChat);
@@ -140,7 +158,7 @@ KEY FACTS ABOUT ME:
     function openChat() {
         isOpen = true;
         chatWindow.style.display = 'flex';
-        triggerBtn.classList.add('is-active');
+        triggerBtn.style.display = 'none';
         scrollToBottom();
         setTimeout(() => {
             if (chatInput) chatInput.focus();
@@ -150,7 +168,7 @@ KEY FACTS ABOUT ME:
     function closeChat() {
         isOpen = false;
         chatWindow.style.display = 'none';
-        triggerBtn.classList.remove('is-active');
+        triggerBtn.style.display = 'inline-flex';
     }
 
     function resetChat() {
@@ -178,13 +196,13 @@ KEY FACTS ABOUT ME:
         chatWindow.classList.add(`size-${mode}`);
 
         if (mode === 'standard') {
-            chatWindow.style.width = '440px';
-            chatWindow.style.height = '590px';
+            chatWindow.style.width = '430px';
+            chatWindow.style.height = '600px';
             if (sizeIcon) sizeIcon.className = 'fas fa-expand';
             if (sizeBtn) sizeBtn.setAttribute('title', 'Expand window');
         } else {
-            chatWindow.style.width = '660px';
-            chatWindow.style.height = '720px';
+            chatWindow.style.width = '640px';
+            chatWindow.style.height = '740px';
             if (sizeIcon) sizeIcon.className = 'fas fa-compress';
             if (sizeBtn) sizeBtn.setAttribute('title', 'Restore standard size');
         }
@@ -201,7 +219,7 @@ KEY FACTS ABOUT ME:
                 height: chatWindow.style.height
             };
             localStorage.setItem('tusha_chat_size', JSON.stringify(sizeData));
-        } catch (e) {}
+        } catch (e) { }
     }
 
     function restoreSavedSize() {
@@ -223,7 +241,7 @@ KEY FACTS ABOUT ME:
                     chatWindow.style.height = data.height;
                 }
             }
-        } catch (e) {}
+        } catch (e) { }
     }
 
     function initResizeHandler() {
@@ -304,14 +322,14 @@ KEY FACTS ABOUT ME:
         const welcomeHtml = `
             <div class="chat-msg chat-msg-bot">
                 <div class="chat-msg-avatar">
-                    <img src="img/tusha-avatar.png" alt="Rahul" onerror="this.src='img/profile.jpeg'">
+                    <img src="img/tusha-avatar.png" alt="RahulAI" onerror="this.src='img/profile.jpeg'">
                 </div>
                 <div class="chat-msg-wrapper">
-                    <div class="chat-msg-sender">Tusha Rahul &bull; AI Twin</div>
+                    <div class="chat-msg-sender">RahulAI</div>
                     <div class="chat-msg-bubble">
-                        <p class="mb-1"><strong>Hi, I'm Tusha Rahul!</strong> 👋</p>
-                        <p class="mb-2">Welcome to my portfolio! I'm an Applied AI/ML Engineer at Tabner Inc., building production multi-tenant RAG systems, autonomous agentic pipelines, and Text-to-SQL copilots.</p>
-                        <p class="mb-0">Ask me anything about my flagship projects like <strong>DocPortal</strong> and <strong>Pioneer Nexus</strong>, my tech stack, or my engineering journey!</p>
+                        <p class="chat-p"><strong>Hi, I'm RahulAI!</strong> 👋</p>
+                        <p class="chat-p">I am Tusha Rahul's AI twin. I'm here to tell you all about Rahul's engineering journey, what he builds as an Applied AI/ML Engineer at <strong>Tabner Inc.</strong>, his flagship AI systems like <strong>DocPortal</strong> and <strong>Pioneer Nexus</strong>, his technical stack, and how to get in touch.</p>
+                        <p class="chat-p mb-0">What would you like to know about Rahul?</p>
                     </div>
                     <span class="chat-timestamp">${getFormattedTimestamp()}</span>
                 </div>
@@ -329,7 +347,7 @@ KEY FACTS ABOUT ME:
             <div class="chat-msg-wrapper">
                 <div class="chat-msg-sender">You</div>
                 <div class="chat-msg-bubble">
-                    <p class="mb-0">${escapeHtml(text)}</p>
+                    <p class="chat-p mb-0">${escapeHtml(text)}</p>
                 </div>
                 <span class="chat-timestamp">${getFormattedTimestamp()}</span>
             </div>
@@ -343,15 +361,15 @@ KEY FACTS ABOUT ME:
         msgDiv.className = 'chat-msg chat-msg-bot';
         msgDiv.innerHTML = `
             <div class="chat-msg-avatar">
-                <img src="img/tusha-avatar.png" alt="Rahul" onerror="this.src='img/profile.jpeg'">
+                <img src="img/tusha-avatar.png" alt="RahulAI" onerror="this.src='img/profile.jpeg'">
             </div>
             <div class="chat-msg-wrapper">
-                <div class="chat-msg-sender">Tusha Rahul &bull; AI Twin</div>
+                <div class="chat-msg-sender">RahulAI</div>
                 <div class="chat-msg-bubble">
                     <div class="chat-typing-preloader">
                         <span></span><span></span><span></span>
                     </div>
-                    <span class="chat-text-target" style="display:none;"></span><span class="chat-streaming-cursor" style="display:none;"></span>
+                    <div class="chat-text-target" style="display:none;"></div><span class="chat-streaming-cursor" style="display:none;"></span>
                 </div>
                 <span class="chat-timestamp">${getFormattedTimestamp()}</span>
             </div>
@@ -371,7 +389,7 @@ KEY FACTS ABOUT ME:
                 if (!isStarted) {
                     isStarted = true;
                     if (preloader) preloader.remove();
-                    if (textTarget) textTarget.style.display = 'inline';
+                    if (textTarget) textTarget.style.display = 'block';
                     if (cursor) cursor.style.display = 'inline-block';
                 }
                 accumulatedText += chunk;
@@ -383,7 +401,7 @@ KEY FACTS ABOUT ME:
             complete() {
                 if (!isStarted && accumulatedText) {
                     if (preloader) preloader.remove();
-                    if (textTarget) textTarget.style.display = 'inline';
+                    if (textTarget) textTarget.style.display = 'block';
                 }
                 if (cursor) cursor.remove();
                 if (textTarget) {
@@ -396,7 +414,7 @@ KEY FACTS ABOUT ME:
                 if (preloader) preloader.remove();
                 if (cursor) cursor.remove();
                 if (textTarget) {
-                    textTarget.style.display = 'inline';
+                    textTarget.style.display = 'block';
                     textTarget.innerHTML = formatStreamingMarkdown(fallbackText || accumulatedText);
                 }
                 scrollToBottom();
@@ -406,8 +424,9 @@ KEY FACTS ABOUT ME:
     }
 
     function scrollToBottom() {
-        if (messagesContainer) {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        const scrollElem = document.getElementById('chatbotMessages') || messagesContainer;
+        if (scrollElem) {
+            scrollElem.scrollTop = scrollElem.scrollHeight;
         }
     }
 
@@ -700,40 +719,163 @@ KEY FACTS ABOUT ME:
     }
 
     /**
-     * Progressive streaming markdown formatter that balances incomplete tags
+     * Professional streaming markdown formatter
+     * Accurately parses bold, italic, code blocks, inline code, headings, blockquotes,
+     * links (https, mailto, tel, #hash), autolinked raw URLs, ordered lists, and unordered lists
+     * into clean, accessible, semantic HTML.
      */
     function formatStreamingMarkdown(raw) {
+        if (!raw) return '';
         let text = raw;
 
-        // Temporarily balance unclosed code blocks
+        // Temporarily balance unclosed code blocks during streaming
         const codeBlockCount = (text.match(/```/g) || []).length;
         if (codeBlockCount % 2 !== 0) text += '\n```';
 
-        // Temporarily balance unclosed bold tags
+        // Temporarily balance unclosed bold tags during streaming
         const boldCount = (text.match(/\*\*/g) || []).length;
         if (boldCount % 2 !== 0) text += '**';
 
-        let html = escapeHtml(text);
+        // 1. Extract and protect code blocks so inner markdown isn't touched
+        const codeBlocks = [];
+        text = text.replace(/```([a-zA-Z0-9_-]*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+            const id = `___CODEBLOCK_${codeBlocks.length}___`;
+            const langLabel = lang ? `<div class="chat-code-header">${escapeHtml(lang)}</div>` : '';
+            codeBlocks.push(
+                `<div class="chat-code-card">${langLabel}<pre class="chat-code-block"><code>${escapeHtml(code.trim())}</code></pre></div>`
+            );
+            return `\n\n${id}\n\n`;
+        });
 
-        // Code blocks ```code```
-        html = html.replace(/```([a-z]*)\n([\s\S]*?)```/g, '<pre class="chat-code-block"><code>$2</code></pre>');
-        // Inline code `code`
-        html = html.replace(/`([^`]+)`/g, '<code class="chat-inline-code">$1</code>');
-        // Blockquotes
-        html = html.replace(/^>\s*(.*?)$/gm, '<blockquote class="chat-quote">$1</blockquote>');
-        // Bold
-        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        // Italic
-        html = html.replace(/(^|[^\*])\*([^\*]+)\*([^\*]|$)/g, '$1<em>$2</em>$3');
-        // Links
-        html = html.replace(/\[(.*?)\]\((https?:\/\/.*?)\)/g, '<a href="$2" target="_blank" rel="noopener" class="chat-link">$1 <i class="fas fa-external-link-alt fa-xs"></i></a>');
-        // Lists
-        html = html.replace(/^\s*[-•]\s+(.*)$/gm, '<li class="chat-li">$1</li>');
-        html = html.replace(/(<li class="chat-li">[\s\S]*?<\/li>)/g, '<ul class="chat-ul mb-2">$1</ul>');
-        // Paragraphs & Line Breaks
-        html = html.replace(/\n\n+/g, '</p><p class="mb-2">');
-        html = html.replace(/\n/g, '<br>');
+        // 2. Escape HTML for the non-code text
+        text = escapeHtml(text);
 
-        return `<p class="mb-0">${html}</p>`;
+        // 3. Inline code `code`
+        text = text.replace(/`([^`\n]+)`/g, '<code class="chat-inline-code">$1</code>');
+
+        // 4. Bold **text**
+        text = text.replace(/\*\*(.+?)\*\*/g, '<strong class="chat-strong">$1</strong>');
+
+        // 5. Italic *text*
+        text = text.replace(/(^|[^\*])\*([^\*\n]+)\*([^\*]|$)/g, '$1<em class="chat-em">$2</em>$3');
+
+        // 6. Markdown links [text](url) - supports https, http, mailto, tel, and #hash
+        text = text.replace(/\[(.*?)\]\(((?:https?:\/\/|mailto:|tel:|#)[^\s\)]+)\)/g, (match, title, url) => {
+            const isExternal = url.startsWith('http');
+            const icon = isExternal
+                ? ' <i class="fas fa-arrow-up-right-from-square chat-link-icon"></i>'
+                : (url.startsWith('mailto:') ? ' <i class="fas fa-envelope chat-link-icon"></i>' : '');
+            const target = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+            return `<a href="${url}" class="chat-link"${target}><span>${title}</span>${icon}</a>`;
+        });
+
+        // 7. Auto-link bare URLs (not preceded by href=" or inside tags)
+        text = text.replace(/(^|[\s(])((?:https?:\/\/)[^\s<)"']+)/g, (match, prefix, url) => {
+            return `${prefix}<a href="${url}" target="_blank" rel="noopener noreferrer" class="chat-link"><span>${url}</span> <i class="fas fa-arrow-up-right-from-square chat-link-icon"></i></a>`;
+        });
+
+        // 8. Blockquotes: lines starting with &gt;
+        text = text.replace(/^&gt;\s*(.*?)$/gm, '<blockquote class="chat-quote">$1</blockquote>');
+
+        // 9. Headings: ###, ##, #
+        text = text.replace(/^###\s+(.*?)$/gm, '<h4 class="chat-heading">$1</h4>');
+        text = text.replace(/^##\s+(.*?)$/gm, '<h3 class="chat-heading">$1</h3>');
+        text = text.replace(/^#\s+(.*?)$/gm, '<h2 class="chat-heading">$1</h2>');
+
+        // 10. Split lines into blocks to properly group lists vs paragraphs
+        const lines = text.split('\n');
+        const outputBlocks = [];
+        let currentUl = [];
+        let currentOl = [];
+        let currentP = [];
+
+        function flushP() {
+            if (currentP.length > 0) {
+                const pText = currentP.join('<br>').trim();
+                if (pText) {
+                    outputBlocks.push(`<p class="chat-p">${pText}</p>`);
+                }
+                currentP = [];
+            }
+        }
+
+        function flushUl() {
+            if (currentUl.length > 0) {
+                outputBlocks.push(`<ul class="chat-ul">${currentUl.join('')}</ul>`);
+                currentUl = [];
+            }
+        }
+
+        function flushOl() {
+            if (currentOl.length > 0) {
+                outputBlocks.push(`<ol class="chat-ol">${currentOl.join('')}</ol>`);
+                currentOl = [];
+            }
+        }
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+
+            if (!line) {
+                flushUl();
+                flushOl();
+                flushP();
+                continue;
+            }
+
+            // Check if line is a placeholder for code block
+            if (line.startsWith('___CODEBLOCK_') && line.endsWith('___')) {
+                flushUl();
+                flushOl();
+                flushP();
+                outputBlocks.push(line);
+                continue;
+            }
+
+            // Check if line is a blockquote or heading
+            if (line.startsWith('<blockquote') || line.startsWith('<h2') || line.startsWith('<h3') || line.startsWith('<h4')) {
+                flushUl();
+                flushOl();
+                flushP();
+                outputBlocks.push(line);
+                continue;
+            }
+
+            // Check for unordered list item (- item, * item, • item)
+            const ulMatch = line.match(/^[-*•]\s+(.*)$/);
+            if (ulMatch) {
+                flushOl();
+                flushP();
+                currentUl.push(`<li class="chat-li-ul">${ulMatch[1]}</li>`);
+                continue;
+            }
+
+            // Check for ordered list item (1. item, 2. item)
+            const olMatch = line.match(/^(\d+)\.\s+(.*)$/);
+            if (olMatch) {
+                flushUl();
+                flushP();
+                currentOl.push(`<li class="chat-li-ol"><span class="chat-ol-num">${olMatch[1]}.</span><span class="chat-ol-content">${olMatch[2]}</span></li>`);
+                continue;
+            }
+
+            // Normal text line
+            flushUl();
+            flushOl();
+            currentP.push(line);
+        }
+
+        flushUl();
+        flushOl();
+        flushP();
+
+        let finalHtml = outputBlocks.join('\n');
+
+        // Restore code blocks
+        codeBlocks.forEach((block, idx) => {
+            finalHtml = finalHtml.replace(`___CODEBLOCK_${idx}___`, block);
+        });
+
+        return finalHtml || '<p class="chat-p mb-0"></p>';
     }
 })();

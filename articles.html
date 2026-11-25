@@ -464,9 +464,9 @@
             gap: 15px;
             box-shadow: 0 16px 38px rgba(0, 0, 0, 0.65);
             transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-                        opacity 0.42s ease,
-                        border-color 0.3s ease,
-                        box-shadow 0.3s ease;
+                opacity 0.42s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
             cursor: pointer;
             overflow: hidden;
         }
@@ -617,28 +617,53 @@
             background: var(--accent-purple);
         }
 
-        .theme-navosai { --card-accent: #10b981; }
-        .theme-nexus { --card-accent: #a855f7; }
-        .theme-docportal { --card-accent: #00d4ff; }
-        .theme-n8n { --card-accent: #ff7a30; }
-        .theme-ideate { --card-accent: #8b5cf6; }
-        .theme-outreach { --card-accent: #ff6d5a; }
-        .theme-clipyt { --card-accent: #ff0033; }
+        .theme-navosai {
+            --card-accent: #10b981;
+        }
+
+        .theme-nexus {
+            --card-accent: #a855f7;
+        }
+
+        .theme-docportal {
+            --card-accent: #00d4ff;
+        }
+
+        .theme-n8n {
+            --card-accent: #ff7a30;
+        }
+
+        .theme-ideate {
+            --card-accent: #8b5cf6;
+        }
+
+        .theme-outreach {
+            --card-accent: #ff6d5a;
+        }
+
+        .theme-clipyt {
+            --card-accent: #ff0033;
+        }
 
         /* Mobile Fallback (< 992px allows scrolling cleanly) */
         @media (max-width: 991px) {
-            html, body {
+
+            html,
+            body {
                 height: auto;
                 max-height: none;
                 overflow-y: auto;
             }
+
             .hub-split-grid {
                 grid-template-columns: 1fr;
             }
+
             .vertical-carousel-stage {
                 height: 380px;
                 flex: none;
             }
+
             .featured-img-wrapper {
                 height: 220px;
                 flex: none;
@@ -678,7 +703,8 @@
                 </div>
                 <div class="hub-search-wrap">
                     <i class="fas fa-search"></i>
-                    <input type="text" id="articleSearchInput" class="hub-search-input" placeholder="Search articles...">
+                    <input type="text" id="articleSearchInput" class="hub-search-input"
+                        placeholder="Search articles...">
                 </div>
             </div>
         </div>
@@ -697,9 +723,12 @@
                             <span class="category-tag" id="main-tag" style="color: #10b981;">Multi-Agent AI</span>
                             <span class="read-time-pill" id="main-meta">June 2025 &bull; 18 min read</span>
                         </div>
-                        <h2 class="featured-title" id="main-title">NavosAI: Autonomous Multi-Agent Research Pipeline</h2>
+                        <h2 class="featured-title" id="main-title">NavosAI: Autonomous Multi-Agent Research Pipeline
+                        </h2>
                         <p class="featured-excerpt" id="main-excerpt">
-                            An architectural deep dive into building an asynchronous multi-agent research engine that decomposes search intent, ranks source credibility, resolves conflicting evidence, and synthesizes interactive knowledge graphs.
+                            An architectural deep dive into building an asynchronous multi-agent research engine that
+                            decomposes search intent, ranks source credibility, resolves conflicting evidence, and
+                            synthesizes interactive knowledge graphs.
                         </p>
                         <div class="featured-tech-row" id="main-tech"></div>
                         <div class="card-footer-flex">
@@ -710,7 +739,8 @@
                                     <div class="text-secondary" style="font-size: 0.78rem;">Applied AI/ML Engineer</div>
                                 </div>
                             </div>
-                            <a href="articles/navosai-article.html" class="read-article-btn" id="main-link" onclick="event.stopPropagation()">
+                            <a href="articles/navosai-article.html" class="read-article-btn" id="main-link"
+                                onclick="event.stopPropagation()">
                                 Read Article <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
@@ -725,16 +755,19 @@
                     <span class="deck-counter-badge" id="deckCounter">01 / 07</span>
                 </div>
 
-                <div class="vertical-carousel-stage" id="verticalDeckStage" tabindex="0" aria-label="Scrollable articles deck">
+                <div class="vertical-carousel-stage" id="verticalDeckStage" tabindex="0"
+                    aria-label="Scrollable articles deck">
                     <!-- Vertically stacked cards injected dynamically -->
                 </div>
 
                 <div class="v-deck-controls">
-                    <button type="button" class="v-nav-btn" id="vPrevBtn" aria-label="Previous Article" title="Previous (Up Arrow)">
+                    <button type="button" class="v-nav-btn" id="vPrevBtn" aria-label="Previous Article"
+                        title="Previous (Up Arrow)">
                         <i class="fas fa-chevron-up"></i>
                     </button>
                     <div class="v-dots" id="vDots"></div>
-                    <button type="button" class="v-nav-btn" id="vNextBtn" aria-label="Next Article" title="Next (Down Arrow)">
+                    <button type="button" class="v-nav-btn" id="vNextBtn" aria-label="Next Article"
+                        title="Next (Down Arrow)">
                         <i class="fas fa-chevron-down"></i>
                     </button>
                 </div>
@@ -1112,83 +1145,78 @@
 
     <!-- AI Portfolio Chatbot Floating Widget -->
     <div class="rahul-chatbot-wrapper" id="rahulChatbotWrapper">
-        <!-- Sleek Floating Pill Launcher -->
-        <button id="chatbotTrigger" class="chatbot-trigger-btn" aria-label="Open Chat with Rahul AI" title="Chat with Rahul AI">
-            <span class="chatbot-trigger-dot"></span>
-            <i class="fas fa-comment-dots chatbot-icon-closed"></i>
-            <i class="fas fa-times chatbot-icon-opened"></i>
-            <span class="chatbot-trigger-label">Chat with Rahul</span>
+        <!-- Floating Avatar Launcher -->
+        <button id="chatbotTrigger" class="chatbot-trigger-avatar-btn" aria-label="Open Chat with RahulAI" title="Chat with RahulAI">
+            <div class="chatbot-trigger-avatar-wrap">
+                <img src="img/tusha-avatar.png" alt="RahulAI" class="chatbot-trigger-avatar-img" onerror="this.src='img/profile.jpeg'">
+                <span class="chatbot-trigger-beacon">
+                    <span class="chatbot-trigger-ping"></span>
+                    <span class="chatbot-trigger-dot"></span>
+                </span>
+            </div>
         </button>
 
-        <!-- Chatbot Window -->
-        <div id="chatbotWindow" class="chatbot-window" style="display: none;" aria-hidden="true">
-            <!-- Corner Drag Resize Grip -->
-            <div class="chatbot-resize-grip" id="chatbotResizeCorner" title="Drag to adjust size">
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                    <circle cx="2" cy="8" r="1" fill="currentColor"/>
-                    <circle cx="5" cy="5" r="1" fill="currentColor"/>
-                    <circle cx="8" cy="2" r="1" fill="currentColor"/>
-                    <circle cx="2" cy="5" r="1" fill="currentColor"/>
-                    <circle cx="5" cy="2" r="1" fill="currentColor"/>
-                    <circle cx="2" cy="2" r="1" fill="currentColor"/>
+        <!-- Sereno-Inspired Smartphone Device Chatbot Window -->
+        <div id="chatbotWindow" class="chatbot-window phone-chassis" style="display: none;" aria-hidden="true">
+            <!-- Modern Corner Drag Resize Grip -->
+            <div class="chatbot-resize-grip" id="chatbotResizeCorner" title="Drag to adjust window size">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <line x1="11" y1="1" x2="1" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <line x1="11" y1="6" x2="6" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
             </div>
 
-            <!-- Clean Header -->
-            <div class="chatbot-header" id="chatbotHeader" title="Double click to expand / restore">
-                <div class="chatbot-header-profile">
-                    <div class="chatbot-avatar-wrap">
-                        <img src="img/tusha-avatar.png" alt="Tusha Rahul" class="chatbot-avatar-img" onerror="this.src='img/profile.jpeg'">
-                        <span class="chatbot-status-indicator" title="Online"></span>
-                    </div>
-                    <div class="chatbot-header-info">
-                        <div class="chatbot-header-title">
-                            <span class="chatbot-name">Tusha Rahul</span>
-                            <span class="chatbot-role-tag">Assistant</span>
+            <!-- Outer Metallic Bezel Glow & Frame -->
+            <div class="phone-inner-screen">
+                <!-- Top Architectural Header: Avatar -> Name -> Online -->
+                <div class="phone-app-header" id="chatbotHeader" title="Double click to expand / restore">
+                    <div class="phone-header-identity">
+                        <div class="header-avatar-squircle">
+                            <img src="img/tusha-avatar.png" alt="RahulAI" onerror="this.src='img/profile.jpeg'">
                         </div>
-                        <span class="chatbot-status-text">Applied AI/ML Engineer</span>
+                        <span class="phone-header-title">RahulAI</span>
+                        <span class="header-online-status">
+                            <span class="online-pulse-dot"></span>Online
+                        </span>
+                    </div>
+
+                    <div class="phone-header-actions right">
+                        <button type="button" id="chatbotClearBtn" class="phone-icon-btn" title="Reset Conversation" aria-label="Reset chat">
+                            <i class="fas fa-rotate-right"></i>
+                        </button>
+                        <button type="button" id="chatbotSizeBtn" class="phone-icon-btn" title="Expand / Restore window" aria-label="Toggle size">
+                            <i class="fas fa-expand" id="chatbotSizeIcon"></i>
+                        </button>
+                        <button type="button" id="chatbotCloseBtn" class="phone-icon-btn close-btn" title="Close" aria-label="Close chat">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
                 </div>
-                <div class="chatbot-header-actions">
-                    <button type="button" id="chatbotSizeBtn" class="chatbot-action-btn" title="Expand / Restore window" aria-label="Toggle size">
-                        <i class="fas fa-expand" id="chatbotSizeIcon"></i>
-                    </button>
-                    <button type="button" id="chatbotClearBtn" class="chatbot-action-btn" title="Reset conversation" aria-label="Reset chat">
-                        <i class="fas fa-rotate-right"></i>
-                    </button>
-                    <button type="button" id="chatbotCloseBtn" class="chatbot-action-btn" title="Minimize" aria-label="Close chat">
-                        <i class="fas fa-minus"></i>
-                    </button>
+
+                <!-- Messages & Content Scrollable Area -->
+                <div class="phone-scroll-body" id="chatbotMessages">
+                    <!-- Messages stream populated by js/chatbot.js -->
+                    <div class="phone-messages-stream" id="phoneMessagesStream"></div>
+                </div>
+
+                <!-- Floating Bottom Dock (Sereno Style ⌘ Talk to me) -->
+                <div class="phone-bottom-dock">
+                    <form id="chatbotForm" class="phone-input-capsule" autocomplete="off">
+                        <div class="phone-input-cmd-icon" title="Command">
+                            <span class="cmd-symbol">&#8984;</span>
+                        </div>
+                        <input type="text" id="chatbotInput" class="phone-input-field" placeholder="Ask about my work, background, or stack..." maxlength="500" required>
+                        <button type="submit" id="chatbotSendBtn" class="phone-send-action-btn" aria-label="Send message" title="Send">
+                            <div class="soundwave-bars">
+                                <span></span><span></span><span></span><span></span>
+                            </div>
+                            <i class="fas fa-arrow-up send-arrow-icon"></i>
+                        </button>
+                    </form>
+                    <!-- Home Indicator Bar -->
+                    <div class="phone-home-indicator"></div>
                 </div>
             </div>
-
-            <!-- Clean Topic Chips Bar -->
-            <div class="chatbot-chips-bar" id="chatbotChips">
-                <button type="button" class="chatbot-chip" data-prompt="Tell me about your background and what you're working on!">About Rahul</button>
-                <button type="button" class="chatbot-chip" data-prompt="What are your key production AI projects? Tell me about DocPortal and Pioneer Nexus.">Projects</button>
-                <button type="button" class="chatbot-chip" data-prompt="What is your role and tech stack at Tabner Inc?">Tabner Inc.</button>
-                <button type="button" class="chatbot-chip" data-prompt="What is your core tech stack, from LLMs to cloud infrastructure?">Tech Stack</button>
-                <button type="button" class="chatbot-chip" data-prompt="Tell me about your YouTube channel @Rahuls_life_stories!">YouTube</button>
-                <button type="button" class="chatbot-chip" data-prompt="How can I collaborate with you or reach out?">Contact & Hire</button>
-            </div>
-
-            <!-- Messages Area -->
-            <div class="chatbot-body" id="chatbotMessages">
-                <!-- Messages populated by js/chatbot.js -->
-            </div>
-
-            <!-- Footer / Input Form -->
-            <form id="chatbotForm" class="chatbot-footer" autocomplete="off">
-                <div class="chatbot-input-container">
-                    <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Ask about my projects, stack, or experience..." maxlength="500" required>
-                    <button type="submit" id="chatbotSendBtn" class="chatbot-send-btn" aria-label="Send message">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-                <div class="chatbot-footer-caption">
-                    <span>Powered by NVIDIA NIM &bull; Tusha Rahul Portfolio</span>
-                </div>
-            </form>
         </div>
     </div>
 
