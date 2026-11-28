@@ -219,7 +219,6 @@
         const footerBar = document.createElement('div');
         footerBar.className = 'slideshow-footer-bar';
         footerBar.innerHTML = `
-            <p class="mb-1">&copy; ${new Date().getFullYear()} Tusha Rahul Bellamkonda &bull; Applied AI/ML Engineer &bull; Narsapur, AP, India</p>
             <p class="mb-0 text-white-50 small">&ldquo;The future belongs to those who never stop believing.&rdquo; &mdash; Monkey D. Luffy</p>
         `;
 
@@ -617,685 +616,365 @@
      * Complete 6-Milestone Grand Line Voyage & Deck View Engine
      */
     function initGrandLineVoyage() {
-        const expSection = document.getElementById('experience');
-        if (!expSection) return;
+        const grid = document.getElementById('expTimelineGrid');
+        if (!grid) return;
 
         const MILESTONES = [
             {
-                id: 'dsv-project',
-                stopCode: '01',
-                shortLabel: '01',
-                islandName: 'Port Origin',
-                period: '2023 — 2024',
-                shortPeriod: '2023 – 2024',
-                title: 'DSV Project',
-                product: null,
-                role: 'Web Developer',
-                category: 'Foundation Build',
-                isCurrent: false,
-                coordinates: { x: 11, y: 76 },
-                labelPosition: 'top',
-                accentColor: '#22d3ee',
-                summary: 'Engineered responsive full-stack web modules and clean user interfaces for community-driven digital platforms.',
-                highlights: [
-                    {
-                        title: 'Responsive Web Architecture',
-                        description: 'Built modular frontend views and interactive user flows with semantic HTML5, modern CSS3, and vanilla JavaScript.'
-                    },
-                    {
-                        title: 'Performance & Accessibility',
-                        description: 'Optimized asset loading and cross-device layout responsiveness, ensuring smooth mobile and desktop usability.'
-                    }
-                ],
-                tags: ['HTML5', 'CSS3', 'JavaScript', 'UI/UX', 'Git'],
-                hasCertificate: false,
-                architectureNote: 'Client-rendered multi-page web architecture with modular component styling, form validation pipelines, and responsive grid breakpoints.'
-            },
-            {
-                id: 'fluentranslate',
-                stopCode: '02',
-                shortLabel: '02',
-                islandName: 'Polyglot Reef',
-                period: '2024',
-                shortPeriod: '2024',
-                title: 'FluenTranslate',
-                product: null,
-                role: 'Project Lead',
-                category: 'AI Product Lead',
-                isCurrent: false,
-                coordinates: { x: 27, y: 36 },
-                labelPosition: 'bottom',
-                accentColor: '#22d3ee',
-                summary: 'Led end-to-end development of a real-time multilingual translation application bridging regional and global communication.',
-                highlights: [
-                    {
-                        title: 'End-to-End Technical Leadership',
-                        description: 'Architected the core translation pipeline and led feature prioritization, sprint execution, and API integration.'
-                    },
-                    {
-                        title: 'Low-Latency NLP Inference',
-                        description: 'Integrated neural translation models with clean caching layers for rapid multi-language text and speech conversion.'
-                    }
-                ],
-                tags: ['Python', 'NLP', 'REST APIs', 'React', 'System Design'],
-                hasCertificate: false,
-                architectureNote: 'Asynchronous Python backend orchestrating neural machine translation endpoints with client-side language auto-detection and instant fallback caching.'
-            },
-            {
-                id: 'aimer-society',
-                stopCode: '03',
-                shortLabel: '03',
-                islandName: 'BioMed Atoll',
-                period: '2024',
-                shortPeriod: '2024',
-                title: 'AIMER Society',
-                product: null,
-                role: 'AI Medical Intern',
-                category: 'Healthcare AI',
-                isCurrent: false,
-                coordinates: { x: 44, y: 73 },
-                labelPosition: 'top',
-                accentColor: '#22d3ee',
-                summary: 'Applied computer vision and deep learning workflows to medical imaging diagnostics and healthcare data analytics.',
-                highlights: [
-                    {
-                        title: 'Medical Image Classification',
-                        description: 'Trained and evaluated convolutional neural network models for diagnostic screening on structured clinical datasets.'
-                    },
-                    {
-                        title: 'Model Evaluation & Explainability',
-                        description: 'Implemented precision-recall benchmarking and visual saliency checks to improve clinical prediction reliability.'
-                    }
-                ],
-                tags: ['Deep Learning', 'Computer Vision', 'Python', 'TensorFlow', 'Healthcare AI'],
-                hasCertificate: true,
-                certificateDetails: {
-                    title: 'Certificate of AI Medical Internship',
-                    issuer: 'AIMER Society (Artificial Intelligence Medical & Engineering Researchers)',
-                    recipient: 'Tusha Rahul',
-                    domain: 'Applied AI & Medical Imaging Systems',
-                    duration: '2024',
-                    credentialId: 'AIMER-MED-2024-419',
-                    fileUrl: 'img/aimers.jpeg'
-                },
-                architectureNote: 'Preprocessing pipeline with DICOM/image normalization feeding transfer-learned CNN classifiers with Grad-CAM visual interpretability.'
-            },
-            {
                 id: 'datavalley',
-                stopCode: '04',
-                shortLabel: '04',
-                islandName: 'Serpent Bay',
-                period: 'Duration - 6 Months (2024 — 2025)',
-                shortPeriod: '2024 – 2025',
-                title: 'DataValley',
-                product: null,
-                role: 'Python Web Intern',
-                category: 'Full-Stack Internship',
+                num: '01',
+                themeClass: 'is-sky',
+                company: 'DataValley',
+                logoUrl: 'https://s3.eu-west-1.wasabisys.com/datavalley-certificates/new%20lms%20images/logo_black_font.png',
+                division: 'Full-Stack Web Engineering',
+                productLogoUrl: null,
+                shortRole: 'Internship in Python Web Development',
+                fullRole: 'Internship in Python Web Development',
+                period: '2024 – 2025',
+                duration: '6 Months • Internship',
                 isCurrent: false,
-                coordinates: { x: 61, y: 31 },
-                labelPosition: 'bottom',
-                accentColor: '#22d3ee',
-                summary: 'Developed full-stack Python web applications with dynamic backend routing and responsive frontend interfaces.',
+                summary: 'Built dynamic, database-driven web applications using Python, Flask, and Django—integrating clean RESTful backends with responsive HTML, CSS, and JavaScript interfaces.',
+                metrics: [
+                    { value: 'Flask & Django', label: 'Backend Stack' },
+                    { value: 'Full-Stack', label: 'REST API + UI' },
+                    { value: '6 Months', label: 'Engineering' }
+                ],
+                skills: ['Python', 'Flask', 'Django', 'HTML5', 'CSS3', 'JavaScript', 'REST APIs'],
                 highlights: [
                     {
-                        title: 'Python Full-Stack Engineering',
-                        description: 'Completed comprehensive web development projects using Python, HTML, CSS, and JavaScript to create responsive, user-friendly interfaces.'
+                        title: 'Dynamic Python Web Applications',
+                        desc: 'Developed full-stack web applications using Python, Flask, and Django with clean MVC architecture, authentication flows, and structured relational persistence.'
                     },
                     {
-                        title: 'Dynamic Web Applications',
-                        description: 'Built server-backed CRUD workflows, REST endpoints, and interactive client dashboards with clean state handling.'
+                        title: 'Responsive Frontend & API Integration',
+                        desc: 'Integrated HTML, CSS, and JavaScript interfaces with backend REST endpoints to create responsive, accessible, and user-friendly web experiences.'
                     }
                 ],
-                tags: ['Python', 'HTML5', 'CSS3', 'JavaScript', 'Full-Stack Web'],
-                hasCertificate: true,
-                certificateDetails: {
-                    title: 'Certificate of Internship Completion',
-                    issuer: 'DataValley IT Solutions',
-                    recipient: 'Tusha Rahul',
-                    domain: 'Python Full-Stack Web Development',
-                    duration: '6 Months (2024 – 2025)',
-                    credentialId: 'DV-PY-2025-8841',
-                    fileUrl: 'img/DV-1c02cd48-Tusha Rahul Bellamkonda_InternshipCertificate.pdf'
-                },
-                architectureNote: 'Python web server handling structured routes and templating paired with responsive JavaScript DOM controllers.'
+                projectsAndArticles: [
+                    {
+                        name: 'Verified Internship Credential',
+                        subtitle: 'Python Full-Stack Web Development • 2024 – 2025',
+                        primaryLabel: 'View Certificate PDF',
+                        primaryUrl: 'img/DV-1c02cd48-Tusha Rahul Bellamkonda_InternshipCertificate.pdf',
+                        primaryExternal: true,
+                        secondaryUrl: null
+                    }
+                ]
             },
             {
                 id: 'tiger-analytics',
-                stopCode: '05',
-                shortLabel: '05',
-                islandName: 'Analytics Cape',
-                period: 'April 2025 — July 2025',
-                shortPeriod: 'Apr – Jul 2025',
-                title: 'Tiger Analytics',
-                product: null,
-                role: 'Data Science & Analytics Intern',
-                category: 'Enterprise Analytics',
+                num: '02',
+                themeClass: 'is-amber',
+                company: 'Tiger Analytics',
+                logoUrl: 'https://media.instahyre.com/images/profile/base/employer/14091/8765b29f06/Tiger_logo.webp',
+                division: 'Enterprise Data Science & Business Intelligence',
+                productLogoUrl: null,
+                shortRole: 'Data Science and Analytics Intern',
+                fullRole: 'Data Science and Analytics Intern',
+                period: 'April 2025 – June 2025',
+                duration: '3 Months • Internship',
                 isCurrent: false,
-                coordinates: { x: 76, y: 69 },
-                labelPosition: 'top',
-                accentColor: '#22d3ee',
-                summary: 'Engineered large-scale retail data pipelines and executive BI dashboards driving measurable reporting speedups.',
+                summary: 'Engineered predictive features and exploratory data pipelines across 5GB+ enterprise retail datasets using Python and SQL, paired with automated Power BI executive dashboards.',
+                metrics: [
+                    { value: '5GB+', label: 'Retail Datasets' },
+                    { value: '30% Faster', label: 'Exec Reporting' },
+                    { value: 'Python + SQL', label: 'Feature Pipelines' }
+                ],
+                skills: ['Python', 'SQL', 'Feature Engineering', 'Exploratory Data Analysis', 'Power BI', 'Retail Analytics'],
                 highlights: [
                     {
-                        title: 'Data Engineering',
-                        description: 'Performed feature engineering and exploratory analysis on 5GB+ retail datasets using Python and SQL.'
+                        title: 'Large-Scale Retail Data Engineering',
+                        desc: 'Performed feature engineering and exploratory data analysis (EDA) on 5GB+ retail datasets using Python and SQL to uncover seasonal demand and inventory patterns.'
                     },
                     {
-                        title: 'Executive Dashboarding',
-                        description: 'Designed Power BI dashboards reducing executive report generation time by 30% and improving decision visibility.'
+                        title: 'Executive Power BI Dashboarding',
+                        desc: 'Designed interactive Power BI dashboards that reduced executive report generation time by 30% and significantly improved cross-team decision visibility.'
                     }
                 ],
-                tags: ['Python', 'SQL', 'Power BI', 'Feature Engineering', '5GB+ Retail EDA'],
-                hasCertificate: false,
-                architectureNote: 'SQL + Pandas ETL transformation layer feeding optimized star-schema data models into interactive Power BI executive KPI views.'
+                projectsAndArticles: [
+                    {
+                        name: 'Verified Internship Certificate',
+                        subtitle: 'Data Science & Analytics • April 2025 – June 2025 (3 Months)',
+                        primaryLabel: 'View Certificate',
+                        primaryIcon: 'fa-award',
+                        primaryUrl: 'img/Tiger-Analytics.png',
+                        primaryExternal: true,
+                        secondaryLabel: 'LinkedIn Post',
+                        secondaryIcon: 'fab fa-linkedin',
+                        secondaryUrl: 'https://www.linkedin.com/feed/update/urn:li:ugcPost:7358874089404469248/'
+                    }
+                ]
             },
             {
-                id: 'tabner-inc',
-                stopCode: 'X',
-                shortLabel: 'X',
-                islandName: 'Laugh Tale • AI Summit',
-                period: 'June 2025 — Present',
-                shortPeriod: 'Jun 2025 – Present',
-                title: 'Tabner Inc.',
-                product: 'KonfigAI',
-                role: 'Applied AI Engineer & AI Agent Developer',
-                category: 'Current Role • Production AI',
+                id: 'tabner-konfigai',
+                num: '03',
+                themeClass: 'is-orange',
+                company: 'Tabner Inc.',
+                logoUrl: 'https://tabnerglobal.com/images/logo8.png',
+                division: 'KonfigAI (AI Wing & Flagship Product)',
+                productLogoUrl: 'https://www.konfigai.com/assets/images/logo.svg',
+                shortRole: 'Applied AI Engineer & AI Agent Developer',
+                fullRole: 'Applied AI Engineer & AI Agent Developer',
+                period: 'June 2025 – Present',
+                duration: 'Present • Full-Time',
                 isCurrent: true,
-                coordinates: { x: 84, y: 34 },
-                labelPosition: 'bottom',
-                accentColor: '#facc15',
-                summary: 'Architecting multi-tenant RAG systems, Text-to-SQL agents, and cloud-native AI pipelines in production.',
+                summary: 'Working as part of Tabner Inc. on its AI wing KonfigAI—architecting multi-tenant RAG document intelligence platforms (DocPortal), Text-to-SQL analytics agents (Pioneer Nexus), and high-availability cloud AI pipelines.',
+                metrics: [
+                    { value: '58% → 85%', label: 'RAG Accuracy' },
+                    { value: '40% Faster', label: 'SQL Query Gen' },
+                    { value: '99.9%', label: 'GCP / K8s Uptime' }
+                ],
+                skills: ['KonfigAI', 'FastAPI', 'Weaviate', 'HNSW Hybrid RAG', 'Text-to-SQL', 'PostgreSQL', 'Azure', 'GCP & Kubernetes'],
                 highlights: [
                     {
-                        title: 'Multi-Tenant RAG (DocPortal)',
-                        description: 'Architected a multi-tenant RAG platform (DocPortal) using FastAPI, Weaviate, and hybrid retrieval, enabling 50+ enterprise users to query 1,000+ documents.',
-                        tokens: ['DocPortal', 'FastAPI', 'Weaviate']
+                        title: 'Multi-Tenant RAG Platform (DocPortal)',
+                        desc: 'Architected a multi-tenant RAG platform (DocPortal) using FastAPI, Weaviate, and hybrid retrieval, enabling 50+ enterprise users to query 1,000+ documents with strict tenant isolation.'
                     },
                     {
-                        title: 'Search Optimization (58% → 85%)',
-                        description: 'Improved retrieval accuracy from 58% to 85% using HNSW Hybrid Search, metadata filtering, and retrieval evaluation pipelines.',
-                        tokens: ['HNSW Hybrid Search']
+                        title: 'Hybrid Search & Evaluation Optimization',
+                        desc: 'Improved retrieval accuracy from 58% to 85% by implementing HNSW Hybrid Search, metadata filtering, and automated retrieval evaluation pipelines.'
                     },
                     {
-                        title: 'SQL Agent (Pioneer Nexus)',
-                        description: 'Developed an LLM-powered Text-to-SQL assistant (Pioneer Nexus) for PostgreSQL analytics, reducing analyst query creation time by 40%.',
-                        tokens: ['Pioneer Nexus', 'PostgreSQL']
+                        title: 'Text-to-SQL Analytics Agent (Pioneer Nexus)',
+                        desc: 'Developed an LLM-powered Text-to-SQL assistant for PostgreSQL analytics, reducing analyst query creation time by 40%.'
                     },
                     {
-                        title: 'HR Automation & Cloud Ops',
-                        description: 'Orchestrated Azure data pipelines reducing candidate screening time by 50%, and managed GCP Kubernetes deployments with 99.9% availability.',
-                        tokens: ['Azure', 'GCP', 'Kubernetes']
+                        title: 'Azure HR Automation & GCP Kubernetes Production',
+                        desc: 'Orchestrated Azure cloud pipelines for AI resume optimization (cutting candidate screening time by 50%) and managed Kubernetes production deployments on GCP with CI/CD automation at 99.9% availability.'
+                    },
+                    {
+                        title: 'Open Source Multi-Agent Architecture',
+                        desc: 'Maintained an active open-source footprint of multi-agent templates, reducing team-wide project setup time by 30%.'
                     }
                 ],
-                tags: ['KonfigAI', 'FastAPI', 'Weaviate', 'RAG', 'Text-to-SQL', 'GCP & K8s'],
-                hasCertificate: false,
-                architectureNote: 'Multi-tenant FastAPI + Weaviate HNSW hybrid vector retrieval engine paired with guardrailed Text-to-SQL agents deployed on GCP Kubernetes.'
+                projectsAndArticles: [
+                    {
+                        name: 'DocPortal AI',
+                        subtitle: 'Multi-Tenant Enterprise RAG Platform • FastAPI & Weaviate',
+                        primaryLabel: 'Read Deep-Dive Article',
+                        primaryUrl: 'articles/docportal-article.html',
+                        primaryExternal: false,
+                        secondaryLabel: 'GitHub',
+                        secondaryUrl: 'https://github.com/Rahul6158/DocPortalAI'
+                    },
+                    {
+                        name: 'Pioneer Nexus',
+                        subtitle: 'Text-to-SQL & Predictive Analytics Agent • PostgreSQL',
+                        primaryLabel: 'Read Deep-Dive Article',
+                        primaryUrl: 'articles/pioneer-nexus-article.html',
+                        primaryExternal: false,
+                        secondaryLabel: 'GitHub',
+                        secondaryUrl: 'https://github.com/Rahul6158/Pioneer-Nexus'
+                    }
+                ]
             }
         ];
 
-        // Active state defaults to Tabner Inc. (Stop X)
-        let activeIndex = 5;
-        let viewMode = 'voyage';
-        let isAutoTour = false;
-        let autoTourTimer = null;
+        let activeModalIdx = 2;
 
-        // Elements cache
-        const beacon = document.getElementById('expShipBeacon');
-        const nodes = Array.from(document.querySelectorAll('.exp-milestone-node'));
-        const pillsContainer = document.getElementById('expStepperPills');
-        const counterNum = document.querySelector('#expStepperCounter .counter-num');
-        const stepperIsland = document.getElementById('expStepperIsland');
-        const stepperCategory = document.getElementById('expStepperCategory');
-
-        const logbookHeader = document.getElementById('logbookHeader');
-        const logbookStopBadge = document.getElementById('logbookStopBadge');
-        const logbookPeriod = document.getElementById('logbookPeriod');
-        const logbookTitle = document.getElementById('logbookTitle');
-        const logbookRole = document.getElementById('logbookRole');
-        const logbookTags = document.getElementById('logbookTags');
-        const logbookSummary = document.getElementById('logbookSummary');
-        const logbookHighlights = document.getElementById('logbookHighlights');
-        const logbookMainActionText = document.getElementById('logbookMainActionText');
-        const logbookMainActionIcon = document.getElementById('logbookMainActionIcon');
-
-        const deckStage = document.getElementById('expDeckStage');
-        const deckDots = document.getElementById('expDeckDots');
-
-        function highlightTokens(text, tokens) {
-            if (!tokens || !tokens.length) return text;
-            const escaped = tokens.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-            const regex = new RegExp(`(${escaped.join('|')})`, 'g');
-            return text.replace(regex, '<span class="highlight-token">$1</span>');
-        }
-
-        // Render Deck Selector Cards (Master-Detail List)
-        function renderDeckSelectorCards() {
-            if (!deckStage) return;
-            deckStage.innerHTML = '';
-            MILESTONES.forEach((m, i) => {
-                const card = document.createElement('div');
-                card.className = `exp-deck-item-card ${i === activeIndex ? 'is-active' : ''} ${m.isCurrent ? 'is-gold-card' : ''}`;
-                card.innerHTML = `
-                    <div class="d-flex align-items-center justify-content-between mb-1">
-                        <span class="deck-item-badge ${m.isCurrent ? 'is-gold' : ''}">
-                            ${m.isCurrent ? '<i class="fas fa-star me-1 text-warning"></i>NOW &bull; Stop X' : `<i class="fas fa-anchor me-1"></i>Stop ${m.stopCode}`}
+        function renderLogoStrip(m, large = false) {
+            const lgCls = large ? 'is-lg' : 'is-sm';
+            return `
+                <div class="exp-logo-strip">
+                    <span class="exp-logo-pill ${lgCls}" title="${m.company}">
+                        <img src="${m.logoUrl}" alt="${m.company} logo" loading="lazy" decoding="async" referrerpolicy="no-referrer"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                        <span style="display:none; font-size:0.7rem; font-weight:800; color:#0f172a;">${m.company}</span>
+                    </span>
+                    ${m.productLogoUrl ? `
+                        <span class="exp-logo-x" aria-hidden="true">&times;</span>
+                        <span class="exp-logo-pill ${lgCls} is-konfig" title="KonfigAI — AI Wing">
+                            <img src="${m.productLogoUrl}" alt="KonfigAI logo" loading="lazy" decoding="async" referrerpolicy="no-referrer"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                            <span style="display:none; font-size:0.7rem; font-weight:800; color:#c2410c;">KonfigAI</span>
                         </span>
-                        <span class="deck-item-period">${m.shortPeriod}</span>
-                    </div>
-                    <div class="deck-item-title">${m.title} ${m.product ? `<span class="text-info font-weight-normal" style="font-size:0.8rem;">(${m.product})</span>` : ''}</div>
-                    <div class="deck-item-role">${m.role}</div>
-                    <div class="deck-item-tags">
-                        ${m.tags.slice(0, 3).map(t => `<span class="deck-mini-tag">${t}</span>`).join('')}
-                    </div>
-                `;
-                card.addEventListener('click', () => {
-                    goToExpMilestone(i);
-                });
-                deckStage.appendChild(card);
-            });
-        }
-        renderDeckSelectorCards();
-
-        // Render Stepper Pills & Deck Dots
-        function buildNavDots() {
-            if (pillsContainer) {
-                pillsContainer.innerHTML = '';
-                MILESTONES.forEach((m, i) => {
-                    const dot = document.createElement('button');
-                    dot.type = 'button';
-                    dot.className = `stepper-dot ${i === activeIndex ? 'active' : ''} ${m.isCurrent ? 'is-gold' : ''}`;
-                    dot.setAttribute('aria-label', `Select milestone ${m.title}`);
-                    dot.addEventListener('click', () => goToExpMilestone(i));
-                    pillsContainer.appendChild(dot);
-                });
-            }
-
-            if (deckDots) {
-                deckDots.innerHTML = '';
-                MILESTONES.forEach((m, i) => {
-                    const dot = document.createElement('button');
-                    dot.type = 'button';
-                    dot.className = `deck-dot ${i === activeIndex ? 'active' : ''} ${m.isCurrent ? 'is-gold' : ''}`;
-                    dot.setAttribute('aria-label', `Jump to ${m.title}`);
-                    dot.addEventListener('click', () => goToExpMilestone(i));
-                    deckDots.appendChild(dot);
-                });
-            }
+                    ` : ''}
+                </div>
+            `;
         }
 
-        buildNavDots();
+        function renderHorizontalTimeline() {
+            grid.innerHTML = MILESTONES.map((m, idx) => `
+                <article class="exp-mini-card ${m.isCurrent ? 'is-current' : ''} exp-stagger-${idx}" data-exp-idx="${idx}" tabindex="0" role="button" aria-label="Open experience dossier for ${m.company} — ${m.shortRole}">
+                    <span class="exp-wiggly-dot" aria-hidden="true">
+                        ${m.isCurrent ? '<span class="exp-wiggly-dot-ping"></span>' : ''}
+                        <span class="exp-wiggly-dot-core"></span>
+                    </span>
 
-        function updateVoyageUI() {
-            const m = MILESTONES[activeIndex];
-            if (!m) return;
-
-            // 1. Move sailing beacon (aligned with responsive milestone coordinates on mobile)
-            if (beacon) {
-                let beaconX = m.coordinates.x;
-                let beaconY = m.coordinates.y;
-                if (m.isCurrent) {
-                    if (window.innerWidth <= 480) {
-                        beaconX = 74;
-                        beaconY = 33;
-                    } else if (window.innerWidth <= 768) {
-                        beaconX = 77;
-                        beaconY = 32;
-                    } else if (window.innerWidth <= 991) {
-                        beaconX = 80;
-                        beaconY = 32;
-                    }
-                }
-                beacon.style.left = `${beaconX}%`;
-                beacon.style.top = `${beaconY}%`;
-                const ping = beacon.querySelector('.beacon-ping');
-                if (ping) {
-                    ping.className = `beacon-ping ${m.isCurrent ? 'is-gold' : ''}`;
-                }
-            }
-
-            // 2. Highlight map node
-            nodes.forEach((node, i) => {
-                node.classList.toggle('is-selected', i === activeIndex);
-            });
-
-            // 3. Update stepper bar
-            if (counterNum) {
-                counterNum.textContent = m.stopCode === 'X' ? '06' : `0${activeIndex + 1}`;
-                counterNum.className = `counter-num ${m.isCurrent ? 'text-warning' : 'text-accent'}`;
-            }
-            if (stepperIsland) {
-                stepperIsland.textContent = m.islandName;
-            }
-            if (stepperCategory) {
-                stepperCategory.innerHTML = `<i class="fas fa-ship text-info me-1"></i><span>${m.category}</span>`;
-            }
-
-            const dots = pillsContainer ? Array.from(pillsContainer.querySelectorAll('.stepper-dot')) : [];
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === activeIndex);
-            });
-
-            // 4. Update Captain's Logbook Card
-            if (logbookHeader) {
-                logbookHeader.classList.toggle('is-gold-header', m.isCurrent);
-            }
-            const captainBanner = document.getElementById('logbookCurrentCaptainBanner');
-            if (captainBanner) {
-                captainBanner.style.display = m.isCurrent ? 'flex' : 'none';
-            }
-            if (logbookStopBadge) {
-                logbookStopBadge.className = `logbook-stop-badge ${m.isCurrent ? 'is-gold' : ''}`;
-                logbookStopBadge.innerHTML = m.isCurrent
-                    ? '<i class="fas fa-star me-1 text-warning"></i> Stop X &bull; AI Summit'
-                    : `<i class="fas fa-anchor me-1"></i> Stop ${m.stopCode} &bull; ${m.islandName}`;
-            }
-            if (logbookPeriod) {
-                logbookPeriod.textContent = m.period;
-            }
-            if (logbookTitle) {
-                logbookTitle.innerHTML = `${m.title} ${m.product ? `<span class="logbook-product text-info">(Product: ${m.product})</span>` : ''}`;
-            }
-            if (logbookRole) {
-                logbookRole.className = `logbook-role ${m.isCurrent ? 'is-gold' : ''}`;
-                logbookRole.textContent = m.role;
-            }
-            if (logbookTags) {
-                logbookTags.innerHTML = m.tags.map(tag => `<span class="logbook-tag-pill">${tag}</span>`).join('');
-            }
-            if (logbookSummary) {
-                logbookSummary.textContent = m.summary;
-            }
-            if (logbookHighlights) {
-                logbookHighlights.innerHTML = m.highlights.map(h => `
-                    <div class="highlight-bullet-card">
-                        <span class="highlight-dot ${m.isCurrent ? 'is-gold' : ''}"></span>
-                        <p class="highlight-text">
-                            <strong class="text-white">${h.title}:</strong>
-                            ${highlightTokens(h.description, h.tokens)}
-                        </p>
-                    </div>
-                `).join('');
-            }
-            if (logbookMainActionText && logbookMainActionIcon) {
-                if (m.hasCertificate) {
-                    logbookMainActionIcon.className = 'fas fa-award me-1.5';
-                    logbookMainActionText.textContent = 'View Certificate';
-                } else {
-                    logbookMainActionIcon.className = 'fas fa-microchip me-1.5';
-                    logbookMainActionText.textContent = 'Inspect Architecture';
-                }
-            }
-        }
-
-        const expDeckDetailCard = document.getElementById('expDeckDetailCard');
-
-        function updateDeckUI() {
-            const m = MILESTONES[activeIndex];
-            if (!m) return;
-
-            // 1. Update Left Detail Card with complete content nicely
-            if (expDeckDetailCard) {
-                expDeckDetailCard.innerHTML = `
-                    <div class="exp-deck-detail-header ${m.isCurrent ? 'is-gold-header' : ''}">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span class="logbook-stop-badge ${m.isCurrent ? 'is-gold' : ''}">
-                                ${m.isCurrent ? '<i class="fas fa-star me-1 text-warning"></i> Stop X &bull; AI Summit' : `<i class="fas fa-anchor me-1"></i> Stop ${m.stopCode} &bull; ${m.islandName}`}
-                            </span>
-                            <span class="logbook-period-text">${m.period}</span>
-                        </div>
-
-                        ${m.isCurrent ? `
-                            <div class="exp-deck-captain-banner">
-                                <img src="img/tusha-avatar.png" alt="Tusha Rahul" class="captain-banner-avatar">
-                                <div class="captain-banner-info">
-                                    <span class="captain-banner-tag"><i class="fas fa-map-marker-alt text-warning me-1"></i>CURRENT STATION &bull; ACTIVE NOW</span>
-                                    <span class="captain-banner-status">Tusha Rahul &bull; Applied AI Engineer</span>
-                                </div>
-                            </div>
-                        ` : ''}
-
-                        <h3 class="exp-deck-title">
-                            ${m.title} ${m.product ? `<span class="logbook-product text-info" style="font-size: 0.95rem; font-weight: normal;">(Product: ${m.product})</span>` : ''}
-                        </h3>
-                        <p class="exp-deck-role ${m.isCurrent ? 'is-gold' : ''}">${m.role}</p>
-
-                        <div class="exp-deck-tags">
-                            ${m.tags.map(t => `<span class="logbook-tag-pill">${t}</span>`).join('')}
-                        </div>
+                    <div class="exp-mini-top">
+                        <span class="exp-mini-period">${m.period}</span>
+                        ${renderLogoStrip(m, false)}
                     </div>
 
-                    <div class="exp-deck-detail-body log-scrollbar">
-                        <p class="exp-deck-summary">${m.summary}</p>
-                        <div class="exp-deck-highlights">
-                            ${m.highlights.map(h => `
-                                <div class="highlight-bullet-card">
-                                    <span class="highlight-dot ${m.isCurrent ? 'is-gold' : ''}"></span>
-                                    <p class="highlight-text mb-0">
-                                        <strong class="text-white">${h.title}:</strong>
-                                        ${highlightTokens(h.description, h.tokens)}
-                                    </p>
-                                </div>
-                            `).join('')}
-                        </div>
+                    <h3 class="exp-mini-role">${m.shortRole}</h3>
+                    <div class="exp-mini-company">
+                        ${m.company}${m.productLogoUrl ? ' <span class="exp-mini-wing">&bull; KonfigAI</span>' : ''}
                     </div>
+                    <p class="exp-mini-desc">${m.summary}</p>
 
-                    <div class="exp-deck-detail-footer">
-                        <button type="button" class="btn-logbook-action" onclick="window.openExpModal('${m.hasCertificate ? 'certificate' : 'architecture'}', ${activeIndex})">
-                            <i class="fas ${m.hasCertificate ? 'fa-award' : 'fa-microchip'} me-1.5"></i>
-                            <span>${m.hasCertificate ? 'View Certificate' : 'Inspect Architecture'}</span>
-                        </button>
-
-                        <button type="button" class="btn-logbook-nav" onclick="window.setExpViewMode('voyage')">
-                            <i class="fas fa-map-marked-alt text-warning me-1"></i> Switch to Sea Chart
-                        </button>
+                    <div class="exp-mini-footer">
+                        <span class="exp-mini-hint">View details <i class="fas fa-arrow-right"></i></span>
                     </div>
-                `;
-            }
+                </article>
+            `).join('');
 
-            // 2. Update Right Milestone Selector Cards
-            if (deckStage) {
-                const cards = Array.from(deckStage.querySelectorAll('.exp-deck-item-card'));
-                cards.forEach((card, i) => {
-                    const isActive = i === activeIndex;
-                    card.classList.toggle('is-active', isActive);
-                    if (isActive) {
-                        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            grid.querySelectorAll('.exp-mini-card').forEach(card => {
+                const openFn = () => {
+                    const idx = parseInt(card.getAttribute('data-exp-idx'), 10);
+                    window.openExpTimelineModal(idx);
+                };
+                card.addEventListener('click', openFn);
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openFn();
                     }
                 });
-            }
-
-            // 3. Update Deck Dots
-            if (deckDots) {
-                const dDots = Array.from(deckDots.querySelectorAll('.deck-dot'));
-                dDots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === activeIndex);
-                });
-            }
+            });
         }
 
-        function updateAllViews() {
-            updateVoyageUI();
-            updateDeckUI();
-        }
-
-        // Global methods
-        window.goToExpMilestone = function (idx) {
-            activeIndex = ((idx % 6) + 6) % 6;
-            updateAllViews();
-        };
-
-        window.nextExpMilestone = function () {
-            window.goToExpMilestone(activeIndex + 1);
-        };
-
-        window.prevExpMilestone = function () {
-            window.goToExpMilestone(activeIndex - 1);
-        };
-
-        window.setExpViewMode = function (mode) {
-            viewMode = mode;
-            const btnVoyage = document.getElementById('btnExpVoyage');
-            const btnDeck = document.getElementById('btnExpDeck');
-            const voyageView = document.getElementById('expVoyageView');
-            const deckView = document.getElementById('expDeckView');
-
-            if (mode === 'voyage') {
-                if (btnVoyage) btnVoyage.classList.add('active');
-                if (btnDeck) btnDeck.classList.remove('active');
-                if (voyageView) voyageView.style.display = 'flex';
-                if (deckView) deckView.style.display = 'none';
-                updateVoyageUI();
-            } else {
-                if (btnVoyage) btnVoyage.classList.remove('active');
-                if (btnDeck) btnDeck.classList.add('active');
-                if (voyageView) voyageView.style.display = 'none';
-                if (deckView) deckView.style.display = 'flex';
-                updateDeckUI();
-            }
-        };
-
-        window.toggleExpAutoTour = function () {
-            isAutoTour = !isAutoTour;
-            const tourBtn = document.getElementById('btnExpAutoTour');
-            const tourIcon = document.getElementById('expAutoTourIcon');
-
-            if (isAutoTour) {
-                if (tourBtn) tourBtn.classList.add('is-active');
-                if (tourIcon) tourIcon.className = 'fas fa-pause';
-                autoTourTimer = setInterval(() => {
-                    window.nextExpMilestone();
-                }, 4200);
-            } else {
-                if (tourBtn) tourBtn.classList.remove('is-active');
-                if (tourIcon) tourIcon.className = 'fas fa-play';
-                if (autoTourTimer) {
-                    clearInterval(autoTourTimer);
-                    autoTourTimer = null;
-                }
-            }
-        };
-
-        window.handleLogbookMainAction = function () {
-            const m = MILESTONES[activeIndex];
-            if (!m) return;
-            window.openExpModal(m.hasCertificate ? 'certificate' : 'architecture', activeIndex);
-        };
-
-        window.openExpModal = function (type, milestoneIndex) {
-            const m = MILESTONES[milestoneIndex !== undefined ? milestoneIndex : activeIndex];
+        function populateExpModal(idx) {
+            const m = MILESTONES[idx];
             if (!m) return;
 
-            const modal = document.getElementById('expDetailModal');
-            const content = document.getElementById('expModalContent');
-            if (!modal || !content) return;
+            const bodyEl = document.getElementById('expModalBody');
+            const counterEl = document.getElementById('expModalCounter');
 
-            if (type === 'certificate' && m.certificateDetails) {
-                const cert = m.certificateDetails;
-                content.innerHTML = `
-                    <div style="border: 2px dashed rgba(250, 204, 21, 0.45); border-radius: 14px; padding: 22px; background: linear-gradient(135deg, #1b1812, #101216); text-align: center;">
-                        <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(249, 115, 22, 0.16); border: 1px solid rgba(249, 115, 22, 0.4); display: grid; place-items: center; margin: 0 auto 12px auto;">
-                            <i class="fas fa-award text-warning" style="font-size: 1.4rem;"></i>
+            if (counterEl) {
+                counterEl.textContent = `STAGE ${m.num} / 0${MILESTONES.length}`;
+            }
+
+            if (!bodyEl) return;
+
+            const metricsHtml = (m.metrics && m.metrics.length) ? `
+                <div class="exp-modal-metrics-inline">
+                    ${m.metrics.map(mt => `
+                        <div class="exp-modal-metric-tile">
+                            <div class="exp-modal-metric-val">${mt.value}</div>
+                            <div class="exp-modal-metric-lbl">${mt.label}</div>
                         </div>
-                        <p style="font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px; color: #22d3ee; font-weight: 700; margin-bottom: 4px;">
-                            ${cert.issuer}
-                        </p>
-                        <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-bottom: 8px;">
-                            ${cert.title}
-                        </h3>
-                        <p style="font-size: 0.72rem; color: #94a3b8; margin-bottom: 2px;">Awarded to</p>
-                        <p style="font-size: 1.15rem; font-weight: 800; color: #f97316; letter-spacing: 0.5px; margin-bottom: 8px;">
-                            ${cert.recipient}
-                        </p>
-                        <p style="font-size: 0.8rem; line-height: 1.5; color: #cbd5e1; margin-bottom: 14px;">
-                            Successfully completed <strong>${cert.domain}</strong> (${cert.duration}).
-                        </p>
-                        <div class="d-flex align-items-center justify-content-between pt-3" style="border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.72rem; color: #94a3b8;">
-                            <span class="text-success font-weight-bold"><i class="fas fa-check-circle me-1"></i> Verified Credential</span>
-                            <span style="font-family: 'JetBrains Mono', monospace;">ID: ${cert.credentialId}</span>
-                        </div>
-                        <div class="mt-3">
-                            <a href="${cert.fileUrl}" target="_blank" rel="noopener" class="btn-logbook-action" style="text-decoration:none; display:inline-flex;">
-                                <i class="fas fa-external-link-alt me-1.5"></i> Open Original Credential
-                            </a>
-                        </div>
-                    </div>
-                `;
-            } else {
-                content.innerHTML = `
-                    <div>
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <div class="d-flex align-items-center gap-2" style="font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: #22d3ee; text-transform: uppercase; letter-spacing: 1px;">
-                                <i class="fas fa-terminal"></i>
-                                <span>System &amp; Impact Breakdown &bull; Stop ${m.stopCode}</span>
-                            </div>
-                            ${m.isCurrent ? '<img src="img/tusha-avatar.png" alt="Tusha Rahul" class="deck-avatar-thumb" title="Current Active Station">' : ''}
-                        </div>
-                        <h3 style="font-size: 1.25rem; font-weight: 800; color: #ffffff; margin-bottom: 3px;">
-                            ${m.title} ${m.product ? `<span class="text-info">(${m.product})</span>` : ''}
-                        </h3>
-                        <p style="font-size: 0.78rem; font-weight: 600; color: ${m.isCurrent ? '#facc15' : '#f97316'}; margin-bottom: 14px;">
-                            ${m.role} &bull; ${m.period}
-                        </p>
-                        <div style="padding: 12px 14px; border-radius: 12px; background: #0c0f14; border: 1px solid rgba(34, 211, 238, 0.25); margin-bottom: 14px;">
-                            <div style="font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; color: #22d3ee; font-weight: 700; margin-bottom: 4px;">
-                                <i class="fas fa-microchip me-1"></i> Architecture Blueprint
-                            </div>
-                            <p style="font-size: 0.78rem; line-height: 1.5; color: #cbd5e1; margin: 0;">
-                                ${m.architectureNote}
-                            </p>
-                        </div>
-                        <div class="log-scrollbar" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
-                            ${m.highlights.map(h => `
-                                <div style="padding: 8px 10px; border-radius: 8px; background: #171b22; border: 1px solid rgba(255,255,255,0.08); font-size: 0.74rem; line-height: 1.45; color: #d1d5db;">
-                                    <strong class="text-white">${h.title}:</strong>
-                                    ${highlightTokens(h.description, h.tokens)}
+                    `).join('')}
+                </div>
+            ` : '';
+
+            const skillsHtml = m.skills.map(s => `<span class="exp-modal-skill-chip">${s}</span>`).join('');
+            const useTwoColDeliverables = m.highlights.length >= 4;
+
+            const highlightsHtml = m.highlights.map((h, hIdx) => `
+                <div class="exp-modal-highlight-item">
+                    <span class="exp-deliverable-num">0${hIdx + 1}</span>
+                    <p><strong>${h.title}:</strong> ${h.desc}</p>
+                </div>
+            `).join('');
+
+            const projectsHtml = (m.projectsAndArticles && m.projectsAndArticles.length) ? `
+                <div class="exp-modal-panel">
+                    <h4 class="exp-modal-section-heading"><i class="fas fa-rocket"></i> Projects, Articles &amp; Credentials</h4>
+                    <div class="exp-modal-projects-list">
+                        ${m.projectsAndArticles.map(p => {
+                            const pIcon = p.primaryIcon || (p.primaryExternal ? 'fa-file-pdf' : 'fa-book-open');
+                            const sIcon = p.secondaryIcon || 'fab fa-github';
+                            return `
+                            <div class="exp-modal-project-card">
+                                <div>
+                                    <div class="exp-modal-project-title">${p.name}</div>
+                                    <div class="exp-modal-project-sub">${p.subtitle}</div>
                                 </div>
-                            `).join('')}
+                                <div class="exp-modal-project-links">
+                                    <a href="${p.primaryUrl}" ${p.primaryExternal ? 'target="_blank" rel="noopener"' : ''} class="exp-modal-link-btn is-primary">
+                                        <i class="fas ${pIcon}"></i> ${p.primaryLabel}
+                                    </a>
+                                    ${p.secondaryUrl ? `
+                                        <a href="${p.secondaryUrl}" target="_blank" rel="noopener" class="exp-modal-link-btn is-secondary">
+                                            <i class="${sIcon}"></i> ${p.secondaryLabel || 'GitHub'}
+                                        </a>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                        }).join('')}
+                    </div>
+                </div>
+            ` : '';
+
+            bodyEl.innerHTML = `
+                <div class="exp-modal-hero-row">
+                    <div class="exp-modal-hero-left">
+                        ${renderLogoStrip(m, true)}
+                        <div>
+                            <div class="exp-modal-title-line">
+                                <h3 id="modalRoleTitle" class="exp-tl-modal-company">${m.company}</h3>
+                                ${m.isCurrent ? '<span class="exp-active-role-pill">Active Role</span>' : ''}
+                            </div>
+                            <p class="exp-tl-modal-role">${m.fullRole}</p>
+                            <div class="exp-tl-modal-division">${m.division}</div>
                         </div>
                     </div>
-                `;
-            }
 
-            modal.style.display = 'flex';
-        };
+                    <div class="exp-modal-hero-right">
+                        <div class="exp-modal-hero-dates">
+                            <span class="exp-period-badge ${m.themeClass}">${m.period}</span>
+                            <span class="exp-tl-modal-duration">${m.duration}</span>
+                        </div>
+                        ${metricsHtml}
+                    </div>
+                </div>
 
-        window.closeExpModal = function () {
-            const modal = document.getElementById('expDetailModal');
-            if (modal) modal.style.display = 'none';
-        };
+                <div class="exp-modal-two-col">
+                    <div class="exp-modal-col-left">
+                        <div class="exp-modal-summary-box ${m.themeClass}">${m.summary}</div>
 
-        // Horizontal drag / wheel for experience chart
-        let chartStartX = null;
-        const chartElem = document.getElementById('expVoyageChart');
-        if (chartElem) {
-            chartElem.addEventListener('mousedown', (e) => {
-                if (e.target.closest('button, a')) return;
-                chartStartX = e.clientX;
-            });
-            window.addEventListener('mouseup', (e) => {
-                if (chartStartX === null) return;
-                const diff = e.clientX - chartStartX;
-                chartStartX = null;
-                if (Math.abs(diff) > 40) {
-                    if (diff < 0) window.nextExpMilestone();
-                    else window.prevExpMilestone();
-                }
-            });
-            chartElem.addEventListener('wheel', (e) => {
-                const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey;
-                if (!isHorizontal) return; // Allow vertical wheel to bubble to slideshow!
-                const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-                if (Math.abs(delta) > 12) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (delta > 0) window.nextExpMilestone();
-                    else window.prevExpMilestone();
-                }
-            }, { passive: false });
+                        ${projectsHtml}
+
+                        <div class="exp-modal-panel">
+                            <h4 class="exp-modal-section-heading"><i class="fas fa-layer-group"></i> Full Technology Stack</h4>
+                            <div class="exp-modal-skills-wrap">${skillsHtml}</div>
+                        </div>
+                    </div>
+
+                    <div class="exp-modal-col-right">
+                        <div class="exp-modal-panel">
+                            <h4 class="exp-modal-section-heading"><i class="fas fa-bolt"></i> Engineering Deliverables &amp; Impact (${m.highlights.length})</h4>
+                            <div class="exp-modal-highlights-list ${useTwoColDeliverables ? 'is-two-col' : ''}">${highlightsHtml}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            bodyEl.scrollTop = 0;
         }
 
-        // Initial render
-        updateAllViews();
+        window.openExpTimelineModal = function (idx) {
+            activeModalIdx = ((idx % MILESTONES.length) + MILESTONES.length) % MILESTONES.length;
+            populateExpModal(activeModalIdx);
+            const modal = document.getElementById('expTimelineModal');
+            if (modal) modal.classList.add('is-open');
+        };
+
+        window.closeExpTimelineModal = function () {
+            const modal = document.getElementById('expTimelineModal');
+            if (modal) modal.classList.remove('is-open');
+        };
+
+        window.stepExpTimelineModal = function (delta) {
+            window.openExpTimelineModal(activeModalIdx + delta);
+        };
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('expTimelineModal');
+            if (!modal || !modal.classList.contains('is-open')) return;
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                window.closeExpTimelineModal();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                window.stepExpTimelineModal(1);
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                window.stepExpTimelineModal(-1);
+            }
+        });
+
+        renderHorizontalTimeline();
     }
 
     /**
@@ -1752,16 +1431,16 @@
     function attachEventListeners() {
         // 1. Strict Mouse Wheel Control (1 Scroll = Exactly 1 Slide with Real-Time Momentum Absorption)
         window.addEventListener('wheel', function (e) {
-            // If clue modal or experience detail modal or chatbot is active, let them scroll
-            const expModal = document.getElementById('expDetailModal');
-            if (expModal && expModal.style.display === 'flex') return;
+            // If clue modal or experience modal or chatbot is active, let them scroll
+            const expModal = document.getElementById('expTimelineModal');
+            if (expModal && expModal.classList.contains('is-open')) return;
             if (document.querySelector('.treasure-clue-modal.active')) return;
             if (e.target.closest('#chatbotWindow')) return;
 
             if (!isSlideshowMode) return;
 
-            // If user is inside an internally scrollable element (like experience logbook detail body)
-            const scrollableParent = e.target.closest('.exp-deck-detail-body, .exp-deck-scroll-track');
+            // If user is inside an internally scrollable element (like modal body)
+            const scrollableParent = e.target.closest('.exp-tl-modal-body');
             if (scrollableParent) {
                 const canScrollDown = scrollableParent.scrollHeight > scrollableParent.clientHeight && (scrollableParent.scrollTop + scrollableParent.clientHeight < scrollableParent.scrollHeight - 5);
                 const canScrollUp = scrollableParent.scrollHeight > scrollableParent.clientHeight && (scrollableParent.scrollTop > 5);
@@ -1863,27 +1542,17 @@
 
         // 3. Keyboard Navigation
         window.addEventListener('keydown', function (e) {
+            const expModal = document.getElementById('expTimelineModal');
+            if (expModal && expModal.classList.contains('is-open')) return;
+
             if (e.key === 'Escape') {
-                if (window.closeExpModal) window.closeExpModal();
                 closeJourneyClue();
                 return;
             }
 
             if (!isSlideshowMode) return;
 
-            // If user is currently viewing Experience slide, ArrowLeft and ArrowRight step through milestones
             const currentSlideElem = slideElements[currentIndex];
-            if (currentSlideElem && currentSlideElem.id === 'experience' && !e.target.matches('input, textarea')) {
-                if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    if (window.nextExpMilestone) window.nextExpMilestone();
-                    return;
-                } else if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    if (window.prevExpMilestone) window.prevExpMilestone();
-                    return;
-                }
-            }
 
             // If user is currently viewing Projects slide, ArrowLeft and ArrowRight step through project cards
             if (currentSlideElem && currentSlideElem.id === 'projects' && !e.target.matches('input, textarea')) {
@@ -2015,7 +1684,7 @@
             if (window.getSelection && window.getSelection().toString().trim().length > 0) return;
 
             // Ignore if any modal is currently open
-            if (document.querySelector('.treasure-clue-modal.active, #portfolioModal[style*="flex"], #expDetailModal[style*="flex"]')) return;
+            if (document.querySelector('.treasure-clue-modal.active, #portfolioModal[style*="flex"], #expTimelineModal.is-open')) return;
 
             // Ignore if clicking on interactive elements or interactive widgets
             const interactiveSelector = [
@@ -2036,14 +1705,13 @@
                 '.article-stacked-card',
                 '.carousel-stage',
                 '.project-carousel-controls',
-                '.exp-deck-3d-stage',
-                '.exp-deck-card',
-                '.exp-voyage-btn',
-                '.exp-nav-btn',
-                '.exp-deck-dot',
-                '.exp-deck-pill',
-                '.voyage-map-island',
-                '.clue-island-pin',
+                '.exp-timeline-shell',
+                '.exp-wiggly-stage',
+                '.exp-mini-card',
+                '.exp-wiggly-dot',
+                '#expTimelineModal',
+                '.exp-tl-modal-topbar',
+                '.exp-tl-modal-card',
                 '.skills-belt-container',
                 '.skills-belt-track',
                 '.skill-rect-card',
