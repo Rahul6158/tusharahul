@@ -101,19 +101,6 @@
             enableNormalMode(false);
         }
 
-        // Observe Certificates marquee visibility in Standard Mode so it pauses off-screen
-        if ('IntersectionObserver' in window) {
-            const certTrack = document.getElementById('certMarqueeTrack');
-            if (certTrack) {
-                const certObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        certTrack.classList.toggle('is-in-view', entry.isIntersecting);
-                    });
-                }, { threshold: 0.05 });
-                certObserver.observe(certTrack.parentElement || certTrack);
-            }
-        }
-
         // Attach global event listeners
         attachEventListeners();
     });
@@ -255,26 +242,26 @@
      * Initialize 3D Stacked Card Carousels for Projects and Articles
      */
     function init3DStackedCarousels() {
-        // Projects Carousel (First card DocPortal AI)
+        // Projects Carousel (First card DocPortal AI) — smooth auto-cycle when visible
         setupStacked3DCarousel({
             stageId: 'projectCarouselStage',
             prevBtnId: 'projectPrevBtn',
             nextBtnId: 'projectNextBtn',
             dotsId: 'projectDots',
             cardClass: '.project-stacked-card',
-            autoPlayInterval: 0,
+            autoPlayInterval: 4500,
             startIndex: 0,
             namespace: 'project'
         });
 
-        // Articles Carousel (First card ALWAYS "Browse All Articles")
+        // Articles Carousel (First card ALWAYS "Browse All Articles") — smooth auto-cycle when visible
         setupStacked3DCarousel({
             stageId: 'articlesCarouselStage',
             prevBtnId: 'articlesPrevBtn',
             nextBtnId: 'articlesNextBtn',
             dotsId: 'articlesDots',
             cardClass: '.article-stacked-card',
-            autoPlayInterval: 0,
+            autoPlayInterval: 5200,
             startIndex: 0,
             namespace: 'articles'
         });
@@ -313,8 +300,18 @@
         function startAutoPlay() {
             if (!autoPlayInterval || autoPlayInterval <= 0) return;
             stopAutoPlay();
-            if (isHovered || isUserInteracting || !isVisibleInViewport) return;
+            if (isHovered || isUserInteracting) return;
+            if (document.body.classList.contains('slideshow-active')) {
+                const parentSlide = stage.closest('.slideshow-slide');
+                if (parentSlide && !parentSlide.classList.contains('slide-active')) return;
+            } else if (!isVisibleInViewport) {
+                return;
+            }
             autoPlayTimer = setInterval(() => {
+                if (document.body.classList.contains('slideshow-active')) {
+                    const parentSlide = stage.closest('.slideshow-slide');
+                    if (parentSlide && !parentSlide.classList.contains('slide-active')) return;
+                }
                 goTo(activeIndex + 1);
             }, autoPlayInterval);
         }
@@ -590,8 +587,17 @@
         document.addEventListener('visibilitychange', () => {
             if (document.hidden) {
                 stopAutoPlay();
-            } else if (isVisibleInViewport && !isHovered && !isUserInteracting) {
+            } else if (!isHovered && !isUserInteracting) {
                 startAutoPlay();
+            }
+        });
+
+        window.addEventListener('slideshow:slideChanged', () => {
+            const parentSlide = stage.closest('.slideshow-slide');
+            if (parentSlide && parentSlide.classList.contains('slide-active')) {
+                startAutoPlay();
+            } else {
+                stopAutoPlay();
             }
         });
 
@@ -1429,16 +1435,6 @@
         const currentSlide = slideElements[currentIndex];
         const nextSlide = slideElements[targetIndex];
 
-        // Pause heavy continuous ticker belts during slide transitions to free GPU bandwidth
-        const skillTracks = document.querySelectorAll('.skills-belt-track');
-        const certTracks = document.querySelectorAll('.cert-marquee-track');
-        if (skillTracks.length) {
-            skillTracks.forEach(t => t.style.animationPlayState = 'paused');
-        }
-        if (certTracks.length) {
-            certTracks.forEach(t => t.style.animationPlayState = 'paused');
-        }
-
         // Failsafe: never let isAnimating/isLocked stay stuck even if a tab switch or frame drop occurs
         const failsafeTimer = setTimeout(() => {
             isAnimating = false;
@@ -1448,12 +1444,7 @@
         const resumeActiveTracks = () => {
             clearTimeout(failsafeTimer);
             const activeId = slideElements[targetIndex] ? slideElements[targetIndex].id : '';
-            if (targetIndex === 4 || activeId === 'skills') {
-                skillTracks.forEach(t => t.style.animationPlayState = 'running');
-            }
-            if (targetIndex === 6 || activeId === 'certificates') {
-                certTracks.forEach(t => t.style.animationPlayState = 'running');
-            }
+            window.dispatchEvent(new CustomEvent('slideshow:slideChanged', { detail: { id: activeId } }));
         };
 
         // Slate Moving Up Animation (Tactile Physical Slate Glide)
@@ -1657,15 +1648,8 @@
 
         currentIndex = targetIndex;
         updateSlideUI();
-
-        // Pause background ticker/marquee tracks unless their slide is active
         const activeId = slideElements[targetIndex] ? slideElements[targetIndex].id : '';
-        document.querySelectorAll('.skills-belt-track').forEach(t => {
-            t.style.animationPlayState = (targetIndex === 4 || activeId === 'skills') ? 'running' : 'paused';
-        });
-        document.querySelectorAll('.cert-marquee-track').forEach(t => {
-            t.style.animationPlayState = (targetIndex === 6 || activeId === 'certificates') ? 'running' : 'paused';
-        });
+        window.dispatchEvent(new CustomEvent('slideshow:slideChanged', { detail: { id: activeId } }));
 
         // Move mode toggle button to document.body so it floats when navbar disappears
         const btn = document.getElementById('portfolioModeToggle');
