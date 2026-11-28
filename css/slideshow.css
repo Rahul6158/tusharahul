@@ -4852,22 +4852,9 @@ body:not(.slideshow-active) .gallery-track {
     position: relative;
 }
 
-.exp-timeline-shell.exp-wiggly-stage {
-    position: relative;
-    margin-top: 18px;
-    padding-top: 4px;
-}
-
-.exp-wiggly-svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 260px;
-    pointer-events: none;
-    z-index: 1;
-}
-
+/* ============================================================
+   VERTICAL WIGGLY TIMELINE — Spine + Alternating Left/Right Cards
+   ============================================================ */
 @keyframes expDashAdvance {
     to { stroke-dashoffset: -28; }
 }
@@ -4876,32 +4863,75 @@ body:not(.slideshow-active) .gallery-track {
     animation: expDashAdvance 1.8s linear infinite;
 }
 
-/* 3-Column Horizontal Staggered Cards aligned on the Wiggly SVG Curve */
-.exp-htimeline-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
-    align-items: start;
+/* Shell: relative container that holds the SVG spine + card rows */
+.exp-vtl-shell {
     position: relative;
-    z-index: 2;
+    margin-top: 20px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+/* SVG spine: absolutely positioned, centered */
+.exp-vtl-svg {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 900px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: visible;
+}
+
+/* Grid: stacked rows, one per milestone */
+.exp-vtl-grid {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Each row: card on one side, empty spacer on the other */
+.exp-vtl-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 56px;
+    align-items: center;
+    min-height: 160px;
+    padding: 20px 0;
+}
+
+/* Left card: occupies left column, spacer on right */
+.exp-vtl-row.is-left .exp-mini-card  { grid-column: 1; grid-row: 1; }
+.exp-vtl-row.is-left .exp-vtl-spacer { grid-column: 2; grid-row: 1; }
+
+/* Right card: spacer on left, card on right */
+.exp-vtl-row.is-right .exp-vtl-spacer { grid-column: 1; grid-row: 1; }
+.exp-vtl-row.is-right .exp-mini-card  { grid-column: 2; grid-row: 1; }
+
+.exp-vtl-spacer { min-height: 10px; }
+
+/* ---- Mini Cards ---- */
 .exp-mini-card {
     position: relative;
-    padding: 20px 18px 14px;
+    padding: 18px 16px 12px;
     border-radius: 16px;
     background: #10131c;
     border: 1px solid rgba(245, 158, 11, 0.24);
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.42);
     cursor: pointer;
     text-align: left;
     transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease, box-shadow 0.28s ease;
+    max-width: 400px;
+    width: 100%;
 }
 
-/* Match SVG node Y positions: y=26, y=104, y=32 */
-.exp-mini-card.exp-stagger-0 { margin-top: 26px; }
-.exp-mini-card.exp-stagger-1 { margin-top: 104px; }
-.exp-mini-card.exp-stagger-2 { margin-top: 32px; }
+/* Left cards align right within their column, right cards align left */
+.exp-vtl-row.is-left .exp-mini-card  { margin-left: auto; margin-right: 0; }
+.exp-vtl-row.is-right .exp-mini-card { margin-left: 0; margin-right: auto; }
 
 .exp-mini-card.is-current {
     border-color: rgba(249, 115, 22, 0.58);
@@ -4914,63 +4944,19 @@ body:not(.slideshow-active) .gallery-track {
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.65), 0 0 22px rgba(245, 158, 11, 0.18);
 }
 
-/* Minimal Circular Timeline Node Dot anchored to Top Edge of Card */
-.exp-wiggly-dot {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: #0b0e15;
-    border: 2.5px solid #f59e0b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 0 4px rgba(10, 12, 18, 0.9), 0 0 12px rgba(245, 158, 11, 0.45);
-    z-index: 3;
-}
-
-.exp-wiggly-dot-core {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #fbbf24;
-}
-
-.exp-mini-card.is-current .exp-wiggly-dot {
-    border-color: #f97316;
-    box-shadow: 0 0 0 4px rgba(10, 12, 18, 0.9), 0 0 16px rgba(249, 115, 22, 0.8);
-}
-
-.exp-mini-card.is-current .exp-wiggly-dot-core {
-    background: #f97316;
-}
-
-.exp-wiggly-dot-ping {
-    position: absolute;
-    inset: -3px;
-    border-radius: 50%;
-    background: rgba(249, 115, 22, 0.45);
-    animation: expRingPing 1.9s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-@keyframes expRingPing {
-    75%, 100% { transform: scale(1.9); opacity: 0; }
-}
-
+/* Card inner pieces */
 .exp-mini-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 9px;
+    flex-wrap: wrap;
 }
 
 .exp-mini-period {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
+    font-size: 0.67rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -5003,9 +4989,9 @@ body:not(.slideshow-active) .gallery-track {
 }
 
 .exp-logo-pill.is-sm {
-    height: 28px;
-    padding: 4px 8px;
-    border-radius: 8px;
+    height: 26px;
+    padding: 3px 7px;
+    border-radius: 7px;
 }
 
 .exp-logo-pill.is-lg {
@@ -5023,8 +5009,8 @@ body:not(.slideshow-active) .gallery-track {
 }
 
 .exp-logo-pill.is-sm img {
-    max-height: 17px;
-    max-width: 78px;
+    max-height: 16px;
+    max-width: 72px;
 }
 
 .exp-logo-pill.is-lg img {
@@ -5045,10 +5031,10 @@ body:not(.slideshow-active) .gallery-track {
 
 .exp-mini-role {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 1.02rem;
+    font-size: 0.95rem;
     font-weight: 800;
     color: #ffffff;
-    margin: 0 0 3px;
+    margin: 0 0 2px;
     line-height: 1.28;
     transition: color 0.2s ease;
 }
@@ -5058,10 +5044,10 @@ body:not(.slideshow-active) .gallery-track {
 }
 
 .exp-mini-company {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: #cbd5e1;
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 }
 
 .exp-mini-wing {
@@ -5070,10 +5056,10 @@ body:not(.slideshow-active) .gallery-track {
 }
 
 .exp-mini-desc {
-    font-size: 0.77rem;
+    font-size: 0.74rem;
     color: #94a3b8;
-    line-height: 1.48;
-    margin: 0 0 10px;
+    line-height: 1.46;
+    margin: 0 0 9px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
@@ -5088,7 +5074,7 @@ body:not(.slideshow-active) .gallery-track {
 
 .exp-mini-hint {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 600;
     color: #f59e0b;
     display: inline-flex;
@@ -5573,29 +5559,31 @@ body:not(.slideshow-active) .gallery-track {
 }
 
 /* Responsive Timeline & Modal */
-@media (max-width: 991px) {
-    .exp-wiggly-svg {
+@media (max-width: 768px) {
+    /* On mobile collapse to single-column vertical list */
+    .exp-vtl-svg {
         display: none;
     }
 
-    .exp-htimeline-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
+    .exp-vtl-grid {
         border-left: 2px solid rgba(245, 158, 11, 0.45);
-        padding-left: 18px;
+        padding-left: 20px;
+        gap: 0;
     }
 
-    .exp-mini-card.exp-stagger-0,
-    .exp-mini-card.exp-stagger-1,
-    .exp-mini-card.exp-stagger-2 {
-        margin-top: 0;
+    .exp-vtl-row {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 14px 0;
     }
 
-    .exp-wiggly-dot {
-        top: 22px;
-        left: -27px;
-        transform: translate(0, 0);
-    }
+    .exp-vtl-row.is-left .exp-mini-card,
+    .exp-vtl-row.is-right .exp-mini-card  { grid-column: 1; grid-row: 1; }
+    .exp-vtl-row.is-left .exp-vtl-spacer,
+    .exp-vtl-row.is-right .exp-vtl-spacer { display: none; }
+
+    .exp-vtl-row.is-left .exp-mini-card,
+    .exp-vtl-row.is-right .exp-mini-card  { margin: 0; max-width: 100%; }
 
     .exp-modal-two-col,
     .exp-modal-highlights-list.is-two-col {

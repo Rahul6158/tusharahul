@@ -794,29 +794,86 @@
         }
 
         function renderHorizontalTimeline() {
-            grid.innerHTML = MILESTONES.map((m, idx) => `
-                <article class="exp-mini-card ${m.isCurrent ? 'is-current' : ''} exp-stagger-${idx}" data-exp-idx="${idx}" tabindex="0" role="button" aria-label="Open experience dossier for ${m.company} — ${m.shortRole}">
-                    <span class="exp-wiggly-dot" aria-hidden="true">
-                        ${m.isCurrent ? '<span class="exp-wiggly-dot-ping"></span>' : ''}
-                        <span class="exp-wiggly-dot-core"></span>
-                    </span>
+            // Build vertical wiggly SVG spine dynamically
+            // Each milestone gets a row: card on alternating sides, dot on spine
+            const CARD_H = 160;   // approx height per row in SVG coords
+            const SPINE_X = 300;  // SVG x of the vertical spine (for viewBox="0 0 600 N")
+            const totalH = MILESTONES.length * CARD_H + 80;
 
-                    <div class="exp-mini-top">
-                        <span class="exp-mini-period">${m.period}</span>
-                        ${renderLogoStrip(m, false)}
-                    </div>
+            // Build SVG path: gently wiggly vertical line
+            let pathD = `M ${SPINE_X} 40`;
+            MILESTONES.forEach((_, i) => {
+                const y0 = 40 + i * CARD_H;
+                const y1 = y0 + CARD_H;
+                const wobble = (i % 2 === 0) ? 18 : -18;
+                pathD += ` C ${SPINE_X + wobble} ${y0 + 50}, ${SPINE_X - wobble} ${y1 - 50}, ${SPINE_X} ${y1}`;
+            });
 
-                    <h3 class="exp-mini-role">${m.shortRole}</h3>
-                    <div class="exp-mini-company">
-                        ${m.company}${m.productLogoUrl ? ' <span class="exp-mini-wing">&bull; KonfigAI</span>' : ''}
-                    </div>
-                    <p class="exp-mini-desc">${m.summary}</p>
+            // Dot Y positions
+            const dotYs = MILESTONES.map((_, i) => 40 + i * CARD_H);
 
-                    <div class="exp-mini-footer">
-                        <span class="exp-mini-hint">View details <i class="fas fa-arrow-right"></i></span>
-                    </div>
-                </article>
-            `).join('');
+            // Inject SVG spine into shell (sibling of grid)
+            const shell = grid.parentElement;
+            let svgEl = shell.querySelector('.exp-vtl-svg');
+            if (!svgEl) {
+                svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svgEl.setAttribute('class', 'exp-vtl-svg');
+                svgEl.setAttribute('aria-hidden', 'true');
+                svgEl.setAttribute('preserveAspectRatio', 'none');
+                shell.insertBefore(svgEl, grid);
+            }
+            svgEl.setAttribute('viewBox', `0 0 600 ${totalH}`);
+            svgEl.style.height = `${totalH}px`;
+            svgEl.innerHTML = `
+                <defs>
+                    <linearGradient id="expVGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#d99b43" stop-opacity="0.5"/>
+                        <stop offset="60%" stop-color="#f59e0b" stop-opacity="0.9"/>
+                        <stop offset="100%" stop-color="#f97316" stop-opacity="0.6"/>
+                    </linearGradient>
+                </defs>
+                <!-- Solid path up to last node, then dashed extension -->
+                <path d="${pathD}" fill="none" stroke="url(#expVGrad)" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+                ${MILESTONES[MILESTONES.length - 1].isCurrent ? `
+                <path d="M ${SPINE_X} ${40 + (MILESTONES.length - 1) * CARD_H} L ${SPINE_X} ${totalH - 10}"
+                    fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 6"
+                    class="exp-wiggle-dash" vector-effect="non-scaling-stroke"/>
+                ` : ''}
+                ${dotYs.map((y, i) => {
+                    const m = MILESTONES[i];
+                    return `
+                    <circle cx="${SPINE_X}" cy="${y}" r="7" fill="#0b0e15" stroke="${m.isCurrent ? '#f97316' : '#f59e0b'}"
+                        stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+                    <circle cx="${SPINE_X}" cy="${y}" r="3.2" fill="${m.isCurrent ? '#f97316' : '#fbbf24'}"/>
+                    ${m.isCurrent ? `<circle cx="${SPINE_X}" cy="${y}" r="10" fill="none" stroke="rgba(249,115,22,0.4)" stroke-width="1.5" vector-effect="non-scaling-stroke" class="exp-wiggle-dash"/>` : ''}
+                    `;
+                }).join('')}
+            `;
+
+            // Build card rows
+            grid.innerHTML = MILESTONES.map((m, idx) => {
+                const side = idx % 2 === 0 ? 'is-left' : 'is-right';
+                return `
+                <div class="exp-vtl-row ${side}">
+                    <article class="exp-mini-card ${m.isCurrent ? 'is-current' : ''}" data-exp-idx="${idx}" tabindex="0" role="button" aria-label="Open experience dossier for ${m.company} — ${m.shortRole}">
+                        <div class="exp-mini-top">
+                            <span class="exp-mini-period">${m.period}</span>
+                            ${renderLogoStrip(m, false)}
+                        </div>
+                        <h3 class="exp-mini-role">${m.shortRole}</h3>
+                        <div class="exp-mini-company">
+                            ${m.company}${m.productLogoUrl ? ' <span class="exp-mini-wing">&bull; KonfigAI</span>' : ''}
+                        </div>
+                        <p class="exp-mini-desc">${m.summary}</p>
+                        <div class="exp-mini-footer">
+                            <span class="exp-mini-hint">View details <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </article>
+                    <div class="exp-vtl-spacer" aria-hidden="true"></div>
+                </div>
+                `;
+            }).join('');
 
             grid.querySelectorAll('.exp-mini-card').forEach(card => {
                 const openFn = () => {
@@ -1707,6 +1764,8 @@
                 '.project-carousel-controls',
                 '.exp-timeline-shell',
                 '.exp-wiggly-stage',
+                '.exp-vtl-shell',
+                '.exp-vtl-row',
                 '.exp-mini-card',
                 '.exp-wiggly-dot',
                 '#expTimelineModal',

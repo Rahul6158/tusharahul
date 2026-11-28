@@ -1557,31 +1557,11 @@
                 </div>
             </div>
 
-            <!-- Horizontal Staggered Wiggly SVG Timeline (Single-Frame Fit) -->
-            <div class="exp-timeline-shell exp-wiggly-stage">
-                <svg class="exp-wiggly-svg" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
-                    <defs>
-                        <linearGradient id="expWiggleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#d99b43" stop-opacity="0.75" />
-                            <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.9" />
-                            <stop offset="100%" stop-color="#f97316" stop-opacity="0.95" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Soft lead-in curve to Stage 01 -->
-                    <path d="M 35 66 C 95 26, 145 26, 196 26" fill="none" stroke="rgba(217, 155, 67, 0.35)"
-                        stroke-width="2.5" stroke-linecap="round" vector-effect="non-scaling-stroke" />
-                    <!-- Solid wavy gold path connecting Stage 01 -> Stage 02 -> transition -->
-                    <path d="M 196 26 C 350 26, 445 104, 600 104 C 710 104, 780 68, 860 44" fill="none"
-                        stroke="url(#expWiggleGrad)" stroke-width="3" stroke-linecap="round"
-                        vector-effect="non-scaling-stroke" />
-                    <!-- Animated dashed continuation into Stage 03 (Present) & Future -->
-                    <path d="M 860 44 C 910 34, 955 32, 1004 32 C 1075 32, 1135 54, 1185 72" fill="none"
-                        stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="7 7"
-                        class="exp-wiggle-dash" vector-effect="non-scaling-stroke" />
-                </svg>
-
-                <div id="expTimelineGrid" class="exp-htimeline-grid">
-                    <!-- 3 Compact Wiggly Timeline Cards injected via js/slideshow.js -->
+            <!-- Vertical Wiggly SVG Timeline -->
+            <div class="exp-vtl-shell">
+                <!-- The vertical SVG spine is injected dynamically by JS -->
+                <div id="expTimelineGrid" class="exp-vtl-grid">
+                    <!-- Cards injected via js/slideshow.js -->
                 </div>
             </div>
         </div>
