@@ -51,27 +51,46 @@
     <!-- Custom CSS -->
     <style>
         :root {
-            --primary-bg: #0a0a0a;
-            --secondary-bg: #121212;
-            --card-bg: #1a1a1a;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
+            --primary-bg: #07090f;
+            --secondary-bg: #0b0e17;
+            --card-bg: #111622;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
             --accent-primary: #ff6b35;
             --accent-secondary: #00d4ff;
             --accent-tertiary: #9c27b0;
             --success: #00c853;
             --warning: #ffab00;
             --danger: #ff1744;
-            --border-radius: 12px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --border-radius: 14px;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: transform 0.35s var(--ease-out-expo), opacity 0.35s var(--ease-out-expo), border-color 0.25s ease, box-shadow 0.35s var(--ease-out-expo), background-color 0.25s ease, color 0.25s ease;
+        }
+
+        html:not(.slideshow-active) {
+            scroll-behavior: auto;
+        }
+
+        ::selection {
+            background: rgba(255, 107, 53, 0.32);
+            color: #ffffff;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent-secondary);
+            outline-offset: 3px;
+            border-radius: 4px;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             color: var(--text-primary);
             background-color: var(--primary-bg);
             overflow-x: hidden;
-            line-height: 1.6;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
 
         h1,
@@ -80,8 +99,14 @@
         h4,
         h5,
         h6 {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
             font-weight: 700;
             letter-spacing: -0.025em;
+            text-wrap: balance;
+        }
+
+        p {
+            text-wrap: pretty;
         }
 
         code,
@@ -91,52 +116,60 @@
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 7px;
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--secondary-bg);
+            background: var(--primary-bg);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--accent-primary);
-            border-radius: 4px;
+            background: rgba(255, 107, 53, 0.65);
+            border-radius: 99px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #e55a2b;
+            background: var(--accent-primary);
         }
 
         /* Navbar */
         .navbar {
-            background-color: rgba(10, 10, 10, 0.95);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-            padding: 15px 0;
-            transition: var(--transition);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: rgba(7, 9, 15, 0.82);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+            padding: 14px 0;
+            transition: padding 0.3s var(--ease-out-expo), background-color 0.3s ease, box-shadow 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .navbar.scrolled {
+            background-color: rgba(7, 9, 15, 0.94);
+            padding: 10px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+            border-bottom-color: rgba(255, 255, 255, 0.09);
         }
 
         .navbar-brand {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             color: var(--accent-primary) !important;
-            letter-spacing: -0.025em;
+            letter-spacing: -0.03em;
         }
 
         .navbar-nav .nav-link {
-            color: var(--text-primary);
+            color: rgba(248, 250, 252, 0.82);
             font-weight: 500;
             margin: 0 8px;
             position: relative;
-            transition: var(--transition);
-            font-size: 0.95rem;
+            transition: color 0.25s ease;
+            font-size: 0.92rem;
         }
 
         .navbar-nav .nav-link:hover,
         .navbar-nav .nav-link.active {
-            color: var(--accent-primary);
+            color: #ffffff;
         }
 
         .navbar-nav .nav-link::after {
@@ -147,7 +180,8 @@
             bottom: 0;
             left: 0;
             background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            transition: var(--transition);
+            transition: width 0.3s var(--ease-out-expo);
+            border-radius: 2px;
         }
 
         .navbar-nav .nav-link:hover::after,
@@ -184,7 +218,7 @@
         .hero-title {
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
             font-size: clamp(2.3rem, 4.4vw, 3.8rem);
-            font-weight: 800;
+             font-weight: 800;
             margin-bottom: 20px;
             background: linear-gradient(135deg, #fff2a3 0%, #ffd700 35%, #eab308 70%, #ca8a04 100%);
             -webkit-background-clip: text;
@@ -441,16 +475,17 @@
             background-color: var(--card-bg);
             padding: 30px;
             border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             margin-bottom: 30px;
             transition: var(--transition);
             height: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .skill-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+            border-color: rgba(255, 107, 53, 0.3);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
         .skill-icon {
@@ -514,17 +549,18 @@
         .project-card {
             border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             margin-bottom: 30px;
             transition: var(--transition);
             height: 100%;
             background-color: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+            border-color: rgba(255, 107, 53, 0.3);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
         .project-img {
@@ -634,6 +670,22 @@
             background: linear-gradient(135deg, #ff804e 0%, #e25621 100%);
         }
 
+        .btn-portfolio-primary:active,
+        .btn-portfolio-secondary:active,
+        .btn-primary:active,
+        .btn-outline-light:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
         .btn-portfolio-secondary {
             background: rgba(255, 255, 255, 0.03);
             border: 1.5px solid rgba(255, 255, 255, 0.15);
@@ -734,8 +786,14 @@
             padding: 25px 30px;
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            border-color: rgba(255, 107, 53, 0.25);
+            transform: translateY(-2px);
         }
 
         .timeline-date {
@@ -743,6 +801,7 @@
             font-weight: 600;
             margin-bottom: 10px;
             font-size: 0.9rem;
+            font-variant-numeric: tabular-nums;
         }
 
         .timeline-content h3 {
@@ -771,16 +830,17 @@
         .certificate-card {
             border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             transition: var(--transition);
             margin-bottom: 30px;
             background-color: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .certificate-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+            border-color: rgba(255, 107, 53, 0.3);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
         .certificate-img {
@@ -831,17 +891,18 @@
         .article-card {
             border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             margin-bottom: 30px;
             transition: var(--transition);
             height: 100%;
             background-color: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .article-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
         .article-img {
@@ -962,9 +1023,9 @@
             background-color: var(--card-bg);
             padding: 30px;
             border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
             height: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .contact-icon {
@@ -991,8 +1052,8 @@
             background-color: var(--card-bg);
             padding: 30px;
             border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .form-control {
@@ -3539,7 +3600,7 @@
                     <!-- Set A: All 6 Certificates -->
                     <div class="cert-marquee-card">
                         <div class="cert-card-img-wrapper" onclick="openPortfolioModal('img/PPE.jpg')">
-                            <img src="img/PPE.jpg" alt="Python Programming Essentials" loading="lazy">
+                            <img src="img/PPE.jpg" alt="Python Programming Essentials" loading="lazy" decoding="async">
                             <div class="cert-card-overlay"><i class="fas fa-search-plus"></i> View Certificate</div>
                         </div>
                         <div class="cert-card-meta">
@@ -3574,7 +3635,7 @@
 
                     <div class="cert-marquee-card">
                         <div class="cert-card-img-wrapper" onclick="openPortfolioModal('img/upgrad.png')">
-                            <img src="img/upgrad.png" alt="Prompt Engineering" loading="lazy">
+                            <img src="img/upgrad.png" alt="Prompt Engineering" loading="lazy" decoding="async">
                             <div class="cert-card-overlay"><i class="fas fa-search-plus"></i> View Certificate</div>
                         </div>
                         <div class="cert-card-meta">
@@ -3591,7 +3652,7 @@
 
                     <div class="cert-marquee-card">
                         <div class="cert-card-img-wrapper" onclick="openPortfolioModal('img/IIT_pals_CTF.jpg')">
-                            <img src="img/IIT_pals_CTF.jpg" alt="IIT PALS CTF Competition" loading="lazy">
+                            <img src="img/IIT_pals_CTF.jpg" alt="IIT PALS CTF Competition" loading="lazy" decoding="async">
                             <div class="cert-card-overlay"><i class="fas fa-search-plus"></i> View Certificate</div>
                         </div>
                         <div class="cert-card-meta">
@@ -3609,7 +3670,7 @@
 
                     <div class="cert-marquee-card">
                         <div class="cert-card-img-wrapper" onclick="openPortfolioModal('img/bv_ihackathon.jpg')">
-                            <img src="img/bv_ihackathon.jpg" alt="Braino Vision Hackathon" loading="lazy">
+                            <img src="img/bv_ihackathon.jpg" alt="Braino Vision Hackathon" loading="lazy" decoding="async">
                             <div class="cert-card-overlay"><i class="fas fa-search-plus"></i> View Certificate</div>
                         </div>
                         <div class="cert-card-meta">
@@ -3627,7 +3688,7 @@
 
                     <div class="cert-marquee-card">
                         <div class="cert-card-img-wrapper" onclick="openPortfolioModal('img/restful_api.jpg')">
-                            <img src="img/restful_api.jpg" alt="Restful API" loading="lazy">
+                            <img src="img/restful_api.jpg" alt="Restful API" loading="lazy" decoding="async">
                             <div class="cert-card-overlay"><i class="fas fa-search-plus"></i> View Certificate</div>
                         </div>
                         <div class="cert-card-meta">
@@ -3645,7 +3706,7 @@
                     <!-- Set B: Duplicate Set for Seamless Left-to-Right Loop -->
                     <div class="cert-marquee-card" aria-hidden="true">
                         <div class="cert-card-img-wrapper" onclick="openPortfolioModal('img/PPE.jpg')">
-                            <img src="img/PPE.jpg" alt="Python Programming Essentials" loading="lazy">
+                            <img src="img/PPE.jpg" alt="Python Programming Essentials" loading="lazy" decoding="async">
                             <div class="cert-card-overlay"><i class="fas fa-search-plus"></i> View Certificate</div>
                         </div>
                         <div class="cert-card-meta">
@@ -3680,7 +3741,7 @@
 
                     <div class="cert-marquee-card" aria-hidden="true">
                         <div class="cert-card-img-wrapper" onclick="openPortfolioModal('img/upgrad.png')">
-                            <img src="img/upgrad.png" alt="Prompt Engineering" loading="lazy">
+                            <img src="img/upgrad.png" alt="Prompt Engineering" loading="lazy" decoding="async">
                             <div class="cert-card-overlay"><i class="fas fa-search-plus"></i> View Certificate</div>
                         </div>
                         <div class="cert-card-meta">
@@ -3697,7 +3758,7 @@
 
                     <div class="cert-marquee-card" aria-hidden="true">
                         <div class="cert-card-img-wrapper" onclick="openPortfolioModal('img/IIT_pals_CTF.jpg')">
-                            <img src="img/IIT_pals_CTF.jpg" alt="IIT PALS CTF Competition" loading="lazy">
+                            <img src="img/IIT_pals_CTF.jpg" alt="IIT PALS CTF Competition" loading="lazy" decoding="async">
                             <div class="cert-card-overlay"><i class="fas fa-search-plus"></i> View Certificate</div>
                         </div>
                         <div class="cert-card-meta">
@@ -3715,7 +3776,7 @@
 
                     <div class="cert-marquee-card" aria-hidden="true">
                         <div class="cert-card-img-wrapper" onclick="openPortfolioModal('img/bv_ihackathon.jpg')">
-                            <img src="img/bv_ihackathon.jpg" alt="Braino Vision Hackathon" loading="lazy">
+                            <img src="img/bv_ihackathon.jpg" alt="Braino Vision Hackathon" loading="lazy" decoding="async">
                             <div class="cert-card-overlay"><i class="fas fa-search-plus"></i> View Certificate</div>
                         </div>
                         <div class="cert-card-meta">
@@ -3733,7 +3794,7 @@
 
                     <div class="cert-marquee-card" aria-hidden="true">
                         <div class="cert-card-img-wrapper" onclick="openPortfolioModal('img/restful_api.jpg')">
-                            <img src="img/restful_api.jpg" alt="Restful API" loading="lazy">
+                            <img src="img/restful_api.jpg" alt="Restful API" loading="lazy" decoding="async">
                             <div class="cert-card-overlay"><i class="fas fa-search-plus"></i> View Certificate</div>
                         </div>
                         <div class="cert-card-meta">
@@ -4179,16 +4240,26 @@
                 }
             }
             if (navbarEl) {
-                if (scrollY > 100) {
-                    navbarEl.classList.add('navbar-shrink');
+                if (scrollY > 30) {
+                    navbarEl.classList.add('navbar-shrink', 'scrolled');
                 } else {
-                    navbarEl.classList.remove('navbar-shrink');
+                    navbarEl.classList.remove('navbar-shrink', 'scrolled');
                 }
             }
             scrollTicking = false;
         }
 
+        let scrollIdleTimer = null;
         window.addEventListener('scroll', function () {
+            if (!document.body.classList.contains('slideshow-active')) {
+                if (!document.body.classList.contains('is-scrolling')) {
+                    document.body.classList.add('is-scrolling');
+                }
+                clearTimeout(scrollIdleTimer);
+                scrollIdleTimer = setTimeout(function () {
+                    document.body.classList.remove('is-scrolling');
+                }, 140);
+            }
             if (!scrollTicking) {
                 requestAnimationFrame(onScrollUpdate);
                 scrollTicking = true;
@@ -4236,15 +4307,19 @@
             }
 
             // If the target exists on the page, smooth scroll to it
-            if ($(target).length) {
+            var targetEl = document.querySelector(target);
+            if (targetEl) {
                 e.preventDefault();
-                $('html, body').animate(
-                    {
-                        scrollTop: $(target).offset().top - 70,
-                    },
-                    500,
-                    'linear'
-                );
+                var topPos = targetEl.getBoundingClientRect().top + window.scrollY - 70;
+                if (typeof gsap !== 'undefined' && typeof ScrollToPlugin !== 'undefined') {
+                    gsap.to(window, {
+                        scrollTo: { y: topPos, autoKill: true },
+                        duration: 0.75,
+                        ease: 'power3.out'
+                    });
+                } else {
+                    window.scrollTo({ top: topPos, behavior: 'smooth' });
+                }
             }
         });
         // Initialize tooltips

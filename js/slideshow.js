@@ -34,8 +34,8 @@
     let isLocked = false;
     let lastSlideChangeTime = 0;
     let wheelQuietTimer = null;
-    const MIN_SLIDE_INTERVAL = 450; // Snappy, responsive interval between slide changes
-    const WHEEL_DELTA_THRESHOLD = 28; // Strict gesture threshold to ignore decaying inertia
+    const MIN_SLIDE_INTERVAL = 380; // Snappy, responsive interval between slide changes
+    const WHEEL_DELTA_THRESHOLD = 26; // Deliberate gesture threshold to ignore decaying inertia
     let isSlideshowMode = true; // Default
     let slideElements = [];
     let touchStartX = 0;
@@ -99,6 +99,19 @@
             enableSlideshowMode(initialSlide, false);
         } else {
             enableNormalMode(false);
+        }
+
+        // Observe Certificates marquee visibility in Standard Mode so it pauses off-screen
+        if ('IntersectionObserver' in window) {
+            const certTrack = document.getElementById('certMarqueeTrack');
+            if (certTrack) {
+                const certObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        certTrack.classList.toggle('is-in-view', entry.isIntersecting);
+                    });
+                }, { threshold: 0.05 });
+                certObserver.observe(certTrack.parentElement || certTrack);
+            }
         }
 
         // Attach global event listeners
@@ -373,8 +386,8 @@
 
                 if (offset === 0) {
                     card.style.transform = isMobile
-                        ? 'translateX(0) translateY(0) scale(1.02) rotateY(0deg)'
-                        : 'translateX(0) translateY(0) scale(1.04) rotateY(0deg)';
+                        ? 'translate3d(0, 0, 0) scale(1.02) rotateY(0deg)'
+                        : 'translate3d(0, 0, 0) scale(1.04) rotateY(0deg)';
                     card.style.zIndex = 30;
                     card.style.opacity = '1';
                     card.style.pointerEvents = 'auto';
@@ -388,7 +401,7 @@
                         : -sign * Math.min(22, absOffset * 6.5);
                     const op = Math.max(0.18, 1 - absOffset * 0.25);
 
-                    card.style.transform = `translateX(${x}px) translateY(${y}px) scale(${scale}) rotateY(${rotY}deg)`;
+                    card.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale}) rotateY(${rotY}deg)`;
                     card.style.zIndex = 30 - absOffset;
                     card.style.opacity = op;
                     // Allow interaction on center and immediately adjacent cards
@@ -1409,7 +1422,7 @@
                     } else {
                         $hero.ripples('pause');
                     }
-                } catch (e) {}
+                } catch (e) { }
             }
         }
 
@@ -1418,9 +1431,30 @@
 
         // Pause heavy continuous ticker belts during slide transitions to free GPU bandwidth
         const skillTracks = document.querySelectorAll('.skills-belt-track');
+        const certTracks = document.querySelectorAll('.cert-marquee-track');
         if (skillTracks.length) {
             skillTracks.forEach(t => t.style.animationPlayState = 'paused');
         }
+        if (certTracks.length) {
+            certTracks.forEach(t => t.style.animationPlayState = 'paused');
+        }
+
+        // Failsafe: never let isAnimating/isLocked stay stuck even if a tab switch or frame drop occurs
+        const failsafeTimer = setTimeout(() => {
+            isAnimating = false;
+            isLocked = false;
+        }, 680);
+
+        const resumeActiveTracks = () => {
+            clearTimeout(failsafeTimer);
+            const activeId = slideElements[targetIndex] ? slideElements[targetIndex].id : '';
+            if (targetIndex === 4 || activeId === 'skills') {
+                skillTracks.forEach(t => t.style.animationPlayState = 'running');
+            }
+            if (targetIndex === 6 || activeId === 'certificates') {
+                certTracks.forEach(t => t.style.animationPlayState = 'running');
+            }
+        };
 
         // Slate Moving Up Animation (Tactile Physical Slate Glide)
         if (typeof gsap !== 'undefined') {
@@ -1428,7 +1462,7 @@
 
             // Position incoming slide above or below viewport
             nextSlide.classList.add('slide-active');
-            
+
             if (direction > 0) {
                 // NEXT SLIDE (STACKING UP):
                 // currentSlide stays firmly in place as the base slate underneath (zIndex 10)
@@ -1460,25 +1494,24 @@
                         isAnimating = false;
                         nextSlide.scrollTop = 0;
                         updateSlideUI();
-                        // Resume skills ticker belt if arriving at skills slide
-                        if (targetIndex === 4 || (slideElements[targetIndex] && slideElements[targetIndex].id === 'skills')) {
-                            skillTracks.forEach(t => t.style.animationPlayState = 'running');
-                        }
+                        resumeActiveTracks();
                     }
                 });
 
                 // Smooth GPU-composited fade out of previous slide instead of expensive full-screen filter
                 tl.to(currentSlide, {
-                    opacity: 0.35,
-                    duration: 0.38,
-                    ease: 'power2.out'
+                    opacity: 0.3,
+                    duration: 0.46,
+                    ease: 'power3.out',
+                    force3D: true
                 }, 0);
 
                 // Incoming slate slides UP smoothly over the previous slide, stacking physically on top
                 tl.to(nextSlide, {
                     yPercent: 0,
-                    duration: 0.38,
-                    ease: 'power2.out'
+                    duration: 0.46,
+                    ease: 'power3.out',
+                    force3D: true
                 }, 0);
 
             } else {
@@ -1511,25 +1544,24 @@
                         isAnimating = false;
                         nextSlide.scrollTop = 0;
                         updateSlideUI();
-                        // Resume skills ticker belt if arriving at skills slide
-                        if (targetIndex === 4 || (slideElements[targetIndex] && slideElements[targetIndex].id === 'skills')) {
-                            skillTracks.forEach(t => t.style.animationPlayState = 'running');
-                        }
+                        resumeActiveTracks();
                     }
                 });
 
                 // Base slate restores full opacity as top slate slides away
                 tl.to(nextSlide, {
                     opacity: 1,
-                    duration: 0.38,
-                    ease: 'power2.out'
+                    duration: 0.46,
+                    ease: 'power3.out',
+                    force3D: true
                 }, 0);
 
                 // Top slate slides DOWN off the viewport, smoothly revealing the previous slide underneath
                 tl.to(currentSlide, {
                     yPercent: 100,
-                    duration: 0.38,
-                    ease: 'power2.inOut'
+                    duration: 0.46,
+                    ease: 'power3.out',
+                    force3D: true
                 }, 0);
             }
         } else {
@@ -1540,9 +1572,7 @@
             isAnimating = false;
             nextSlide.scrollTop = 0;
             updateSlideUI();
-            if (targetIndex === 4 || (slideElements[targetIndex] && slideElements[targetIndex].id === 'skills')) {
-                skillTracks.forEach(t => t.style.animationPlayState = 'running');
-            }
+            resumeActiveTracks();
         }
     }
 
@@ -1596,7 +1626,7 @@
                     try {
                         $hero.ripples('play');
                         $hero.ripples('updateSize');
-                    } catch (e) {}
+                    } catch (e) { }
                 }, 80);
             }
         }
@@ -1627,6 +1657,15 @@
 
         currentIndex = targetIndex;
         updateSlideUI();
+
+        // Pause background ticker/marquee tracks unless their slide is active
+        const activeId = slideElements[targetIndex] ? slideElements[targetIndex].id : '';
+        document.querySelectorAll('.skills-belt-track').forEach(t => {
+            t.style.animationPlayState = (targetIndex === 4 || activeId === 'skills') ? 'running' : 'paused';
+        });
+        document.querySelectorAll('.cert-marquee-track').forEach(t => {
+            t.style.animationPlayState = (targetIndex === 6 || activeId === 'certificates') ? 'running' : 'paused';
+        });
 
         // Move mode toggle button to document.body so it floats when navbar disappears
         const btn = document.getElementById('portfolioModeToggle');
@@ -1662,7 +1701,7 @@
                 try {
                     $hero.ripples('play');
                     $hero.ripples('updateSize');
-                } catch (e) {}
+                } catch (e) { }
             }
         }
 
